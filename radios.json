@@ -21,6 +21,18 @@
       "url": "https://streaming01.radiosenlinea.com.ar/9156/stream",
       "img": "https://i.postimg.cc/CMDcDpK1/imagen-circular-recortada.png",
       "genre": "various"
+    },
+    {
+      "name": "ESPY FM MADRID ",
+      "url": "https://nodo102.liveradio.com.es:8028/stream",
+      "img": "https://i.postimg.cc/3J3ZGsvk/Chat-GPT-Image-1-feb-2026-02-12-40-Recuperado.png",
+      "genre": "various"
+    },
+    {
+      "name": "Radio Kaiser Barcelona",
+      "url": "https://streaming01.radiosenlinea.com.ar/8328/stream",
+      "img": "https://i.postimg.cc/9XDDnJHy/Chat-GPT-Image-1-feb-2026-02-12-40-Recuperadoetet.png",
+      "genre": "various"
     }
   ]
 }
