@@ -8,7 +8,29 @@
   {
     "name": "RADIO TEO PAEZ ONLINE SONANDO EN VIVO",
     "url": "https://miestacion.turadioonline.com.ar/8262/stream",
-    "img": "https://i.postimg.cc/Kv33Z7J3/LOGO-RADIO-3.png",
+    "img": "http{
+  "banners": [],
+  "stations": [
+    {
+      "name": "RADIO PARTY",
+      "url": "https://miestacion.turadioonline.com.ar:8286/stream",
+      "img": "https://i.postimg.cc/50LH1fxn/Chat-GPT-Image-1-feb-2026-02-12-40.png",
+      "genre": "various"
+    },
+    {
+      "name": "RADIO TEO PAEZ ONLINE SONANDO EN VIVO",
+      "url": "https://miestacion.turadioonline.com.ar/8262/stream",
+      "img": "https://i.postimg.cc/Kv33Z7J3/LOGO-RADIO-3.png",
+      "genre": "various"
+    },
+    {
+      "name": "Radio Nueva Era Málaga",
+      "url": "https://streaming01.radiosenlinea.com.ar/9156/stream",
+      "img": "https://i.postimg.cc/CMDcDpK1/imagen-circular-recortada.png",
+      "genre": "various"
+    }
+  ]
+}s://i.postimg.cc/Kv33Z7J3/LOGO-RADIO-3.png",
     "genre": "various"
   },
   {
