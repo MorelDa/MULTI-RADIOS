@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiRadios.es | Pro Uniforme</title>
+    <title>MultiRadios.es | Edición Profesional Uniforme</title>
 
-    <meta property="og:title" content="MultiRadios.es">
+    <meta property="og:title" content="MultiRadios.es | Tu Radio Online">
     <meta property="og:image" content="og-image.jpg">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     
@@ -35,9 +35,9 @@
         .search-container input { width: 100%; background: var(--light-purple); border: none; padding: 12px 15px 12px 45px; border-radius: 15px; color: var(--text-main); font-size: 0.9rem; }
         .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary-purple); }
 
-        /* =========================================
-           GRID ULTRA-UNIFORME Y COMPACTO
-           ========================================= */
+        /* ============================================================
+           GRID ULTRA-RÍGIDO Y UNIFORME (Solución al estiramiento)
+           ============================================================ */
         .content-section { padding: 0 3%; }
         .radio-grid { 
             display: grid; 
@@ -49,69 +49,83 @@
         .radio-card { 
             background: #fff; 
             border-radius: 12px; 
-            /* Padding reducido para maximizar el espacio del contenido */
             padding: 8px; 
             transition: var(--transition); 
             cursor: pointer; 
             border: 1px solid var(--border); 
             text-align: center;
-            /* Asegura que la tarjeta no se estire verticalmente más de lo necesario */
+            
+            /* ESTO FUERZA A QUE TODAS LAS TARJETAS TENGAN LA MISMA ALTURA RÍGIDA */
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start; /* Alinea el contenido arriba */
+            align-items: center;
+            overflow: hidden; /* Corta cualquier cosa que intente salir del cuadro */
         }
         
         .radio-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--primary-purple); }
         
-        /* Contenedor de imagen cuadrado perfecto */
+        /* Contenedor de imagen: AQUÍ ESTÁ EL TRUCO PARA EL TAMAÑO FIJO */
         .img-wrapper {
             width: 100%;
-            aspect-ratio: 1 / 1; /* Relación de aspecto cuadrada forzada */
-            overflow: hidden;
+            /* ESTO FUERZA A QUE EL CONTENEDOR SEA UN CUADRADO PERFECTO */
+            aspect-ratio: 1 / 1; 
+            overflow: hidden; /* Corta la imagen sobrante */
             border-radius: 8px;
             margin-bottom: 6px;
+            background-color: #eee; /* Fondo gris si la imagen tarda en cargar */
+            border: 1px solid var(--border);
         }
         
         .radio-card img { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* Recorta la imagen para llenar el cuadrado sin deformarse */
+            /* ESTO AJUSTA LA IMAGEN DENTRO DEL CUADRADO SIN DEFORMARLA */
+            object-fit: cover; /* Recorta la imagen para llenar el cuadrado */
+            display: block;
         }
         
         .radio-card h4 { 
             font-weight: 700; 
-            font-size: 0.75rem; /* Fuente pequeña pero legible */
+            font-size: 0.75rem; /* Fuente compacta pero legible */
             color: var(--text-main); 
-            /* Truncado estricto a una sola línea */
+            width: 100%;
+            /* ESTO FUERZA A QUE EL TEXTO NUNCA OCUPE MÁS DE UNA LÍNEA */
             white-space: nowrap; 
             overflow: hidden; 
             text-overflow: ellipsis; 
             padding: 0 2px;
         }
         
-        /* Ocultamos el género en el grid para mantener la uniformidad visual */
+        /* Ocultamos el género en el grid para mantener la uniformidad visual estricta */
         .radio-card p { display: none; } 
         
         .radio-card.active { border: 2px solid var(--primary-purple); background: var(--light-purple); }
 
-        /* PLAYER BAR (IGUAL QUE ANTES) */
-        .player-bar { position: fixed; bottom: 0; width: 100%; height: 90px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: 0 15px; z-index: 9999; box-shadow: 0 -3px 10px rgba(0,0,0,0.03); }
-        .track-info { display: flex; align-items: center; gap: 10px; overflow: hidden; }
-        .track-info img { width: 50px; height: 50px; border-radius: 8px; border: 1px solid var(--primary-purple); object-fit: cover; }
-        .track-info b { font-size: 0.85rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); }
-        .track-info span { font-size: 0.7rem; color: var(--text-muted); }
+        /* =========================================
+           PLAYER BAR (Fijo abajo, responsivo)
+           ========================================= */
+        .player-bar { position: fixed; bottom: 0; width: 100%; height: 95px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 2px solid var(--light-purple); display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: 0 5%; z-index: 9999; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
+        .track-info { display: flex; align-items: center; gap: 15px; overflow: hidden; }
+        .track-info img { width: 60px; height: 60px; border-radius: 10px; border: 2px solid var(--primary-purple); object-fit: cover; }
+        .track-info b { font-size: 1rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main); }
+        .track-info span { font-size: 0.8rem; color: var(--text-muted); }
         
-        .p-play { width: 45px; height: 45px; background: var(--primary-purple); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+        .player-controls { display: flex; justify-content: center; gap: 20px; align-items: center; }
+        .p-play { width: 50px; height: 50px; background: var(--primary-purple); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(98, 0, 234, 0.2); }
         .p-play:hover { transform: scale(1.05); background: #5000ca; }
 
+        .volume-controls { display: flex; justify-content: flex-end; align-items: center; gap: 10px; color: var(--primary-purple); }
+        input[type="range"] { accent-color: var(--primary-purple); cursor:pointer; }
+
         /* =========================================
-           MEDIA QUERY ESPECÍFICA PARA MÓVIL
+           MEDIA QUERY ESPECÍFICA PARA MÓVIL (3xROW RÍGIDO)
            ========================================= */
         @media (max-width: 600px) {
             /* Forzamos 3 columnas idénticas y reducimos el gap */
             .radio-grid { 
                 grid-template-columns: repeat(3, 1fr) !important; 
-                gap: 8px; 
+                gap: 10px; 
             }
             
             /* Ajustes mínimos en la tarjeta para el tamaño reducido */
@@ -120,81 +134,106 @@
                 padding: 6px; 
             }
             .radio-card h4 { 
-                font-size: 0.65rem; /* Un poco más pequeña para asegurar que quepa el nombre */
+                font-size: 0.65rem; /* Fuente más pequeña para asegurar legibilidad */
             }
             
-            .player-bar { grid-template-columns: 1.2fr 1fr; }
+            .player-bar { grid-template-columns: 1.2fr 1fr; height: 85px; padding: 0 10px; }
+            .track-info img { width: 50px; height: 50px; }
+            .track-info b { font-size: 0.8rem; }
             .volume-controls { display: none; }
         }
     </style>
 </head>
 <body>
     <header><div class="logo">Multi<span>RADIOS</span></div></header>
-    <section class="search-section"><div class="search-container"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Buscar emisora..."></div></section>
+    <section class="search-section"><div class="search-container"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Buscar emisora por nombre..."></div></section>
     
-    <main class="content-section"><div class="radio-grid" id="radioGrid"></div></main>
+    <main class="content-section">
+        <div class="radio-grid" id="radioGrid">
+            </div>
+    </main>
 
     <div class="player-bar">
         <div class="track-info">
-            <img src="https://via.placeholder.com/50/6200ea/ffffff?text=MR" id="pImg">
+            <img src="https://via.placeholder.com/60/6200ea/ffffff?text=MR" id="pImg">
             <div><b id="pTitle">Selecciona...</b><span id="pGenre">En vivo</span></div>
         </div>
-        <div style="display: flex; justify-content: center; gap: 15px; align-items: center;">
+        <div class="player-controls">
             <div class="p-play" id="pPlay" onclick="toggle()"><i class="fas fa-play"></i></div>
-            <button onclick="next(1)" style="background:none; border:none; color:var(--primary-purple); font-size: 1.2rem; cursor:pointer;"><i class="fas fa-forward-step"></i></button>
+            <button onclick="next(1)" style="background:none; border:none; color:var(--primary-purple); font-size: 1.4rem; cursor:pointer;"><i class="fas fa-forward-step"></i></button>
         </div>
-        <div class="volume-controls" style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; color: var(--primary-purple);">
-            <i class="fas fa-volume-high"></i><input type="range" id="vol" min="0" max="1" step="0.1" value="0.8" style="accent-color: var(--primary-purple); cursor:pointer;">
+        <div class="volume-controls">
+            <i class="fas fa-volume-high"></i><input type="range" id="vol" min="0" max="1" step="0.1" value="0.8">
         </div>
     </div>
 
     <audio id="audio"></audio>
 
     <script>
-        let stations = []; let index = -1; const audio = document.getElementById('audio');
-        
+        let stations = [];
+        let index = -1;
+        const audio = document.getElementById('audio');
+
         async function fetchRadios() {
-            try { 
-                const r = await fetch('radios.json'); 
-                stations = await r.json(); 
-                loadGrid(); 
-            } catch (e) { 
-                console.error("Error cargando radios.json. Asegúrate de que el archivo existe y es válido."); 
-            }
+            try {
+                const response = await fetch('radios.json');
+                stations = await response.json();
+                loadGrid();
+            } catch (e) { console.error("Error al cargar radios.json. Asegúrate de que el archivo existe y es válido."); }
         }
-        
-        function loadGrid(q = "") {
-            const grid = document.getElementById('radioGrid'); grid.innerHTML = "";
+
+        function loadGrid(search = "") {
+            const grid = document.getElementById('radioGrid');
+            grid.innerHTML = "";
             stations.forEach((s, i) => {
-                if(s.name.toLowerCase().includes(q.toLowerCase())) {
+                if(s.name.toLowerCase().includes(search.toLowerCase())) {
                     grid.innerHTML += `
                         <div class="radio-card ${i===index?'active':''}" onclick="play(${i})">
                             <div class="img-wrapper">
-                                <img src="${s.img}" alt="${s.name}">
+                                <img src="${s.img}" alt="${s.name}" loading="lazy">
                             </div>
                             <h4>${s.name}</h4>
                         </div>`;
                 }
             });
         }
-        
+
         function play(i) {
-            index = i; const s = stations[index]; audio.src = s.url; audio.play();
-            document.getElementById('pImg').src = s.img; document.getElementById('pTitle').innerText = s.name;
+            index = i;
+            const s = stations[index];
+            audio.src = s.url;
+            audio.play();
+
+            // Actualizar interfaz
+            document.getElementById('pImg').src = s.img;
+            document.getElementById('pTitle').innerText = s.name;
             document.getElementById('pGenre').innerText = s.genre;
             document.getElementById('pPlay').innerHTML = '<i class="fas fa-pause"></i>';
-            loadGrid(document.getElementById('searchInput').value);
+            loadGrid(document.getElementById('searchInput').value); // Refrescar para marcar activa
+
+            // MediaSession API (Notificaciones)
             if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({ title: s.name, artist: "MultiRadios.es", artwork: [{src: s.img, sizes: '512x512'}] });
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: s.name, artist: "MultiRadios.es", album: s.genre, artwork: [{src: s.img, sizes: '512x512'}]
+                });
             }
         }
-        
-        function toggle() { if(index===-1) return; audio.paused?(audio.play(),document.getElementById('pPlay').innerHTML='<i class="fas fa-pause"></i>'):(audio.pause(),document.getElementById('pPlay').innerHTML='<i class="fas fa-play"></i>'); }
-        function next(d) { if(stations.length===0) return; index = (index+d+stations.length)%stations.length; play(index); }
-        
+
+        function toggle() {
+            if(index === -1) return;
+            if(audio.paused) { audio.play(); document.getElementById('pPlay').innerHTML = '<i class="fas fa-pause"></i>';
+            } else { audio.pause(); document.getElementById('pPlay').innerHTML = '<i class="fas fa-play"></i>'; }
+        }
+
+        function next(dir) {
+            if(stations.length === 0) return;
+            index = (index + dir + stations.length) % stations.length;
+            play(index);
+        }
+
         document.getElementById('searchInput').oninput = (e) => loadGrid(e.target.value);
         document.getElementById('vol').oninput = (e) => audio.volume = e.target.value;
-        
+
         fetchRadios();
     </script>
 </body>
