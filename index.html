@@ -3,51 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiRadios.es | Premium Edition</title>
-
-    <meta property="og:title" content="MultiRadios.es | Tu Radio Online">
-    <meta property="og:image" content="og-image.jpg">
+    <title>MultiRadios.es | Premium</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --primary: #6200ea;
-            --light: #f3e5f5;
-            --text: #311b92;
-            --border: #e1bee7;
-        }
+        :root { --primary: #6200ea; --light: #f3e5f5; --text: #311b92; --border: #e1bee7; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: #ffffff; color: var(--text); padding-bottom: 110px; }
         
-        header { padding: 15px 5%; text-align: center; }
+        header { padding: 15px 5% 5px; text-align: center; }
         .logo { font-weight: 800; font-size: 1.6rem; text-transform: uppercase; color: var(--primary); }
         .logo span { color: #fff; background: var(--primary); padding: 2px 8px; border-radius: 6px; }
 
-        /* CARRUSEL PUBLICITARIO */
-        .banner-container { width: 90%; max-width: 800px; margin: 10px auto 20px; height: 120px; border-radius: 15px; overflow: hidden; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* BUSCADOR ARRIBA */
+        .search-section { padding: 15px 5%; display: flex; justify-content: center; }
+        .search-container { width: 100%; max-width: 500px; position: relative; }
+        .search-container input { width: 100%; background: var(--light); border: 2px solid transparent; padding: 12px 15px 12px 45px; border-radius: 15px; color: var(--text); transition: 0.3s; }
+        .search-container input:focus { background: #fff; border-color: var(--primary); }
+        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); }
+
+        /* CARRUSEL DESPUÉS DEL BUSCADOR */
+        .banner-container { width: 92%; max-width: 800px; margin: 0 auto 20px; height: 120px; border-radius: 15px; overflow: hidden; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: #eee; }
         .banner-slide { width: 100%; height: 100%; object-fit: cover; display: none; }
         .banner-slide.active { display: block; animation: fade 0.8s; }
         @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
 
-        .search-section { padding: 0 5% 20px; display: flex; justify-content: center; }
-        .search-container { width: 100%; max-width: 500px; position: relative; }
-        .search-container input { width: 100%; background: var(--light); border: none; padding: 12px 15px 12px 45px; border-radius: 15px; color: var(--text); }
-        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); }
-
         /* GRID UNIFORME */
         .content-section { padding: 0 3%; }
         .radio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
-
-        .radio-card { 
-            background: #fff; border-radius: 12px; padding: 6px; border: 1px solid var(--border); text-align: center;
-            display: flex; flex-direction: column; height: 145px; overflow: hidden; cursor: pointer;
-        }
-        .img-wrapper { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; margin-bottom: 5px; background: #eee; }
+        .radio-card { background: #fff; border-radius: 12px; padding: 6px; border: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; height: 145px; overflow: hidden; cursor: pointer; transition: 0.2s; }
+        .img-wrapper { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; margin-bottom: 5px; background: #f0f0f0; }
         .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        .radio-card h4 { font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
+        .radio-card h4 { font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .radio-card.active { border: 2px solid var(--primary); background: var(--light); }
 
         /* PLAYER BAR */
@@ -55,7 +44,6 @@
         .track-info { display: flex; align-items: center; gap: 10px; overflow: hidden; }
         .track-info img { width: 55px; height: 55px; border-radius: 8px; border: 2px solid var(--primary); object-fit: cover; }
         .track-info b { font-size: 0.85rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
         .controls { display: flex; justify-content: center; gap: 15px; align-items: center; }
         .btn-nav { background: none; border: none; color: var(--primary); font-size: 1.4rem; cursor: pointer; }
         .p-play { width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; }
@@ -64,7 +52,7 @@
             .radio-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px; }
             .player-bar { grid-template-columns: 1.2fr 1fr; }
             .vol-cont { display: none; }
-            .banner-container { height: 80px; }
+            .banner-container { height: 85px; }
         }
     </style>
 </head>
@@ -72,15 +60,12 @@
 
     <header><div class="logo">Multi<span>RADIOS</span></div></header>
 
-    <div class="banner-container">
-        <img src="https://via.placeholder.com/800x200?text=Publicidad+1" class="banner-slide active">
-        <img src="https://via.placeholder.com/800x200?text=Publicidad+2" class="banner-slide">
-        <img src="https://via.placeholder.com/800x200?text=Publicidad+3" class="banner-slide">
-    </div>
-
     <section class="search-section">
-        <div class="search-container"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Buscar radio..."></div>
+        <div class="search-container"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Buscar emisora..."></div>
     </section>
+
+    <div class="banner-container" id="bannerContainer">
+        </div>
     
     <main class="content-section"><div class="radio-grid" id="radioGrid"></div></main>
 
@@ -89,13 +74,11 @@
             <img src="https://via.placeholder.com/60/6200ea/ffffff" id="pImg">
             <div><b id="pTitle">Selecciona...</b><span id="pGenre" style="font-size: 0.7rem; color: #7e57c2;">En vivo</span></div>
         </div>
-        
         <div class="controls">
             <button class="btn-nav" onclick="next(-1)"><i class="fas fa-backward-step"></i></button>
             <div class="p-play" id="pPlay" onclick="toggle()"><i class="fas fa-play"></i></div>
             <button class="btn-nav" onclick="next(1)"><i class="fas fa-forward-step"></i></button>
         </div>
-
         <div class="vol-cont" style="display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
             <i class="fas fa-volume-high" style="color:var(--primary)"></i>
             <input type="range" id="vol" min="0" max="1" step="0.1" value="0.8" style="accent-color: var(--primary);">
@@ -105,85 +88,63 @@
     <audio id="audio"></audio>
 
     <script>
-        let stations = [];
+        let data = { banners: [], stations: [] };
         let index = -1;
         const audio = document.getElementById('audio');
 
-        // Lógica del Carrusel
-        let slideIndex = 0;
-        function showSlides() {
-            let slides = document.getElementsByClassName("banner-slide");
-            for (let i = 0; i < slides.length; i++) slides[i].classList.remove("active");
-            slideIndex++;
-            if (slideIndex > slides.length) slideIndex = 1;
-            slides[slideIndex-1].classList.add("active");
-            setTimeout(showSlides, 4000); // Cambia cada 4 segundos
-        }
-        showSlides();
-
-        async function fetchRadios() {
+        async function init() {
             try {
                 const response = await fetch('radios.json');
-                stations = await response.json();
+                data = await response.json();
+                loadBanners();
                 loadGrid();
-            } catch (e) { console.error("Error cargando radios.json"); }
+            } catch (e) { console.error("Error cargando JSON"); }
+        }
+
+        function loadBanners() {
+            const container = document.getElementById('bannerContainer');
+            if(!data.banners || data.banners.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+            container.innerHTML = data.banners.map((url, i) => 
+                `<img src="${url}" class="banner-slide ${i===0?'active':''}">`
+            ).join('');
+            
+            let slideIdx = 0;
+            const slides = document.getElementsByClassName("banner-slide");
+            if(slides.length > 1) {
+                setInterval(() => {
+                    slides[slideIdx].classList.remove("active");
+                    slideIdx = (slideIdx + 1) % slides.length;
+                    slides[slideIdx].classList.add("active");
+                }, 4000);
+            }
         }
 
         function loadGrid(q = "") {
             const grid = document.getElementById('radioGrid');
             grid.innerHTML = "";
-            stations.forEach((s, i) => {
+            data.stations.forEach((s, i) => {
                 if(s.name.toLowerCase().includes(q.toLowerCase())) {
-                    grid.innerHTML += `
-                        <div class="radio-card ${i===index?'active':''}" onclick="play(${i})">
-                            <div class="img-wrapper"><img src="${s.img}"></div>
-                            <h4>${s.name}</h4>
-                        </div>`;
+                    grid.innerHTML += `<div class="radio-card ${i===index?'active':''}" onclick="play(${i})"><div class="img-wrapper"><img src="${s.img}"></div><h4>${s.name}</h4></div>`;
                 }
             });
         }
 
         function play(i) {
             index = i;
-            const s = stations[index];
+            const s = data.stations[index];
             audio.src = s.url;
             audio.play();
-            updateUI(s);
-            setupMediaSession(s);
-        }
-
-        function updateUI(s) {
             document.getElementById('pImg').src = s.img;
             document.getElementById('pTitle').innerText = s.name;
             document.getElementById('pGenre').innerText = s.genre;
             document.getElementById('pPlay').innerHTML = '<i class="fas fa-pause"></i>';
             loadGrid(document.getElementById('searchInput').value);
-        }
-
-        function toggle() {
-            if(index === -1) return;
-            if(audio.paused) {
-                audio.play();
-                document.getElementById('pPlay').innerHTML = '<i class="fas fa-pause"></i>';
-            } else {
-                audio.pause();
-                document.getElementById('pPlay').innerHTML = '<i class="fas fa-play"></i>';
-            }
-        }
-
-        function next(dir) {
-            if(stations.length === 0) return;
-            index = (index + dir + stations.length) % stations.length;
-            play(index);
-        }
-
-        // Lógica para Notificaciones del Móvil
-        function setupMediaSession(s) {
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: s.name,
-                    artist: "MultiRadios.es",
-                    artwork: [{ src: s.img, sizes: '512x512', type: 'image/png' }]
+                    title: s.name, artist: "MultiRadios.es", artwork: [{ src: s.img, sizes: '512x512' }]
                 });
                 navigator.mediaSession.setActionHandler('play', () => toggle());
                 navigator.mediaSession.setActionHandler('pause', () => toggle());
@@ -192,9 +153,20 @@
             }
         }
 
+        function toggle() {
+            if(index === -1) return;
+            audio.paused ? (audio.play(), document.getElementById('pPlay').innerHTML = '<i class="fas fa-pause"></i>') : (audio.pause(), document.getElementById('pPlay').innerHTML = '<i class="fas fa-play"></i>');
+        }
+
+        function next(dir) {
+            if(data.stations.length === 0) return;
+            index = (index + dir + data.stations.length) % data.stations.length;
+            play(index);
+        }
+
         document.getElementById('searchInput').oninput = (e) => loadGrid(e.target.value);
         document.getElementById('vol').oninput = (e) => audio.volume = e.target.value;
-        fetchRadios();
+        init();
     </script>
 </body>
 </html>
