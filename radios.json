@@ -51,6 +51,12 @@
       "url": "https://streaming01.radiosenlinea.com.ar:10485/stream",
       "img": "https://magiadigitalpy.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-10-at-17.40.54.jpeg",
       "genre": "variada"
+    },
+    {
+      "name": "ACTIVA MÁLAGA",
+      "url": "https://servidor31.brlogic.com:7100/live",
+      "img": "https://i.postimg.cc/W34q1Rp5/src-assets-images-logo.png",
+      "genre": "VARIADO"
     }
   ]
 }
