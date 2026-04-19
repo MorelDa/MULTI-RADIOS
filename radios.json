@@ -63,6 +63,18 @@
       "url": "https://streaming01.radiosenlinea.com.ar/9196/stream",
       "img": "https://i.ibb.co/gMjyP8vt/13dwx0-STA-L7b2-V86ad1-cy3q4-Ce-PL-g-B2-XWc-Qfo-Jm-H2rv-IG4x-Pr-Uz8-Ny-Cy-Y75-ZITE-w240-h480-rw.webp",
       "genre": "VARIOS"
+    },
+    {
+      "name": "Radio La Mega Estación Paris",
+      "url": "https://streaming01.radiosenlinea.com.ar/9208/stream",
+      "img": "https://i.ibb.co/60htHYmg/Z1qi-JZX7-C-br-HLx6-Klfu-UKYZhe-Shq-VJ8w-Zo-Kpvellct-AENPdvp-V5-Ah-BUATsk3n-OCM60-w240-h480-rw.webp",
+      "genre": "VARIOS"
+    },
+    {
+      "name": "SERENATA RADIO ",
+      "url": "https://frontend.radiohdvivo.com/serenataesp/live",
+      "img": "https://play-lh.googleusercontent.com/cduvUiWhvc91IWpctdEgD3hZo4jcsGT92Jp_QhXUn-LyrT93d6Qgt_wGxCd6iAH-sOE=w240-h480-rw",
+      "genre": "VARIOS"
     }
   ]
 }
