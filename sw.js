@@ -3,7 +3,7 @@ const CACHE_NAME = 'multiradios-v1.0.0';
 const ASSETS = [
   './',
   './index.html',
-  './admin.html',
+  '',
   './radios.json',
   './manifest.json',
   './icon-192.png',
