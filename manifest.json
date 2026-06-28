@@ -26,11 +26,6 @@
   ],
   "shortcuts": [
     {
-      "name": "Panel de Administración",
-      "short_name": "Admin",
-      "description": "Gestiona radios, banners y diseño",
-      "url": "./admin.html",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
-    }
+     }
   ]
 }
