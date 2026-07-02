@@ -31,6 +31,15 @@
   ],
   "stations": [
     {
+      "name": "Estacion 40",
+      "url": "https://m.desdeparaguay.com/estacion40",
+      "img": "",
+      "genre": "",
+      "country": "",
+      "city": "",
+      "socials": {}
+    },
+    {
       "name": "FARRA PLAY",
       "url": "https://zn1radios.desdeparaguay.net/movfarra/movfarra.stream/playlist.m3u8?k=4e9149f2831d7eda5e99cd7aeca7c0beece42ea936c5712376abad3a81b5514b&exp=1782995427",
       "img": "https://i.postimg.cc/2Szj5T6Y/farra.png",
@@ -190,15 +199,6 @@
       "genre": "VARIOS",
       "country": "ES",
       "city": "Madrid",
-      "socials": {}
-    },
-    {
-      "name": "Radio E40 91.1 FM",
-      "url": "https://zn1radios.desdeparaguay.net/transcamara/transcamara/playlist.m3u8?k=d3d0819d301b4d488fb8de0f757afa6ebe539562dccfc87a49cebefe2bb64550&exp=1782997280",
-      "img": "2026-07-02 13:01:59",
-      "genre": "various",
-      "country": "",
-      "city": "",
       "socials": {}
     }
   ]
