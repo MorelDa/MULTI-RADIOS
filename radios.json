@@ -33,11 +33,14 @@
     {
       "name": "Estacion 40",
       "url": "https://m.desdeparaguay.com/estacion40",
-      "img": "",
+      "img": "https://static2.mytuner.mobi/media/tvos_radios/521/estacion-40-911-fm.0e333110.jpg",
       "genre": "",
-      "country": "",
-      "city": "",
-      "socials": {}
+      "country": "PY",
+      "city": "ASUNCIÓN",
+      "socials": {
+        "whatsapp": "https://wa.me/595214157104",
+        "website": "https://www.estacion40.com.py/"
+      }
     },
     {
       "name": "FARRA PLAY",
