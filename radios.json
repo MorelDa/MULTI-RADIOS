@@ -31,6 +31,21 @@
   ],
   "stations": [
     {
+      "name": "MAX FM LATINA",
+      "url": "https://server2.ejeserver.com:7009/stream?_ic2=1777368541579",
+      "img": "https://maxfm.es/logo-maxfm-r.png",
+      "genre": "",
+      "country": "ESPAÑA",
+      "city": "BARCELONA",
+      "socials": {
+        "whatsapp": "https://wa.me/34 656269898",
+        "facebook": "https://www.facebook.com/profile.php?id=61563705515999",
+        "instagram": "https://www.instagram.com/maxfmlatina",
+        "tiktok": "https://www.tiktok.com/@maxfmlatina",
+        "website": "https://maxfm.es/"
+      }
+    },
+    {
       "name": "Estacion 40",
       "url": "https://m.desdeparaguay.com/estacion40",
       "img": "https://static2.mytuner.mobi/media/tvos_radios/521/estacion-40-911-fm.0e333110.jpg",
