@@ -31,9 +31,42 @@
   ],
   "stations": [
     {
+      "name": "Radio Popular 103.1 FM",
+      "url": "https://cast1.asurahosting.com/proxy/popularnew/stream",
+      "img": "https://i.ibb.co/YFxh2wsY/fm-popular.webp",
+      "genre": "",
+      "country": "PY",
+      "city": "Asunción, Paraguay",
+      "socials": {
+        "website": "https://www.radiopopular.com.py/",
+        "facebook": "https://www.facebook.com/lapopufm",
+        "instagram": "https://www.instagram.com/lapopufm",
+        "youtube": "https://www.youtube.com/@lapopu_fm",
+        "twitter": "https://x.com/lapopufm",
+        "tiktok": "https://www.tiktok.com/@lapopufm",
+        "whatsapp": "https://wa.me/595 21 603 400"
+      }
+    },
+    {
+      "name": "Exclusiva FM 103.7 FM",
+      "url": "https://stream.zeno.fm/mxu3ru3zud0uv",
+      "img": "https://i.ibb.co/hRFVNSZS/radio-exclusiva.webp",
+      "genre": "vallenato, cumbia, pop, reggaetón y éxitos tropicales.",
+      "country": "PARAGUAY",
+      "city": "Asunción, Paraguay",
+      "socials": {
+        "whatsapp": "https://wa.me/595 21 942 700",
+        "website": "https://www.exclusivafm.com.py/",
+        "facebook": "https://www.facebook.com/exclusivafm1037",
+        "instagram": "https://www.instagram.com/exclusivafm1037",
+        "twitter": "https://x.com/exclusivafm1037",
+        "tiktok": "https://www.tiktok.com/@exclusivafm1037"
+      }
+    },
+    {
       "name": "MAX FM LATINA",
       "url": "https://server2.ejeserver.com:7009/stream?_ic2=1777368541579",
-      "img": "https://i.ibb.co/hJbcLtsZ/logo-maxfm-r.png",
+      "img": "https://maxfm.es/logo-maxfm-r.png",
       "genre": "",
       "country": "ESPAÑA",
       "city": "BARCELONA",
