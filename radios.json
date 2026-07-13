@@ -1,6 +1,6 @@
 {
-  "site": {
-    "title": "MultiRadios.es",
+  "sitio": {
+    "título": "MultiRadios.es",
     "logoText": "Multi",
     "logoAccent": "RADIOS",
     "logoImage": "",
@@ -8,33 +8,261 @@
     "ogImage": "og-image.jpg",
     "footerText": "MultiRadios.es"
   },
-  "theme": {
-    "font": "Plus Jakarta Sans",
+  "tema": {
+    "fuente": "Plus Jakarta Sans",
     "preset": "Violeta",
-    "primary": "#6200ea",
-    "light": "#f3e5f5",
+    "primario": "#6200ea",
+    "luz": "#f3e5f5",
     "textDark": "#311b92",
-    "border": "#e1bee7",
-    "background": "#ffffff",
+    "borde": "#e1bee7",
+    "fondo": "#ffffff",
     "playerBg": "#000000",
     "playerText": "#ffffff"
   },
   "banners": [
     {
       "img": "https://i.postimg.cc/LXrH6v5T/KBHKJ.png",
-      "link": ""
+      "enlace": ""
     },
     {
       "img": "https://i.postimg.cc/cLsdHvxR/Mesa-de-trabajo-1kkm.png",
-      "link": ""
+      "enlace": ""
     }
   ],
-  "stations": [
+  "estaciones": [
     {
-      "name": "Radio Popular 103.1 FM",
+      "nombre": "PALMA FM",
+      "url": "https://mdstrm.com/audio/62d81d48f5ef320830c8becf/live.m3u8?_=1783926847774&dnt=true&player=62fd28f4741e5b083385ef23&es=us-b4-pe-pb13-audio.cdn.mdstrm.com&pz=us&uid= urj1RI9hyc95asEXtkyXsHgb8gcp1YO5&sid=uU2guYYFqcrAzPu52IVvCUnP2y4F00k3&pid=oVEafTORpyc2TcDVSL9ZHUFzqyJz2ORr&an=Palma-vivo&at=web-app&av=v1.0.88&sc=0&ref=www.palma.com.py&res=1280x720&ext_pb=0&aw_0_awz.listenerid=null&aw_0_1st.version=1.3.1%3Ahtml5&dvr_playback_session_id=6a4d4310ce5c4591_478511_hIdluTCB_dXMtYjQtcC1lLXBiMTMtYXVkaW8u Y2RuLm1kc3RybS5jb206ODAwMA!!_0000000uS4i&CMCD=cid%3D%2262d81d48f5ef320830c8becf%22% 2Cmtp%3D500%2Cot%3Dm%2Csf%3Dh%2Csid%3D%22oVEafTORpyc2TcDVSL9ZHUFzqyJz2ORr%22%2Csu",
+      "img": "https://grupovierci.brightspotcdn.com/dims4/default/02c1e1b/2147483647/strip/true/crop/216x104+0+0/resize/800x386!/quality/90/?url=https%3A%2F%2Fk2-prod-grupo-vierci.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3f%2F48%2Fabecb0814c6fb3abe9d79ae7109d%2Flogo-palma-amarillo.png",
+      "género": "",
+      "país": "Py",
+      "ciudad": "Asunción",
+      "sociales": {}
+    },
+    {
+      "nombre": "Radio Popular 103.1 FM",
       "url": "https://cast1.asurahosting.com/proxy/popularnew/stream",
-      "proxy": true,
       "img": "https://i.ibb.co/YFxh2wsY/fm-popular.webp",
+      "género": "",
+      "país": "PY",
+      "ciudad": "Asunción, Paraguay",
+      "sociales": {
+        "sitio web": "https://www.radiopopular.com.py/",
+        "facebook": "https://www.facebook.com/lapopufm",
+        "instagram": "https://www.instagram.com/lapopufm",
+        "youtube": "https://www.youtube.com/@lapopu_fm",
+        "twitter": "https://x.com/lapopufm",
+        "tiktok": "https://www.tiktok.com/@lapopufm",
+        "WhatsApp": "https://wa.me/595 21 603 400"
+      }
+    },
+    {
+      "nombre": "Exclusiva FM 103.7 FM",
+      "url": "https://stream.zeno.fm/mxu3ru3zud0uv",
+      "img": "https://i.ibb.co/hRFVNSZS/radio-exclusiva.webp",
+      "género": "vallenato, cumbia, pop, reggaetón y éxitos tropicales.",
+      "país": "PARAGUAY",
+      "ciudad": "Asunción, Paraguay",
+      "sociales": {
+        "whatsapp": "https://wa.me/595 21 942 700",
+        "sitio web": "https://www.exclusivafm.com.py/",
+        "facebook": "https://www.facebook.com/exclusivafm1037",
+        "instagram": "https://www.instagram.com/exclusivafm1037",
+        "twitter": "https://x.com/exclusivafm1037",
+        "tiktok": "https://www.tiktok.com/@exclusivafm1037"
+      }
+    },
+    {
+      "nombre": "MAX FM LATINA",
+      "url": "https://server2.ejeserver.com:7009/stream?_ic2=1777368541579",
+      "img": "https://maxfm.es/logo-maxfm-r.png",
+      "género": "",
+      "país": "ESPAÑA",
+      "ciudad": "BARCELONA",
+      "sociales": {
+        "whatsapp": "https://wa.me/34 656269898",
+        "facebook": "https://www.facebook.com/profile.php?id=61563705515999",
+        "instagram": "https://www.instagram.com/maxfmlatina",
+        "tiktok": "https://www.tiktok.com/@maxfmlatina",
+        "sitio web": "https://maxfm.es/"
+      }
+    },
+    {
+      "nombre": "Estación 40",
+      "url": "https://m.desdeparaguay.com/estacion40",
+      "img": "https://static2.mytuner.mobi/media/tvos_radios/521/estacion-40-911-fm.0e333110.jpg",
+      "género": "",
+      "país": "PY",
+      "ciudad": "ASUNCIÓN",
+      "sociales": {
+        "whatsapp": "https://wa.me/595214157104",
+        "sitio web": "https://www.estacion40.com.py/"
+      }
+    },
+    {
+      "nombre": "FARRA PLAY",
+      "url": "https://zn1radios.desdeparaguay.net/movfarra/movfarra.stream/playlist.m3u8?k=4e9149f2831d7eda5e99cd7aeca7c0beece42ea936c5712376abad3a81b5514b&exp=1782995427",
+      "img": "https://i.postimg.cc/2Szj5T6Y/farra.png",
+      "género": "",
+      "país": "Paraguay ",
+      "ciudad": "Asunción",
+      "sociales": {
+        "whatsapp": "https://wa.me/595986937000?text=DsdPy%20:%20%20"
+      }
+    },
+    {
+      "nombre": "CHOKOKUE REMIANDU",
+      "url": "https://miestacion.turadioonline.com.ar/8280/stream",
+      "img": "https://blogger.googleusercontent.com/img/a/AVvXsEg6UpEhLOVowXx5CxKMBqTz5-VS9jHx7egNThW_rkix5kLoxsMGH9jwO-JHa5XaOGKsXBAjiVW3N9Hm-bQki1otzSepv3CeUhBRhW5hZevqQR5Zlf5YqrBZbFtNljp50APNdSsU9TOPgDPZQnmihSQjsYs2Kx3A4QKrMkBMrdz4jbYvAuEeWFOQXPfC3-8o=s180",
+      "género": "",
+      "país": "Paraguay ",
+      "ciudad": "Cresencio Gonzales",
+      "sociales": {}
+    },
+    {
+      "nombre": "RADIO POPULAR FM",
+      "url": "https://zn1radios.desdeparaguay.net/transpopular/transpopular/playlist.m3u8?k=8c2bc0d024c7a179f8329ce655b8412fac26885edafdb2c3c375603244d3d298&exp=1782982222 ",
+      "img": "https://i.ibb.co/JRXLc0wt/logo-popular.png",
+      "género": "",
+      "país": "Paraguay ",
+      "ciudad": "Asunción",
+      "sociales": {}
+    },
+    {
+      "nombre": "Alborada FM 100.5 ",
+      "url": "https://radiohd.net:8240/stream",
+      "img": "https://i.postimg.cc/jjjXJ8bP/card-1.png",
+      "género": "",
+      "país": "Paraguay ",
+      "ciudad": "Yrybucua ",
+      "sociales": {}
+    },
+    {
+      "nombre": "PORTAL SAN PEDRO SUR",
+      "url": "https://miestacion.turadioonline.com.ar:8072/stream",
+      "img": "https://i.postimg.cc/FK715Xt0/Mesa-de-trabajo-1.png",
+      "género": "Varios",
+      "país": "Paraguay ",
+      "ciudad": "Guajayvi ",
+      "sociales": {}
+    },
+    {
+      "nombre": "RADIO PARTY",
+      "url": "https://miestacion.turadioonline.com.ar:8286/stream",
+      "img": "https://i.postimg.cc/50LH1fxn/Chat-GPT-Image-1-feb-2026-02-12-40.png",
+      "género": "varios",
+      "país": "AR",
+      "ciudad": "",
+      "sociales": {
+        "facebook": "https://facebook.com",
+        "instagram": "https://instagram.com",
+        "whatsapp": "https://wa.me/1234567890",
+        "sitio web": "https://example.com"
+      }
+    },
+    {
+      "name": "RADIO TEO PAEZ ONLINE SONANDO EN VIVO",
+      "url": "https://miestacion.turadioonline.com.ar/8262/stream",
+      "img": "https://i.postimg.cc/Kv33Z7J3/LOGO-RADIO-3.png",
+      "género": "varios",
+      "país": "AR",
+      "ciudad": "",
+      "sociales": {}
+    },
+    {
+      "nombre": "Radio Nueva Era Málaga",
+      "url": "https://streaming01.radiosenlinea.com.ar/9156/stream",
+      "img": "https://i.postimg.cc/CMDcDpK1/imagen-circular-recortada.png",
+      "género": "varios",
+      "país": "ES",
+      "ciudad": "Málaga",
+      "sociales": {}
+    },
+    {
+      "nombre": "ESPY FM MADRID",
+      "url": "https://nodo102.liveradio.com.es:8028/stream",
+      "img": "https://i.postimg.cc/3J3ZGsvk/Chat-GPT-Image-1-feb-2026-02-12-40-Recuperado.png",
+      "género": "varios",
+      "país": "ES",
+      "ciudad": "Madrid",
+      "sociales": {}
+    },
+    {
+      "nombre": "Radio Kaiser Barcelona",
+      "url": "https://streaming01.radiosenlinea.com.ar/8328/stream",
+      "img": "https://i.postimg.cc/Zng53N7J/fgjgjjjd.jpg",
+      "género": "varios",
+      "país": "ES",
+      "ciudad": "Barcelona",
+      "sociales": {}
+    },
+    {
+      "nombre": "MEGA FIESTA RADIO",
+      "url": "https://streaming01.radiosenlinea.com.ar:10440/stream",
+      "img": "https://magiadigitalpy.com/wp-content/uploads/2026/03/1003470130-1.jpg",
+      "genre": "variada",
+      "país": "PY",
+      "ciudad": "",
+      "sociales": {}
+    },
+    {
+      "nombre": "RADIO HISPANA",
+      "url": "https://streaming01.radiosenlinea.com.ar:10798/stream",
+      "img": "https://magiadigitalpy.com/wp-content/uploads/2026/03/6b48e3f3-cf90-4cfd-809e-0f10b3db00a0.jpg",
+      "genre": "variada",
+      "país": "ES",
+      "ciudad": "",
+      "sociales": {}
+    },
+    {
+      "nombre": "RADIO FIESTERA FM 89.5",
+      "url": "https://streaming01.radiosenlinea.com.ar:10485/stream",
+      "img": "https://magiadigitalpy.com/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-10-at-17.40.54.jpeg",
+      "genre": "variada",
+      "país": "AR",
+      "ciudad": "",
+      "sociales": {}
+    },
+    {
+      "name": "ACTIVA MÁLAGA",
+      "url": "https://servidor31.brlogic.com:7100/live",
+      "img": "https://i.postimg.cc/W34q1Rp5/src-assets-images-logo.png",
+      "género": "VARIADO",
+      "país": "ES",
+      "ciudad": "Málaga",
+      "sociales": {}
+    },
+    {
+      "nombre": "RADIO SO O",
+      "url": "https://streaming01.radiosenlinea.com.ar/9196/stream",
+      "img": "https://i.ibb.co/gMjyP8vt/13dwx0-STA-L7b2-V86ad1-cy3q4-Ce-PL-g-B2-XWc-Qfo-Jm-H2rv-IG4x-Pr-Uz8-Ny-Cy-Y75-ZITE-w240-h480-rw.webp",
+      "género": "VARIOS",
+      "país": "ES",
+      "ciudad": "Valencia ",
+      "sociales": {
+        "WhatsApp": "604875068"
+      }
+    },
+    {
+      "nombre": "Radio La Mega Estación París",
+      "url": "https://streaming01.radiosenlinea.com.ar/9208/stream",
+      "img": "https://i.ibb.co/60htHYmg/Z1qi-JZX7-C-br-HLx6-Klfu-UKYZhe-Shq-VJ8w-Zo-Kpvellct-AENPdvp-V5-Ah-BUATsk3n-OCM60-w240-h480-rw.webp",
+      "género": "VARIOS",
+      "país": "FR",
+      "ciudad": "París",
+      "sociales": {}
+    },
+    {
+      "nombre": "SERENATA RADIO",
+      "url": "https://frontend.radiohdvivo.com/serenataesp/live",
+      "img": "https://play-lh.googleusercontent.com/cduvUiWhvc91IWpctdEgD3hZo4jcsGT92Jp_QhXUn-LyrT93d6Qgt_wGxCd6iAH-sOE=w240-h480-rw",
+      "género": "VARIOS",
+      "país": "ES",
+      "ciudad": "Madrid",
+      "sociales": {}
+    }
+  ]
+}      "img": "https://i.ibb.co/YFxh2wsY/fm-popular.webp",
       "genre": "",
       "country": "PY",
       "city": "Asunción, Paraguay",
