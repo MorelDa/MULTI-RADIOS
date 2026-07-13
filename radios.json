@@ -31,6 +31,15 @@
   ],
   "stations": [
     {
+      "name": "FERNANDO DE LA MORA",
+      "url": "https://www.desde-paraguay.com/movfernando/movfernando.stream/playlist.m3u8",
+      "img": "https://i.ibb.co/C5KSwVY5/fernando-de-la-mora.webp",
+      "genre": "",
+      "country": "Py",
+      "city": "Asunción ",
+      "socials": {}
+    },
+    {
       "name": "PALMA FM",
       "url": "https://mdstrm.com/audio/62d81d48f5ef320830c8becf/live.m3u8?_=1783926847774&dnt=true&player=62fd28f4741e5b083385ef23&es=us-b4-p-e-pb13-audio.cdn.mdstrm.com&pz=us&uid=urj1RI9hyc95asEXtkyXsHgb8gcp1YO5&sid=uU2guYYFqcrAzPu52IVvCUnP2y4F00k3&pid=oVEafTORpyc2TcDVSL9ZHUFzqyJz2ORr&an=Palma-vivo&at=web-app&av=v1.0.88&sc=0&ref=www.palma.com.py&res=1280x720&ext_pb=0&aw_0_awz.listenerid=null&aw_0_1st.version=1.3.1%3Ahtml5&dvr_playback_session_id=6a4d4310ce5c4591_478511_hIdluTCB_dXMtYjQtcC1lLXBiMTMtYXVkaW8uY2RuLm1kc3RybS5jb206ODAwMA!!_0000000uS4i&CMCD=cid%3D%2262d81d48f5ef320830c8becf%22%2Cmtp%3D500%2Cot%3Dm%2Csf%3Dh%2Csid%3D%22oVEafTORpyc2TcDVSL9ZHUFzqyJz2ORr%22%2Csu",
       "img": "https://grupovierci.brightspotcdn.com/dims4/default/02c1e1b/2147483647/strip/true/crop/216x104+0+0/resize/800x386!/quality/90/?url=https%3A%2F%2Fk2-prod-grupo-vierci.s3.us-east-1.amazonaws.com%2Fbrightspot%2F3f%2F48%2Fabecb0814c6fb3abe9d79ae7109d%2Flogo-palma-amarillo.png",
