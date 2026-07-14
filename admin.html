@@ -14,7 +14,6 @@
     body{background:var(--bg);color:var(--txt);min-height:100vh;}
     a{color:inherit;}
 
-    /* Gate */
     .gate{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%, #1c1c28, #0a0a0f);}
     .gate.hide{display:none;}
     .gate-box{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:34px 28px;width:90%;max-width:340px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.6);}
@@ -49,6 +48,7 @@
     @media(max-width:640px){.grid2{grid-template-columns:1fr;}}
     label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:5px;font-weight:600;}
     input[type=text],input[type=url],select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--txt);font-size:.86rem;outline:none;}
+    textarea{resize:vertical;min-height:70px;}
     input:focus,select:focus,textarea:focus{border-color:var(--a);}
     .field{margin-bottom:12px;}
     .color-row{display:flex;align-items:center;gap:10px;}
@@ -82,11 +82,26 @@
     .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
     .row-flex{display:flex;gap:8px;align-items:center;}
     .hint{font-size:.72rem;color:var(--muted);margin-top:4px;}
+
+    /* Switch */
+    .switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
+    .switch input{display:none;}
+    .switch .track{width:46px;height:26px;border-radius:20px;background:#3a3a46;position:relative;transition:.2s;}
+    .switch .track::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s;}
+    .switch input:checked + .track{background:var(--a);}
+    .switch input:checked + .track::after{transform:translateX(20px);}
+    .switch b{font-size:.85rem;}
+
+    /* Preview de notificación */
+    .np{display:flex;gap:12px;align-items:flex-start;background:#0f0f16;border:1px solid var(--line);border-left:4px solid var(--a);border-radius:14px;padding:14px;margin-top:8px;}
+    .np .np-ico{width:44px;height:44px;border-radius:11px;background:var(--a);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;object-fit:cover;flex-shrink:0;}
+    .np .np-tag{font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--a);font-weight:800;}
+    .np .np-title{font-weight:800;font-size:.95rem;margin-top:2px;}
+    .np .np-text{font-size:.8rem;color:var(--muted);margin-top:3px;}
   </style>
 </head>
 <body>
 
-  <!-- Puerta de contraseña -->
   <div class="gate" id="gate">
     <div class="gate-box">
       <div class="k"><i class="fas fa-key"></i></div>
@@ -113,6 +128,7 @@
     <button class="tab active" data-view="identity" data-testid="tab-identity">Identidad</button>
     <button class="tab" data-view="theme" data-testid="tab-theme">Colores y fuente</button>
     <button class="tab" data-view="banners" data-testid="tab-banners">Publicidad</button>
+    <button class="tab" data-view="notify" data-testid="tab-notify">Notificaciones</button>
     <button class="tab" data-view="stations" data-testid="tab-stations">Emisoras</button>
   </div>
 
@@ -156,6 +172,43 @@
         <p class="muted" style="margin-bottom:12px">Carrusel superior del sitio. Enlace opcional al hacer clic.</p>
         <div id="bannerList"></div>
         <button class="btn btn-ghost" id="addBanner" data-testid="btn-add-banner"><i class="fas fa-plus"></i> Añadir banner</button>
+      </div>
+    </div>
+
+    <!-- NOTIFICACIONES -->
+    <div class="view" id="view-notify">
+      <div class="card">
+        <h3><i class="fas fa-bell"></i> Notificación para los usuarios</h3>
+        <p class="muted" style="margin-bottom:14px">Este aviso se muestra a todos los usuarios (incluidos los que instalaron la app PWA) al abrir la radio. Cada vez que pulses <b>«Publicar como nueva»</b> se genera un ID nuevo y volverá a aparecer, aunque ya la hubieran visto.</p>
+
+        <label class="switch" style="margin-bottom:16px">
+          <input type="checkbox" id="n-active" data-testid="notif-active">
+          <span class="track"></span>
+          <b>Notificación activa</b>
+        </label>
+
+        <div class="grid2">
+          <div class="field"><label>Título</label><input type="text" id="n-title" placeholder="¡Nueva emisora disponible!" data-testid="notif-title"></div>
+          <div class="field"><label>Icono / imagen (URL, opcional)</label><input type="url" id="n-icon" placeholder="https://..."></div>
+        </div>
+        <div class="field"><label>Mensaje</label><textarea id="n-body" placeholder="Ya puedes escuchar la nueva radio en directo. ¡Ábrela ahora!" data-testid="notif-body"></textarea></div>
+        <div class="field"><label>Enlace del botón (opcional)</label><input type="url" id="n-link" placeholder="https://..."></div>
+
+        <div class="row-flex" style="margin:6px 0 14px">
+          <button class="btn btn-primary" id="n-publish" data-testid="notif-publish"><i class="fas fa-paper-plane"></i> Publicar como nueva</button>
+          <span class="hint" id="n-idlabel"></span>
+        </div>
+
+        <label>Vista previa</label>
+        <div class="np" id="notifPreview">
+          <div class="np-ico" id="np-ico"><i class="fas fa-bell"></i></div>
+          <div>
+            <div class="np-tag">Notificación</div>
+            <div class="np-title" id="np-title">Título de ejemplo</div>
+            <div class="np-text" id="np-text">Mensaje de ejemplo…</div>
+          </div>
+        </div>
+        <p class="hint">Recuerda: tras editar, pulsa <b>Guardar</b> y luego <b>Exportar</b> para descargar el radios.json y súbelo a tu repo/hosting para publicar.</p>
       </div>
     </div>
 
@@ -216,7 +269,7 @@
 
     const FONTS = ['Plus Jakarta Sans','Poppins','Montserrat','Inter','Roboto','Nunito','Oswald','Raleway','Bebas Neue','Lato','Quicksand','Rubik','Work Sans','Sora','Manrope','Josefin Sans','DM Sans','Space Grotesk','Archivo','Outfit'];
 
-    let data = { site:{}, theme:{}, banners:[], stations:[] };
+    let data = { site:{}, theme:{}, banners:[], stations:[], notification:{ active:false, title:'', body:'', icon:'', link:'', id:'' } };
 
     // ---------- GATE ----------
     const gate = document.getElementById('gate');
@@ -233,16 +286,16 @@
 
     // ---------- DATA ----------
     async function loadData(){
-      // 1. localStorage (tu borrador local)
       try{ const c=localStorage.getItem(STORAGE_KEY); if(c){ const p=JSON.parse(c); if(p && (p.stations||p.banners)) return normalize(p); } }catch(e){}
-      // 2. radios.json publicado en el repo
       try{ const r=await fetch('radios.json?v='+Date.now()); return normalize(await r.json()); }catch(e){ return normalize({}); }
     }
     function normalize(d){
+      const n = d.notification && typeof d.notification==='object' ? d.notification : {};
       return {
         site: d.site||{},
         theme: Object.assign({font:'Plus Jakarta Sans'}, d.theme||{}),
         banners: Array.isArray(d.banners)? d.banners.map(b=> typeof b==='string'?{img:b,link:''}:{img:b.img||'',link:b.link||''}):[],
+        notification: { active: !!n.active, title: n.title||'', body: n.body||'', icon: n.icon||'', link: n.link||'', id: n.id||'' },
         stations: Array.isArray(d.stations)? d.stations.map(s=>({
           name:s.name||'',url:s.url||'',img:s.img||'',genre:s.genre||'',country:s.country||'',city:s.city||'',
           socials: s.socials && typeof s.socials==='object'? s.socials : {}
@@ -250,7 +303,7 @@
       };
     }
 
-    // ---------- RENDER IDENTITY ----------
+    // ---------- IDENTITY ----------
     function fillIdentity(){
       document.getElementById('f-title').value = data.site.title||'';
       document.getElementById('f-footer').value = data.site.footerText||'';
@@ -266,7 +319,41 @@
     }
     const v = id => document.getElementById(id).value.trim();
 
-    // ---------- RENDER THEME ----------
+    // ---------- NOTIFICATIONS ----------
+    function fillNotify(){
+      const n = data.notification || {};
+      document.getElementById('n-active').checked = !!n.active;
+      document.getElementById('n-title').value = n.title||'';
+      document.getElementById('n-body').value = n.body||'';
+      document.getElementById('n-icon').value = n.icon||'';
+      document.getElementById('n-link').value = n.link||'';
+      document.getElementById('n-idlabel').innerText = n.id ? ('ID actual: '+n.id) : 'Sin publicar todavía';
+      updateNotifPreview();
+    }
+    function readNotify(){
+      const n = data.notification || (data.notification={});
+      n.active = document.getElementById('n-active').checked;
+      n.title = v('n-title'); n.body = v('n-body'); n.icon = v('n-icon'); n.link = v('n-link');
+      // Si está activa y aún no tiene ID, se le asigna uno automáticamente
+      if(n.active && !n.id) n.id = String(Date.now());
+    }
+    function updateNotifPreview(){
+      document.getElementById('np-title').innerText = v('n-title') || 'Título de ejemplo';
+      document.getElementById('np-text').innerText = v('n-body') || 'Mensaje de ejemplo…';
+      const ico = document.getElementById('np-ico'); const url = v('n-icon');
+      if(url){ ico.innerHTML=''; const im=document.createElement('img'); im.src=url; im.className='np-ico'; im.onerror=()=>{ico.innerHTML='<i class="fas fa-bell"></i>';}; ico.replaceWith(im); im.id='np-ico'; }
+    }
+    ['n-title','n-body','n-icon'].forEach(id=>document.getElementById(id).addEventListener('input', updateNotifPreview));
+    document.getElementById('n-publish').addEventListener('click', ()=>{
+      readNotify();
+      data.notification.active = true;
+      document.getElementById('n-active').checked = true;
+      data.notification.id = String(Date.now());   // fuerza que se muestre como nueva
+      document.getElementById('n-idlabel').innerText = 'ID actual: '+data.notification.id;
+      toast('Notificación marcada como nueva ✓  (Guarda y Exporta)');
+    });
+
+    // ---------- THEME ----------
     function renderPresets(){
       const box=document.getElementById('presets'); box.innerHTML='';
       Object.entries(PRESETS).forEach(([name,p])=>{
@@ -396,7 +483,6 @@
       enableDrag(box);
     }
 
-    // Drag & drop reorder (desktop). En móvil usa las flechas ↑↓.
     let dragIndex = null;
     function enableDrag(box){
       box.querySelectorAll('.item').forEach((el,idx)=>{
@@ -424,7 +510,7 @@
     function esc(s){ return String(s==null?'':s).replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 
     // ---------- SAVE / EXPORT / IMPORT ----------
-    function collect(){ readIdentity(); return data; }
+    function collect(){ readIdentity(); readNotify(); return data; }
     function save(){
       collect();
       try {
@@ -448,7 +534,7 @@
     });
 
     let toastTimer;
-    function toast(msg){ const t=document.getElementById('toast'); t.innerText=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200); }
+    function toast(msg){ const t=document.getElementById('toast'); t.innerText=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2600); }
 
     // ---------- TABS ----------
     document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
@@ -465,7 +551,7 @@
     document.getElementById('addBanner').onclick=()=>{ data.banners.push({img:'',link:''}); renderBanners(); };
     document.getElementById('addStation').onclick=()=>{ data.stations.unshift({name:'',url:'',img:'',genre:'',country:'',city:'',socials:{}}); renderStations(); document.querySelector('[data-view=stations]').click(); };
 
-    function renderAll(){ fillIdentity(); renderPresets(); renderColors(); renderFonts(); renderBanners(); renderStations(); }
+    function renderAll(){ fillIdentity(); fillNotify(); renderPresets(); renderColors(); renderFonts(); renderBanners(); renderStations(); }
 
     (async ()=>{ data = await loadData(); renderAll(); })();
   </script>

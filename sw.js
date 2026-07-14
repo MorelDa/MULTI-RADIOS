@@ -1,5 +1,5 @@
 // MultiRadios Service Worker - PWA
-const CACHE_NAME = 'multiradios-v1.3.0';
+const CACHE_NAME = 'multiradios-v1.4.0';
 const ASSETS = [
   './',
   './index.html',
@@ -38,12 +38,12 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Never cache audio streams (live radio)
-  if (req.destination === 'audio' || url.pathname.includes('/stream') || url.pathname.includes('/live')) {
+  // Nunca cachear los streams de audio (radio en vivo) ni el endpoint de compartir
+  if (req.destination === 'audio' || url.pathname.includes('/stream') || url.pathname.includes('/live') || url.pathname.includes('/api/share')) {
     return;
   }
 
-  // Network-first for radios.json (keep data fresh)
+  // Network-first para radios.json (datos siempre frescos)
   if (url.pathname.endsWith('radios.json')) {
     event.respondWith(
       fetch(req)
@@ -57,7 +57,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first for everything else (app shell)
+  // Cache-first para el resto (app shell)
   event.respondWith(
     caches.match(req).then((cached) => {
       return (
@@ -72,6 +72,30 @@ self.addEventListener('fetch', (event) => {
           })
           .catch(() => cached)
       );
+    })
+  );
+});
+
+// Al pulsar una notificación del sistema, abre/enfoca la app
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const target = (event.notification.data && event.notification.data.url) || './index.html';
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+      for (const c of list) { if ('focus' in c) return c.focus(); }
+      if (self.clients.openWindow) return self.clients.openWindow(target);
+    })
+  );
+});
+
+// Soporte opcional de Web Push (si en el futuro se configura un servidor con VAPID)
+self.addEventListener('push', (event) => {
+  let payload = { title: 'MultiRadios', body: 'Tienes una novedad', icon: 'icon-192.png' };
+  try { if (event.data) payload = Object.assign(payload, event.data.json()); } catch (_) {}
+  event.waitUntil(
+    self.registration.showNotification(payload.title, {
+      body: payload.body, icon: payload.icon || 'icon-192.png', badge: 'icon-192.png',
+      data: { url: payload.link || './index.html' }
     })
   );
 });

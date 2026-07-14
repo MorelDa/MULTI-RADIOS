@@ -279,5 +279,13 @@
       "city": "Madrid",
       "socials": {}
     }
-  ]
+  ],
+  "notification": {
+    "active": true,
+    "title": "¡Bienvenido a MultiRadios!",
+    "body": "Ahora puedes compartir cualquier emisora por WhatsApp y abrirla directamente. ¡Disfruta la radio en vivo!",
+    "icon": "",
+    "link": "",
+    "id": "1"
+  }
 }

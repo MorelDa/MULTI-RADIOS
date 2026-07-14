@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>MultiRadios.es | Premium Black Edition</title>
 
-  <meta name="description" content="Escucha en vivo las mejores radios online. Reproductor premium.">
-  <meta property="og:title" content="MultiRadios.es | Escucha en Vivo">
-  <meta property="og:image" content="og-image.jpg">
+  <meta name="description" content="Escucha en vivo las mejores radios online. Reproductor premium con múltiples emisoras de España, Paraguay, Argentina y más.">
+
+  <!-- Open Graph / redes sociales (por defecto; el server de /api/share los personaliza por emisora) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MultiRadios.es">
+  <meta property="og:title" content="MultiRadios.es | Escucha radios en vivo">
+  <meta property="og:description" content="Te invito a escuchar las mejores radios online en directo. ¡Reproductor premium gratis!">
+  <meta property="og:image" content="icon-512.png">
+  <meta name="twitter:card" content="summary_large_image">
+
   <meta name="theme-color" content="#6200ea" id="metaThemeColor">
   <link rel="icon" type="image/png" href="favicon.png" id="faviconLink">
 
@@ -19,7 +26,7 @@
   <meta name="apple-mobile-web-app-title" content="MultiRadios">
   <meta name="mobile-web-app-capable" content="yes">
 
-  <!-- Fonts (todas las que el admin permite cambiar) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -70,7 +77,7 @@
 
     .empty-state { text-align: center; padding: 40px 20px; color: #888; grid-column: 1 / -1; }
 
-    /* Reproductor de barra (pie) - NO SE TOCA */
+    /* Reproductor de barra (pie) */
     .player-bar {
       position: fixed; bottom: 0; left: 0; right: 0; height: 95px;
       background: var(--player-bg);
@@ -80,7 +87,7 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
     .track-info { display: flex; align-items: center; gap: 12px; overflow: hidden; min-width: 0; cursor: pointer; }
-    .track-info img { width: 55px; height: 55px; border-radius: 8px; border: 2px solid var(--primary); object-fit: cover; flex-shrink: 0; }
+    .track-info img { width: 55px; height: 55px; border-radius: 8px; border: 2px solid var(--primary); object-fit: cover; flex-shrink: 0; background:#111; }
     .track-info b { font-size: 0.85rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--player-text); }
     .track-info span { font-size: 0.7rem; color: rgba(255,255,255,0.7); }
 
@@ -134,6 +141,26 @@
       .wa-fab i { width: 48px; min-width: 48px; height: 48px; font-size: 1.55rem; }
     }
 
+    /* ---- Notificación in-app (profesional) ---- */
+    .notif-toast {
+      position: fixed; left: 50%; top: 14px; transform: translate(-50%, -160%);
+      z-index: 100001; width: calc(100% - 28px); max-width: 440px;
+      background: #16161d; color: #fff; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+      padding: 14px 14px 14px 16px; display: flex; gap: 13px; align-items: flex-start;
+      transition: transform 0.45s cubic-bezier(.2,.9,.25,1);
+      border-left: 4px solid var(--primary);
+    }
+    .notif-toast.show { transform: translate(-50%, 0); }
+    .notif-toast .n-ico { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; flex-shrink: 0; background: var(--primary); display: flex; align-items: center; justify-content: center; color:#fff; font-size:1.2rem; }
+    .notif-toast .n-body { flex: 1; min-width: 0; }
+    .notif-toast .n-tag { font-size: 0.6rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--primary); font-weight: 800; }
+    .notif-toast .n-title { font-size: 0.98rem; font-weight: 800; margin-top: 2px; }
+    .notif-toast .n-text { font-size: 0.82rem; opacity: 0.82; margin-top: 3px; line-height: 1.35; }
+    .notif-toast .n-link { display: inline-block; margin-top: 9px; font-size: 0.8rem; font-weight: 700; color: #fff; background: var(--primary); padding: 7px 13px; border-radius: 9px; text-decoration: none; }
+    .notif-toast .n-close { background: none; border: none; color: rgba(255,255,255,0.55); font-size: 1rem; cursor: pointer; padding: 2px 4px; }
+    .notif-toast .n-close:hover { color: #fff; }
+
     /* ---- Modal contraseña ---- */
     .pw-overlay {
       position: fixed; inset: 0; z-index: 100000; display: none;
@@ -182,7 +209,7 @@
     .fp-icon-btn:hover { opacity: 1; }
 
     .fp-art-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; }
-    .fp-art { width: min(70vw, 340px); aspect-ratio: 1/1; border-radius: 14px; object-fit: cover; box-shadow: 0 25px 60px rgba(0,0,0,0.55); }
+    .fp-art { width: min(70vw, 340px); aspect-ratio: 1/1; border-radius: 14px; object-fit: cover; box-shadow: 0 25px 60px rgba(0,0,0,0.55); background:#000; }
 
     .fp-meta { margin-top: 6px; }
     .fp-meta h2 { font-size: 1.5rem; font-weight: 800; line-height: 1.15; }
@@ -230,6 +257,18 @@
     <span class="wa-fab-label">Agrega tu radio</span>
   </a>
 
+  <!-- Notificación in-app -->
+  <div class="notif-toast" id="notifToast" data-testid="notif-toast">
+    <div class="n-ico" id="notifIco"><i class="fas fa-bell"></i></div>
+    <div class="n-body">
+      <div class="n-tag">Notificación</div>
+      <div class="n-title" id="notifTitle"></div>
+      <div class="n-text" id="notifText"></div>
+      <a class="n-link" id="notifLink" target="_blank" rel="noopener" style="display:none;">Ver más</a>
+    </div>
+    <button class="n-close" id="notifClose" data-testid="notif-close" title="Cerrar"><i class="fas fa-xmark"></i></button>
+  </div>
+
   <header>
     <img id="logoImg" class="logo-img" alt="Logo">
     <div class="logo" id="logoText">Multi<span id="logoAccent">RADIOS</span></div>
@@ -251,7 +290,7 @@
   <!-- Reproductor de barra (pie) -->
   <div class="player-bar">
     <div class="track-info" id="barTrackInfo" data-testid="bar-open-full">
-      <img src="https://via.placeholder.com/60/6200ea/ffffff?text=MR" id="pImg" alt="Cover">
+      <img src="icon-192.png" id="pImg" alt="Cover">
       <div style="min-width:0; overflow:hidden;">
         <b id="pTitle">Selecciona una emisora...</b>
         <span id="pGenre">En directo</span>
@@ -284,7 +323,7 @@
       </div>
 
       <div class="fp-art-wrap">
-        <img class="fp-art" id="fpArt" alt="Portada" crossorigin="anonymous">
+        <img class="fp-art" id="fpArt" alt="Portada">
       </div>
 
       <div class="fp-meta">
@@ -331,27 +370,22 @@
     const STORAGE_KEY = 'multiradios_data_v1';
     const ADMIN_PASS  = 'kevin6';
     const AUTH_KEY    = 'mr_admin_ok';
+    const NOTIF_SEEN_KEY = 'mr_notif_seen';
 
-    /* =============================================================
-       PROXY CONFIG - Solución definitiva CORS / streams bloqueados
-       -------------------------------------------------------------
-       Deja PROXY_BASE = '' para reproducir SIEMPRE en directo.
-       Si algún stream falla por CORS/hotlink, despliega el proxy
-       de la carpeta /proxy (Node.js) en Render/Railway/Fly.io y
-       pega aquí la URL pública SIN barra al final. Ejemplo:
-         const PROXY_BASE = 'https://mi-proxy.onrender.com';
-       Luego, en radios.json, marca la emisora con "proxy": true
-       y automáticamente se enrutará por el proxy.
-    ============================================================= */
+    /* PROXY CONFIG - Solución CORS. Deja vacío para reproducir en directo. */
     const PROXY_BASE = '';
-    /* ============================================================= */
 
-    let data = { site: {}, theme: {}, banners: [], stations: [] };
+    /* Endpoint de compartir (genera Open Graph por emisora para WhatsApp/Facebook). */
+    const SHARE_ENDPOINT = '/api/share/';
+
+    const PLACEHOLDER = 'icon-192.png';
+
+    let data = { site: {}, theme: {}, banners: [], stations: [], notification: null };
     let index = -1;
+    let userPaused = false;          // FIX 1: controla la pausa manual (no re-conectar)
     let carouselTimer = null;
     const audio = document.getElementById('audio');
 
-    // Íconos de redes sociales soportadas
     const SOCIAL_ICONS = {
       facebook:  'fab fa-facebook-f',
       instagram: 'fab fa-instagram',
@@ -363,6 +397,15 @@
       spotify:   'fab fa-spotify',
       website:   'fas fa-globe'
     };
+
+    // Slug estable a partir del nombre de la emisora (para compartir / deep-link)
+    function slugify(str) {
+      return String(str || '')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase().trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'radio';
+    }
 
     // --- THEME / IDENTITY ----------------------------------------------
     function applyTheme(t = {}) {
@@ -404,16 +447,10 @@
 
     // --- DATA LOADER ----------------------------------------------------
     async function loadData() {
-      // 1. radios.json del repo (fuente de verdad: datos publicados que ven todos)
       try {
         const response = await fetch('radios.json?v=' + Date.now(), { cache: 'no-store' });
-        if (response.ok) {
-          const json = await response.json();
-          return normalizeData(json);
-        }
+        if (response.ok) return normalizeData(await response.json());
       } catch (e) { console.warn('fetch radios.json fail, usando cache local', e); }
-
-      // 2. Fallback: localStorage (solo si la red falla, p.ej. offline)
       try {
         const cached = localStorage.getItem(STORAGE_KEY);
         if (cached) {
@@ -421,7 +458,6 @@
           if (parsed && (parsed.stations || parsed.banners)) return normalizeData(parsed);
         }
       } catch (e) { console.warn('localStorage parse fail', e); }
-
       return normalizeData({});
     }
 
@@ -430,18 +466,17 @@
         site:    d.site    || {},
         theme:   d.theme   || {},
         banners: [],
-        stations: []
+        stations: [],
+        notification: d.notification && typeof d.notification === 'object' ? d.notification : null
       };
       if (Array.isArray(d.banners)) {
-        out.banners = d.banners.map(b =>
-          typeof b === 'string' ? { img: b, link: '' } : b
-        );
+        out.banners = d.banners.map(b => typeof b === 'string' ? { img: b, link: '' } : b);
       }
       if (Array.isArray(d.stations)) {
         out.stations = d.stations.map(s => ({
           name: s.name || '',
           url: s.url || '',
-          img: s.img || 'https://via.placeholder.com/200/6200ea/ffffff?text=Radio',
+          img: s.img || PLACEHOLDER,
           genre: s.genre || '',
           country: s.country || '',
           city: s.city || '',
@@ -457,16 +492,14 @@
       const container = document.getElementById('bannerContainer');
       container.innerHTML = '';
       if (carouselTimer) { clearInterval(carouselTimer); carouselTimer = null; }
-      if (!data.banners || data.banners.length === 0) {
-        container.style.display = 'none';
-        return;
-      }
+      if (!data.banners || data.banners.length === 0) { container.style.display = 'none'; return; }
       container.style.display = 'block';
       data.banners.forEach((b, i) => {
         const img = document.createElement('img');
         img.src = b.img;
         img.className = 'banner-slide' + (i === 0 ? ' active' : '');
         img.alt = 'Publicidad';
+        img.onerror = () => { img.style.display = 'none'; };
         if (b.link) { img.onclick = () => window.open(b.link, '_blank', 'noopener'); }
         container.appendChild(img);
       });
@@ -498,7 +531,7 @@
         card.onclick = () => { play(i); openFullPlayer(); };
         card.innerHTML = `
           <div class="img-wrapper">
-            <img src="${s.img}" loading="lazy" alt="${escapeHtml(s.name)}">
+            <img src="${s.img}" loading="lazy" alt="${escapeHtml(s.name)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
             ${s.country ? `<span class="country-badge">${escapeHtml(s.country)}</span>` : ''}
           </div>
           <h4>${escapeHtml(s.name)}</h4>
@@ -516,6 +549,7 @@
     }
 
     // --- COLOR EXTRACTION (estilo Spotify) ------------------------------
+    // Usa una imagen aparte con CORS; si falla, cae al color primario (no afecta la portada visible).
     function extractColor(imgUrl) {
       return new Promise((resolve) => {
         const img = new Image();
@@ -584,7 +618,10 @@
     function updateFullPlayer() {
       const s = data.stations[index];
       if (!s) return;
-      document.getElementById('fpArt').src = s.img;
+      const art = document.getElementById('fpArt');
+      // FIX 5: portada SIEMPRE visible (sin crossorigin) + fallback si la URL falla
+      art.onerror = function () { this.onerror = null; this.src = PLACEHOLDER; };
+      art.src = s.img || PLACEHOLDER;
       document.getElementById('fpName').innerText = s.name;
       document.getElementById('fpGenre').innerText = [s.city, s.country, s.genre].filter(Boolean).join(' · ') || 'En directo';
       document.getElementById('fpCountry').innerText = s.country || (data.site.footerText || 'MultiRadios');
@@ -607,12 +644,9 @@
       const playing = !audio.paused && audio.src;
       const html = playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
       document.getElementById('pPlay').innerHTML = html;
-      document.getElementById('fpPlay').innerHTML = playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+      document.getElementById('fpPlay').innerHTML = html;
     }
 
-    /* Construye la URL final del stream:
-       - Añade cache-buster para evitar que el navegador reutilice buffer viejo.
-       - Si la emisora tiene proxy:true y PROXY_BASE está configurado, la enruta por el proxy. */
     function buildStreamUrl(station) {
       let src = station.url;
       if (station.proxy && PROXY_BASE) {
@@ -622,7 +656,6 @@
       return src + sep + '_cb=' + Date.now();
     }
 
-    /* Corta por completo la descarga del stream en pausa/cambio. */
     function stopStream() {
       try { audio.pause(); } catch(_){}
       audio.removeAttribute('src');
@@ -630,20 +663,23 @@
       try { audio.load(); } catch(_){}
     }
 
+    function startStream(s) {
+      userPaused = false;
+      audio.src = buildStreamUrl(s);
+      audio.load();
+      audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
+    }
+
     function play(i) {
       index = i;
       const s = data.stations[index];
       if (!s) return;
-
-      // Corte previo para liberar cualquier conexión anterior
       stopStream();
+      startStream(s);
 
-      // Nueva URL con cache-buster (y proxy si aplica)
-      audio.src = buildStreamUrl(s);
-      audio.load();
-      audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
-
-      document.getElementById('pImg').src = s.img;
+      const barImg = document.getElementById('pImg');
+      barImg.onerror = function () { this.onerror = null; this.src = PLACEHOLDER; };
+      barImg.src = s.img || PLACEHOLDER;
       document.getElementById('pTitle').innerText = s.name;
       document.getElementById('pGenre').innerText = [s.city, s.country, s.genre].filter(Boolean).join(' · ') || 'En vivo';
       loadGrid(document.getElementById('searchInput').value);
@@ -656,8 +692,8 @@
           artist: data.site.footerText || 'MultiRadios.es',
           artwork: [{ src: s.img, sizes: '512x512', type: 'image/png' }]
         });
-        navigator.mediaSession.setActionHandler('play',  () => toggle());
-        navigator.mediaSession.setActionHandler('pause', () => toggle());
+        navigator.mediaSession.setActionHandler('play',  () => { if (userPaused || audio.paused) toggle(); });
+        navigator.mediaSession.setActionHandler('pause', () => { if (!audio.paused) toggle(); });
         navigator.mediaSession.setActionHandler('previoustrack', () => next(-1));
         navigator.mediaSession.setActionHandler('nexttrack',     () => next(1));
       }
@@ -668,20 +704,13 @@
         if (data.stations && data.stations.length) { play(0); openFullPlayer(); }
         return;
       }
-      // Si no hay src (fue cortado en pausa), se recarga desde cero con cache-buster
-      if (!audio.src) {
-        const s = data.stations[index];
-        audio.src = buildStreamUrl(s);
-        audio.load();
-        audio.play().catch(e => console.log('play blocked', e));
-      } else if (audio.paused) {
-        // Reintento con cache-buster fresco por si el buffer expiró
-        const s = data.stations[index];
-        audio.src = buildStreamUrl(s);
-        audio.load();
-        audio.play().catch(e => console.log('play blocked', e));
+      const s = data.stations[index];
+      if (userPaused || audio.paused || !audio.src) {
+        // Reanudar: reconstruye la URL fresca
+        startStream(s);
       } else {
-        // PAUSA REAL: corta la descarga por completo (no consume datos)
+        // PAUSA REAL: marca la pausa manual y corta la descarga (no reconecta)
+        userPaused = true;
         stopStream();
       }
       syncPlayIcons();
@@ -697,17 +726,19 @@
     audio.addEventListener('play',  syncPlayIcons);
     audio.addEventListener('pause', syncPlayIcons);
     audio.addEventListener('error', (e) => {
-      console.warn('Audio error, reintentando con cache-buster fresco...', e);
+      // FIX 1: si el usuario pausó (o cortamos el src), NO reintentar reproducir.
+      if (userPaused || !audio.src) return;
       const s = data.stations[index];
       if (!s) return;
+      console.warn('Audio error, reintentando...', e);
       setTimeout(() => {
+        if (userPaused || !audio.src) return;
         audio.src = buildStreamUrl(s);
         audio.load();
         audio.play().catch(err => console.log('retry blocked', err));
       }, 800);
     });
 
-    // Al cerrar pestaña/salir, corta el stream (ahorra datos en móvil)
     window.addEventListener('pagehide', stopStream);
 
     // --- PASSWORD GATE --------------------------------------------------
@@ -747,11 +778,15 @@
     document.getElementById('fpClose').addEventListener('click', closeFullPlayer);
     document.getElementById('fpShare').addEventListener('click', shareStation);
 
+    // FIX 2 y 3: comparte un enlace que abre la emisora exacta y muestra su
+    // portada + descripción en WhatsApp/Facebook (Open Graph vía /api/share).
     function shareStation() {
       const s = data.stations[index];
       if (!s) return;
-      const url = location.origin + location.pathname;
-      const text = `Escucha ${s.name} en vivo 📻`;
+      const slug = slugify(s.name);
+      const url = location.origin + SHARE_ENDPOINT + slug;
+      const lugar = [s.city, s.country].filter(Boolean).join(', ');
+      const text = `📻 Te invito a escuchar "${s.name}"${lugar ? ' desde ' + lugar : ''} en vivo por MultiRadios. ¡Dale play!`;
       if (navigator.share) {
         navigator.share({ title: s.name, text, url }).catch(() => {});
       } else {
@@ -765,15 +800,72 @@
       document.getElementById('vol').value = e.target.value;
     });
 
+    // --- NOTIFICACIONES (FIX 4) ----------------------------------------
+    function showNotification(n) {
+      if (!n || !n.active || !n.title) return;
+      const id = String(n.id || n.title);
+      let seen = [];
+      try { seen = JSON.parse(localStorage.getItem(NOTIF_SEEN_KEY) || '[]'); } catch (_) {}
+      if (seen.includes(id)) return;
+
+      const toast = document.getElementById('notifToast');
+      document.getElementById('notifTitle').innerText = n.title;
+      document.getElementById('notifText').innerText = n.body || '';
+      const ico = document.getElementById('notifIco');
+      if (n.icon) {
+        ico.innerHTML = '';
+        const im = document.createElement('img'); im.className = 'n-ico'; im.src = n.icon;
+        im.onerror = () => { ico.innerHTML = '<i class="fas fa-bell"></i>'; };
+        ico.replaceWith(im); im.id = 'notifIco';
+      }
+      const link = document.getElementById('notifLink');
+      if (n.link) { link.href = n.link; link.style.display = 'inline-block'; }
+      else { link.style.display = 'none'; }
+
+      setTimeout(() => toast.classList.add('show'), 600);
+
+      // Notificación nativa del sistema (si el usuario ya dio permiso)
+      try {
+        if ('Notification' in window && Notification.permission === 'granted') {
+          if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+            navigator.serviceWorker.ready.then(reg => {
+              reg.showNotification(n.title, { body: n.body || '', icon: n.icon || 'icon-192.png', badge: 'icon-192.png', data: { url: n.link || location.href } });
+            }).catch(() => {});
+          } else {
+            new Notification(n.title, { body: n.body || '', icon: n.icon || 'icon-192.png' });
+          }
+        }
+      } catch (_) {}
+
+      function dismiss() {
+        toast.classList.remove('show');
+        try { seen.push(id); localStorage.setItem(NOTIF_SEEN_KEY, JSON.stringify(seen.slice(-50))); } catch (_) {}
+      }
+      document.getElementById('notifClose').onclick = dismiss;
+    }
+
+    // --- DEEP LINK a emisora compartida (FIX 2) ------------------------
+    function openSharedStation() {
+      const params = new URLSearchParams(location.search);
+      const slug = params.get('station') || (location.hash.startsWith('#station=') ? location.hash.slice(9) : '');
+      if (!slug) return false;
+      const i = (data.stations || []).findIndex(s => slugify(s.name) === slug);
+      if (i === -1) return false;
+      play(i);
+      openFullPlayer();
+      return true;
+    }
+
     // --- INIT -----------------------------------------------------------
     async function init() {
       try {
-        const loaded = await loadData();
-        data = normalizeData(loaded);
+        data = normalizeData(await loadData());
         applyTheme(data.theme);
         applySite(data.site);
         renderBanners();
         loadGrid();
+        openSharedStation();
+        showNotification(data.notification);
       } catch (e) {
         console.error('Error cargando datos:', e);
         document.getElementById('radioGrid').innerHTML =
@@ -808,8 +900,13 @@
       await deferredPrompt.userChoice;
       deferredPrompt = null;
       installBtn.classList.remove('show');
+      // Pide permiso de notificaciones tras instalar (para futuras notificaciones nativas)
+      try { if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission(); } catch (_) {}
     });
-    window.addEventListener('appinstalled', () => installBtn.classList.remove('show'));
+    window.addEventListener('appinstalled', () => {
+      installBtn.classList.remove('show');
+      try { if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission(); } catch (_) {}
+    });
 
     init();
   </script>
