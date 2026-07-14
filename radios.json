@@ -31,6 +31,15 @@
   ],
   "stations": [
     {
+      "name": "SPLENDOR  DISCO ",
+      "url": "https://miestacion.turadioonline.com.ar:8342/stream",
+      "img": "https://i.postimg.cc/bNNwX8jQ/LOGO-SPLENDOR-DISCO.png",
+      "genre": "",
+      "country": "Py ",
+      "city": "Guajayvi ",
+      "socials": {}
+    },
+    {
       "name": "FERNANDO DE LA MORA",
       "url": "https://www.desde-paraguay.com/movfernando/movfernando.stream/playlist.m3u8",
       "img": "https://i.ibb.co/C5KSwVY5/fernando-de-la-mora.webp",
