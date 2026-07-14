@@ -32,6 +32,9 @@
   <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- HLS.js: soporte de streams .m3u8 en Android/Chrome/Firefox (iOS Safari lo reproduce nativo) -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+
   <style>
     :root {
       --primary: #6200ea;
@@ -68,8 +71,8 @@
     .radio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
     .radio-card { background: #fff; border-radius: 12px; padding: 6px; border: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; height: 165px; overflow: hidden; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; }
     .radio-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
-    .img-wrapper { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; margin-bottom: 5px; background: #f9f9f9; position: relative; }
-    .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .img-wrapper { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; margin-bottom: 5px; background: transparent; position: relative; }
+    .img-wrapper img { width: 100%; height: 100%; object-fit: contain; }
     .radio-card h4 { font-size: 0.7rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; color: var(--text-dark); }
     .radio-card .meta { font-size: 0.6rem; color: #777; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
     .radio-card.active { border: 2px solid var(--primary); background: var(--light); }
@@ -87,9 +90,21 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
     .track-info { display: flex; align-items: center; gap: 12px; overflow: hidden; min-width: 0; cursor: pointer; }
-    .track-info img { width: 55px; height: 55px; border-radius: 8px; border: 2px solid var(--primary); object-fit: cover; flex-shrink: 0; background:#111; }
+    .track-info img { width: 55px; height: 55px; border-radius: 8px; border: 2px solid var(--primary); object-fit: contain; flex-shrink: 0; background: transparent; transform-origin: center; }
     .track-info b { font-size: 0.85rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--player-text); }
     .track-info span { font-size: 0.7rem; color: rgba(255,255,255,0.7); }
+
+    /* Latido de los logos del player cuando está reproduciendo */
+    @keyframes mrHeartbeat {
+      0%   { transform: scale(1); }
+      14%  { transform: scale(1.14); }
+      28%  { transform: scale(1); }
+      42%  { transform: scale(1.10); }
+      70%  { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+    .track-info img.beating,
+    .fp-art.beating { animation: mrHeartbeat 1.3s ease-in-out infinite; }
 
     .controls { display: flex; justify-content: center; gap: 20px; align-items: center; }
     .btn-nav { background: none; border: none; color: var(--player-text); font-size: 1.4rem; cursor: pointer; transition: color 0.2s; }
@@ -209,7 +224,7 @@
     .fp-icon-btn:hover { opacity: 1; }
 
     .fp-art-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; }
-    .fp-art { width: min(70vw, 340px); aspect-ratio: 1/1; border-radius: 14px; object-fit: cover; box-shadow: 0 25px 60px rgba(0,0,0,0.55); background:#000; }
+    .fp-art { width: min(70vw, 340px); aspect-ratio: 1/1; border-radius: 14px; object-fit: contain; box-shadow: 0 25px 60px rgba(0,0,0,0.55); background: transparent; transform-origin: center; }
 
     .fp-meta { margin-top: 6px; }
     .fp-meta h2 { font-size: 1.5rem; font-weight: 800; line-height: 1.15; }
@@ -531,13 +546,16 @@
         card.onclick = () => { play(i); openFullPlayer(); };
         card.innerHTML = `
           <div class="img-wrapper">
-            <img src="${s.img}" loading="lazy" alt="${escapeHtml(s.name)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
+            <img src="${s.img}" loading="lazy" alt="${escapeHtml(s.name)}" data-orig-url="${escapeHtml(s.img)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
             ${s.country ? `<span class="country-badge">${escapeHtml(s.country)}</span>` : ''}
           </div>
           <h4>${escapeHtml(s.name)}</h4>
           ${s.city ? `<div class="meta">${escapeHtml(s.city)}</div>` : ''}
         `;
         grid.appendChild(card);
+        // Elimina el fondo negro del PNG si aplica (async, no bloquea)
+        const cardImg = card.querySelector('.img-wrapper img');
+        applyTransparentBg(cardImg, s.img);
       });
       if (count === 0) {
         grid.innerHTML = `<div class="empty-state"><i class="fas fa-radio" style="font-size:2rem;opacity:.4;"></i><p style="margin-top:10px;">No hay emisoras${term ? ' que coincidan con "'+escapeHtml(term)+'"' : ''}.</p></div>`;
@@ -621,7 +639,9 @@
       const art = document.getElementById('fpArt');
       // FIX 5: portada SIEMPRE visible (sin crossorigin) + fallback si la URL falla
       art.onerror = function () { this.onerror = null; this.src = PLACEHOLDER; };
+      art.dataset.origUrl = s.img || PLACEHOLDER;
       art.src = s.img || PLACEHOLDER;
+      applyTransparentBg(art, s.img);
       document.getElementById('fpName').innerText = s.name;
       document.getElementById('fpGenre').innerText = [s.city, s.country, s.genre].filter(Boolean).join(' · ') || 'En directo';
       document.getElementById('fpCountry').innerText = s.country || (data.site.footerText || 'MultiRadios');
@@ -639,12 +659,104 @@
       document.getElementById('fullPlayer').classList.remove('open');
     }
 
+    // --- QUITAR FONDO NEGRO DE LOGOS PNG (transparencia automática) -----
+    // Procesa la imagen con canvas y convierte los pixeles casi-negros
+    // en transparentes. Cachea el resultado en memoria por URL.
+    const _bgClearCache = new Map(); // originalUrl -> dataUrl (o null si falla)
+    function stripBlackBackground(url) {
+      return new Promise((resolve) => {
+        if (!url) return resolve(null);
+        if (_bgClearCache.has(url)) return resolve(_bgClearCache.get(url));
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          try {
+            const w = img.naturalWidth, h = img.naturalHeight;
+            if (!w || !h) { _bgClearCache.set(url, null); return resolve(null); }
+            const c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            const ctx = c.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            let imgData;
+            try { imgData = ctx.getImageData(0, 0, w, h); }
+            catch(_) { _bgClearCache.set(url, null); return resolve(null); }
+            const d = imgData.data;
+            // Muestra las 4 esquinas para decidir si el fondo es realmente negro
+            const cornerIdx = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + (w-1))*4];
+            let dark = 0;
+            for (const ci of cornerIdx) {
+              if (d[ci] < 25 && d[ci+1] < 25 && d[ci+2] < 25 && d[ci+3] > 200) dark++;
+            }
+            // Solo procesamos si al menos 3 de 4 esquinas son negras
+            if (dark < 3) { _bgClearCache.set(url, null); return resolve(null); }
+            const TH_FULL = 30;   // <= totalmente transparente
+            const TH_SOFT = 70;   // <= transparencia gradual
+            for (let i = 0; i < d.length; i += 4) {
+              const r = d[i], g = d[i+1], b = d[i+2];
+              const mx = Math.max(r, g, b);
+              if (mx <= TH_FULL) { d[i+3] = 0; }
+              else if (mx <= TH_SOFT) {
+                // interpolación suave para bordes anti-aliased
+                const t = (mx - TH_FULL) / (TH_SOFT - TH_FULL);
+                d[i+3] = Math.round(d[i+3] * t);
+              }
+            }
+            ctx.putImageData(imgData, 0, 0);
+            const dataUrl = c.toDataURL('image/png');
+            _bgClearCache.set(url, dataUrl);
+            resolve(dataUrl);
+          } catch (e) {
+            _bgClearCache.set(url, null);
+            resolve(null);
+          }
+        };
+        img.onerror = () => { _bgClearCache.set(url, null); resolve(null); };
+        img.src = url;
+      });
+    }
+
+    // Aplica la limpieza a un <img> del DOM (si funciona, sustituye su src)
+    function applyTransparentBg(imgEl, url) {
+      if (!imgEl || !url) return;
+      stripBlackBackground(url).then(dataUrl => {
+        // Si sigue apuntando a la misma URL original, aplicamos el data URL
+        if (dataUrl && imgEl.dataset.origUrl === url) {
+          imgEl.src = dataUrl;
+        }
+      });
+    }
+
     // --- PLAYER ---------------------------------------------------------
     function syncPlayIcons() {
-      const playing = !audio.paused && audio.src;
+      const playing = !audio.paused && !!audio.src;
       const html = playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
       document.getElementById('pPlay').innerHTML = html;
       document.getElementById('fpPlay').innerHTML = html;
+      // Latido en los logos SOLO cuando está reproduciendo realmente
+      const barImg = document.getElementById('pImg');
+      const fpArt  = document.getElementById('fpArt');
+      barImg.classList.toggle('beating', playing);
+      fpArt.classList.toggle('beating',  playing);
+    }
+
+    // --- HLS (M3U8) para Android/Chrome/Firefox --------------------------
+    let hlsInstance = null;
+    function destroyHls() {
+      if (hlsInstance) {
+        try { hlsInstance.destroy(); } catch(_) {}
+        hlsInstance = null;
+      }
+    }
+    function isHlsUrl(u) {
+      try {
+        const clean = String(u).split('?')[0].toLowerCase();
+        return clean.endsWith('.m3u8') || clean.includes('.m3u8');
+      } catch(_) { return false; }
+    }
+    function nativeHlsSupported() {
+      // iOS Safari + macOS Safari
+      return audio.canPlayType('application/vnd.apple.mpegurl') !== ''
+          || audio.canPlayType('application/x-mpegURL') !== '';
     }
 
     function buildStreamUrl(station) {
@@ -652,11 +764,16 @@
       if (station.proxy && PROXY_BASE) {
         src = PROXY_BASE.replace(/\/$/, '') + '/stream?url=' + encodeURIComponent(src);
       }
-      const sep = src.includes('?') ? '&' : '?';
-      return src + sep + '_cb=' + Date.now();
+      // Cache-buster (excepto en HLS, que necesita URL estable para segmentos)
+      if (!isHlsUrl(src)) {
+        const sep = src.includes('?') ? '&' : '?';
+        src = src + sep + '_cb=' + Date.now();
+      }
+      return src;
     }
 
     function stopStream() {
+      destroyHls();
       try { audio.pause(); } catch(_){}
       audio.removeAttribute('src');
       audio.src = '';
@@ -665,7 +782,46 @@
 
     function startStream(s) {
       userPaused = false;
-      audio.src = buildStreamUrl(s);
+      destroyHls();
+      const url = buildStreamUrl(s);
+
+      // Caso HLS (.m3u8)
+      if (isHlsUrl(url)) {
+        if (nativeHlsSupported()) {
+          // iOS Safari reproduce HLS de forma nativa
+          audio.src = url;
+          audio.load();
+          audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
+          return;
+        }
+        if (window.Hls && window.Hls.isSupported()) {
+          hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: false, backBufferLength: 30 });
+          hlsInstance.loadSource(url);
+          hlsInstance.attachMedia(audio);
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+            audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
+          });
+          hlsInstance.on(Hls.Events.ERROR, (event, dataErr) => {
+            if (dataErr && dataErr.fatal) {
+              console.warn('HLS fatal error', dataErr);
+              switch (dataErr.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR: hlsInstance.startLoad(); break;
+                case Hls.ErrorTypes.MEDIA_ERROR:   hlsInstance.recoverMediaError(); break;
+                default: destroyHls();
+              }
+            }
+          });
+          return;
+        }
+        // Fallback: navegador sin soporte HLS -> intentar de todas formas
+        audio.src = url;
+        audio.load();
+        audio.play().catch(e => console.log('HLS no soportado por este navegador.'));
+        return;
+      }
+
+      // Stream normal (MP3/AAC/OGG/ICY, etc.)
+      audio.src = url;
       audio.load();
       audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
     }
@@ -679,7 +835,9 @@
 
       const barImg = document.getElementById('pImg');
       barImg.onerror = function () { this.onerror = null; this.src = PLACEHOLDER; };
+      barImg.dataset.origUrl = s.img || PLACEHOLDER;
       barImg.src = s.img || PLACEHOLDER;
+      applyTransparentBg(barImg, s.img);
       document.getElementById('pTitle').innerText = s.name;
       document.getElementById('pGenre').innerText = [s.city, s.country, s.genre].filter(Boolean).join(' · ') || 'En vivo';
       loadGrid(document.getElementById('searchInput').value);
@@ -732,10 +890,8 @@
       if (!s) return;
       console.warn('Audio error, reintentando...', e);
       setTimeout(() => {
-        if (userPaused || !audio.src) return;
-        audio.src = buildStreamUrl(s);
-        audio.load();
-        audio.play().catch(err => console.log('retry blocked', err));
+        if (userPaused) return;
+        startStream(s);
       }, 800);
     });
 
