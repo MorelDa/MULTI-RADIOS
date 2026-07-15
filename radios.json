@@ -6,17 +6,23 @@
     "logoImage": "",
     "favicon": "",
     "ogImage": "og-image.jpg",
-    "footerText": "MultiRadios.es"
+    "footerText": "MultiRadios.es",
+    "whatsapp": "34604875068",
+    "whatsappLabel": "Agrega tu radio",
+    "whatsappText": "¡Hola! Quiero agregar mi radio a MultiRadios 📻"
   },
   "theme": {
-    "font": "Plus Jakarta Sans",
-    "preset": "Violeta",
-    "primary": "#6200ea",
-    "light": "#f3e5f5",
-    "textDark": "#311b92",
-    "border": "#e1bee7",
-    "background": "#ffffff",
-    "playerBg": "#000000",
+    "font": "Sora",
+    "preset": "Violeta Nocturno",
+    "primary": "#8B5CF6",
+    "accent": "#A78BFA",
+    "light": "#1C1B26",
+    "surface": "#16151E",
+    "textDark": "#F4F3FA",
+    "textMuted": "#A9A6B8",
+    "border": "#2A2833",
+    "background": "#0B0A0F",
+    "playerBg": "#100F16",
     "playerText": "#ffffff"
   },
   "banners": [

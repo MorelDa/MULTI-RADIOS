@@ -1,5 +1,5 @@
-// MultiRadios Service Worker - PWA
-const CACHE_NAME = 'multiradios-v1.4.0';
+// MultiRadios Service Worker - PWA (Spotube Edition)
+const CACHE_NAME = 'multiradios-v2.0.0';
 const ASSETS = [
   './',
   './index.html',
@@ -8,7 +8,7 @@ const ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap',
+  'https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 
@@ -38,8 +38,16 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Nunca cachear los streams de audio (radio en vivo) ni el endpoint de compartir
-  if (req.destination === 'audio' || url.pathname.includes('/stream') || url.pathname.includes('/live') || url.pathname.includes('/api/share')) {
+  // Nunca cachear streams de audio en vivo, segmentos HLS ni el endpoint de compartir
+  if (
+    req.destination === 'audio' ||
+    url.pathname.endsWith('.m3u8') ||
+    url.pathname.endsWith('.ts') ||
+    url.pathname.endsWith('.aac') ||
+    url.pathname.includes('/stream') ||
+    url.pathname.includes('/live') ||
+    url.pathname.includes('/api/share')
+  ) {
     return;
   }
 
@@ -76,7 +84,6 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Al pulsar una notificación del sistema, abre/enfoca la app
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const target = (event.notification.data && event.notification.data.url) || './index.html';
@@ -88,7 +95,6 @@ self.addEventListener('notificationclick', (event) => {
   );
 });
 
-// Soporte opcional de Web Push (si en el futuro se configura un servidor con VAPID)
 self.addEventListener('push', (event) => {
   let payload = { title: 'MultiRadios', body: 'Tienes una novedad', icon: 'icon-192.png' };
   try { if (event.data) payload = Object.assign(payload, event.data.json()); } catch (_) {}

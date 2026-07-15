@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>MultiRadios.es | Premium Black Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>MultiRadios.es | Spotube Edition</title>
 
-  <meta name="description" content="Escucha en vivo las mejores radios online. Reproductor premium con múltiples emisoras de España, Paraguay, Argentina y más.">
+  <meta name="description" content="Escucha en vivo las mejores radios online. Reproductor premium estilo Spotube con emisoras de España, Paraguay, Argentina y más.">
 
-  <!-- Open Graph / redes sociales (por defecto; el server de /api/share los personaliza por emisora) -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MultiRadios.es">
   <meta property="og:title" content="MultiRadios.es | Escucha radios en vivo">
@@ -15,7 +15,7 @@
   <meta property="og:image" content="icon-512.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <meta name="theme-color" content="#6200ea" id="metaThemeColor">
+  <meta name="theme-color" content="#0B0A0F" id="metaThemeColor">
   <link rel="icon" type="image/png" href="favicon.png" id="faviconLink">
 
   <!-- PWA -->
@@ -29,1041 +29,1158 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- HLS.js: soporte de streams .m3u8 en Android/Chrome/Firefox (iOS Safari lo reproduce nativo) -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+  <!-- HLS.js: soporte de streams .m3u8 -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
 
   <style>
     :root {
-      --primary: #6200ea;
-      --light: #f3e5f5;
-      --text-dark: #311b92;
-      --border: #e1bee7;
-      --bg: #ffffff;
-      --player-bg: #000000;
-      --player-text: #ffffff;
-      --font: 'Plus Jakarta Sans', sans-serif;
+      --primary: #8B5CF6;
+      --primary-strong: #7C3AED;
+      --accent: #A78BFA;
+      --bg: #0B0A0F;
+      --sidebar: #0E0D13;
+      --surface: #16151E;
+      --surface-2: #1C1B26;
+      --elev: #232130;
+      --text: #F4F3FA;
+      --muted: #A9A6B8;
+      --border: rgba(255,255,255,0.07);
+      --player-bg: #100F16;
+      --font: 'Sora', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      --radius: 14px;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
-    body { background-color: var(--bg); color: var(--text-dark); padding-bottom: 115px; min-height: 100vh; }
-
-    header { padding: 15px 5% 5px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .logo-img { height: 42px; width: auto; max-width: 200px; object-fit: contain; display: none; }
-    .logo { font-weight: 800; font-size: 1.6rem; text-transform: uppercase; color: var(--primary); }
-    .logo span { color: #fff; background: var(--primary); padding: 2px 8px; border-radius: 6px; }
-
-    /* Buscador */
-    .search-section { padding: 15px 5%; display: flex; justify-content: center; }
-    .search-container { width: 100%; max-width: 500px; position: relative; }
-    .search-container input { width: 100%; background: var(--light); border: 2px solid transparent; padding: 12px 15px 12px 45px; border-radius: 15px; color: var(--text-dark); font-size: 1rem; transition: 0.3s; }
-    .search-container input:focus { background: #fff; border-color: var(--primary); outline: none; }
-    .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); }
-
-    /* Carrusel publicitario */
-    .banner-container { width: 92%; max-width: 800px; margin: 0 auto 20px; height: 120px; border-radius: 15px; overflow: hidden; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: #f0f0f0; display: none; }
-    .banner-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; cursor: pointer; }
-    .banner-slide.active { opacity: 1; z-index: 1; }
-
-    /* Grid */
-    .content-section { padding: 0 3%; }
-    .radio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
-    .radio-card { background: #fff; border-radius: 12px; padding: 6px; border: 1px solid var(--border); text-align: center; display: flex; flex-direction: column; height: 165px; overflow: hidden; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; }
-    .radio-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
-    .img-wrapper { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; margin-bottom: 5px; background: transparent; position: relative; }
-    .img-wrapper img { width: 100%; height: 100%; object-fit: contain; }
-    .radio-card h4 { font-size: 0.7rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; color: var(--text-dark); }
-    .radio-card .meta { font-size: 0.6rem; color: #777; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
-    .radio-card.active { border: 2px solid var(--primary); background: var(--light); }
-    .country-badge { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.65); color: #fff; font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; font-weight: 700; }
-
-    .empty-state { text-align: center; padding: 40px 20px; color: #888; grid-column: 1 / -1; }
-
-    /* Reproductor de barra (pie) */
-    .player-bar {
-      position: fixed; bottom: 0; left: 0; right: 0; height: 95px;
-      background: var(--player-bg);
-      border-top: 2px solid var(--primary);
-      display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center;
-      padding: 0 5%; z-index: 9999; box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
-      padding-bottom: env(safe-area-inset-bottom);
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body);
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    .track-info { display: flex; align-items: center; gap: 12px; overflow: hidden; min-width: 0; cursor: pointer; }
-    .track-info img { width: 55px; height: 55px; border-radius: 8px; border: 2px solid var(--primary); object-fit: contain; flex-shrink: 0; background: transparent; transform-origin: center; }
-    .track-info b { font-size: 0.85rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--player-text); }
-    .track-info span { font-size: 0.7rem; color: rgba(255,255,255,0.7); }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #2a2833; border-radius: 20px; border: 2px solid var(--bg); }
+    ::-webkit-scrollbar-thumb:hover { background: #3a3746; }
+    ::selection { background: var(--primary); color: #fff; }
+    a { color: inherit; text-decoration: none; }
+    h1,h2,h3,h4 { font-family: var(--font); }
 
-    /* Latido de los logos del player cuando está reproduciendo */
-    @keyframes mrHeartbeat {
-      0%   { transform: scale(1); }
-      14%  { transform: scale(1.14); }
-      28%  { transform: scale(1); }
-      42%  { transform: scale(1.10); }
-      70%  { transform: scale(1); }
-      100% { transform: scale(1); }
-    }
-    .track-info img.beating,
-    .fp-art.beating { animation: mrHeartbeat 1.3s ease-in-out infinite; }
-
-    .controls { display: flex; justify-content: center; gap: 20px; align-items: center; }
-    .btn-nav { background: none; border: none; color: var(--player-text); font-size: 1.4rem; cursor: pointer; transition: color 0.2s; }
-    .btn-nav:hover { color: var(--primary); }
-    .p-play { width: 52px; height: 52px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; box-shadow: 0 4px 10px rgba(98, 0, 234, 0.3); border: none; }
-
-    .vol-cont { display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
-    .vol-cont i { color: var(--player-text); }
-    #vol { accent-color: var(--primary); cursor: pointer; width: 110px; }
-
-    /* PWA Install Button */
-    .pwa-install {
-      position: fixed; top: 12px; right: 12px; z-index: 100;
-      background: var(--primary); color: #fff; border: none;
-      padding: 8px 14px; border-radius: 20px; cursor: pointer;
-      font-size: 0.8rem; font-weight: 700; display: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      align-items: center; gap: 6px;
-    }
-    .pwa-install.show { display: inline-flex; }
-    .pwa-install:hover { transform: translateY(-1px); }
-
-    /* Llave discreta de acceso al panel */
-    .admin-key {
-      position: fixed; top: 10px; left: 10px; z-index: 100;
-      width: 26px; height: 26px; border: none; cursor: pointer;
-      background: transparent; color: currentColor;
-      opacity: 0.12; transition: opacity 0.25s, transform 0.25s;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; padding: 0;
-    }
-    .admin-key:hover { opacity: 0.85; transform: rotate(-15deg); }
-
-    /* Botón flotante de WhatsApp */
-    .wa-fab {
-      position: fixed; right: 16px; bottom: 108px; z-index: 500;
-      display: inline-flex; align-items: center; gap: 0;
-      height: 52px; padding: 0; border-radius: 30px;
-      background: #25D366; color: #fff; text-decoration: none;
-      box-shadow: 0 6px 18px rgba(37,211,102,0.45);
-      overflow: hidden; transition: padding 0.3s ease, box-shadow 0.2s ease;
-    }
-    .wa-fab i { font-size: 1.7rem; width: 52px; min-width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
-    .wa-fab-label { max-width: 0; opacity: 0; white-space: nowrap; font-weight: 700; font-size: 0.85rem; transition: max-width 0.35s ease, opacity 0.25s ease, padding 0.35s ease; padding: 0; }
-    .wa-fab:hover { padding-right: 16px; box-shadow: 0 8px 24px rgba(37,211,102,0.6); }
-    .wa-fab:hover .wa-fab-label { max-width: 160px; opacity: 1; padding-right: 4px; }
-    @media (max-width: 600px) {
-      .wa-fab { right: 14px; bottom: 104px; height: 48px; }
-      .wa-fab i { width: 48px; min-width: 48px; height: 48px; font-size: 1.55rem; }
+    /* ---------- APP SHELL ---------- */
+    .app {
+      display: grid;
+      grid-template-columns: 248px 1fr;
+      grid-template-rows: 1fr;
+      height: 100vh;
+      height: 100dvh;
+      padding-bottom: 96px; /* player bar */
+      gap: 8px;
+      padding: 8px 8px calc(96px + 8px);
     }
 
-    /* ---- Notificación in-app (profesional) ---- */
-    .notif-toast {
-      position: fixed; left: 50%; top: 14px; transform: translate(-50%, -160%);
-      z-index: 100001; width: calc(100% - 28px); max-width: 440px;
-      background: #16161d; color: #fff; border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px; box-shadow: 0 18px 50px rgba(0,0,0,0.55);
-      padding: 14px 14px 14px 16px; display: flex; gap: 13px; align-items: flex-start;
-      transition: transform 0.45s cubic-bezier(.2,.9,.25,1);
-      border-left: 4px solid var(--primary);
-    }
-    .notif-toast.show { transform: translate(-50%, 0); }
-    .notif-toast .n-ico { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; flex-shrink: 0; background: var(--primary); display: flex; align-items: center; justify-content: center; color:#fff; font-size:1.2rem; }
-    .notif-toast .n-body { flex: 1; min-width: 0; }
-    .notif-toast .n-tag { font-size: 0.6rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--primary); font-weight: 800; }
-    .notif-toast .n-title { font-size: 0.98rem; font-weight: 800; margin-top: 2px; }
-    .notif-toast .n-text { font-size: 0.82rem; opacity: 0.82; margin-top: 3px; line-height: 1.35; }
-    .notif-toast .n-link { display: inline-block; margin-top: 9px; font-size: 0.8rem; font-weight: 700; color: #fff; background: var(--primary); padding: 7px 13px; border-radius: 9px; text-decoration: none; }
-    .notif-toast .n-close { background: none; border: none; color: rgba(255,255,255,0.55); font-size: 1rem; cursor: pointer; padding: 2px 4px; }
-    .notif-toast .n-close:hover { color: #fff; }
-
-    /* ---- Modal contraseña ---- */
-    .pw-overlay {
-      position: fixed; inset: 0; z-index: 100000; display: none;
-      align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
-    }
-    .pw-overlay.show { display: flex; }
-    .pw-box {
-      background: #15151b; color: #fff; width: 90%; max-width: 320px;
-      border-radius: 18px; padding: 26px 22px; text-align: center;
-      border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    }
-    .pw-box .pw-icon { font-size: 1.8rem; color: #f5c518; margin-bottom: 8px; }
-    .pw-box h3 { font-size: 1.05rem; margin-bottom: 4px; }
-    .pw-box p { font-size: 0.78rem; opacity: 0.6; margin-bottom: 16px; }
-    .pw-box input {
-      width: 100%; text-align: center; letter-spacing: 8px; font-size: 1.3rem;
-      padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15);
-      background: #0d0d12; color: #fff; outline: none;
-    }
-    .pw-box input:focus { border-color: #f5c518; }
-    .pw-error { color: #ff5252; font-size: 0.75rem; height: 16px; margin-top: 8px; }
-    .pw-actions { display: flex; gap: 10px; margin-top: 14px; }
-    .pw-actions button { flex: 1; border: none; padding: 11px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 0.85rem; }
-    .pw-cancel { background: rgba(255,255,255,0.08); color: #fff; }
-    .pw-ok { background: #f5c518; color: #111; }
-
-    /* ---- Reproductor individual estilo Spotify ---- */
-    .full-player {
-      position: fixed; inset: 0; z-index: 99999;
-      background: #121212; color: #fff;
+    /* ---------- SIDEBAR ---------- */
+    .sidebar {
+      background: var(--sidebar);
+      border-radius: 18px;
       display: flex; flex-direction: column;
-      transform: translateY(100%); transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
-      padding: env(safe-area-inset-top) 24px calc(28px + env(safe-area-inset-bottom));
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      padding: 22px 20px 18px;
+    }
+    .brand .mark {
+      width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
+      background: linear-gradient(145deg, var(--primary), var(--primary-strong));
+      display: grid; place-items: center; color: #fff; font-size: 1.15rem;
+      box-shadow: 0 6px 18px rgba(124,58,237,.45);
+    }
+    .brand .logo { font-family: var(--font); font-weight: 800; font-size: 1.15rem; letter-spacing: -.5px; line-height: 1; }
+    .brand .logo span { color: var(--accent); }
+    .brand .logo-img { height: 34px; max-width: 150px; object-fit: contain; display: none; }
+
+    .nav { padding: 6px 12px; display: flex; flex-direction: column; gap: 3px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 15px;
+      padding: 12px 14px; border-radius: 11px; cursor: pointer;
+      color: var(--muted); font-weight: 600; font-size: .95rem;
+      transition: background .18s, color .18s;
+      border: none; background: none; text-align: left; width: 100%;
+    }
+    .nav-item i { font-size: 1.15rem; width: 22px; text-align: center; }
+    .nav-item:hover { color: var(--text); background: rgba(255,255,255,.04); }
+    .nav-item.active { color: #fff; background: rgba(139,92,246,.16); }
+    .nav-item.active i { color: var(--accent); }
+
+    .side-scroll { flex: 1; overflow-y: auto; padding: 8px 12px 12px; }
+    .side-label {
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .12em;
+      color: var(--muted); font-weight: 700; padding: 14px 14px 8px; opacity: .7;
+    }
+    .country-list { display: flex; flex-direction: column; gap: 2px; }
+    .country-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 14px; border-radius: 9px; cursor: pointer;
+      background: none; border: none; color: var(--muted);
+      font-family: var(--font-body); font-weight: 600; font-size: .88rem; width: 100%; text-align: left;
+      transition: background .15s, color .15s;
+    }
+    .country-btn:hover { color: var(--text); background: rgba(255,255,255,.04); }
+    .country-btn.active { color: var(--accent); background: rgba(139,92,246,.12); }
+    .country-btn .cnt { font-size: .74rem; background: rgba(255,255,255,.07); padding: 1px 8px; border-radius: 20px; font-weight: 700; }
+
+    .side-foot { padding: 12px; border-top: 1px solid var(--border); }
+    .side-foot .side-btn {
+      width: 100%; display: flex; align-items: center; gap: 12px; justify-content: center;
+      padding: 11px; border-radius: 11px; border: 1px solid var(--border);
+      background: rgba(255,255,255,.03); color: var(--text); cursor: pointer;
+      font-family: var(--font-body); font-weight: 600; font-size: .85rem; margin-bottom: 8px;
+      transition: background .18s, transform .1s;
+    }
+    .side-foot .side-btn:hover { background: rgba(255,255,255,.07); }
+    .side-foot .side-btn:active { transform: scale(.98); }
+    .side-foot .side-btn.install { display: none; background: linear-gradient(145deg,var(--primary),var(--primary-strong)); border: none; box-shadow: 0 6px 16px rgba(124,58,237,.4); }
+    .side-foot .side-btn.install.show { display: flex; }
+
+    /* ---------- MAIN ---------- */
+    .main {
+      background: linear-gradient(180deg, #14121c 0%, var(--surface) 220px, var(--surface) 100%);
+      border-radius: 18px; overflow: hidden;
+      display: flex; flex-direction: column; position: relative;
+      border: 1px solid var(--border);
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 26px;
+      background: rgba(14,13,19,.55); backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .topbar .mobile-brand { display: none; align-items: center; gap: 10px; }
+    .topbar .mobile-brand .mark { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(145deg,var(--primary),var(--primary-strong)); display: grid; place-items: center; color:#fff; }
+    .search-box {
+      flex: 1; max-width: 460px; position: relative;
+    }
+    .search-box input {
+      width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+      padding: 13px 16px 13px 46px; border-radius: 30px; color: var(--text);
+      font-family: var(--font-body); font-size: .95rem; transition: border-color .2s, background .2s;
+    }
+    .search-box input::placeholder { color: var(--muted); }
+    .search-box input:focus { outline: none; border-color: var(--primary); background: #211f2c; }
+    .search-box i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    .topbar-spacer { flex: 1; }
+    .icon-btn {
+      width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text); cursor: pointer; display: grid; place-items: center;
+      font-size: 1rem; transition: background .18s, transform .1s;
+    }
+    .icon-btn:hover { background: var(--elev); }
+    .icon-btn:active { transform: scale(.94); }
+
+    .content { flex: 1; overflow-y: auto; padding: 8px 26px 30px; }
+
+    /* banners */
+    .banner-container {
+      width: 100%; height: 190px; border-radius: 16px; overflow: hidden;
+      position: relative; margin: 8px 0 26px; display: none;
+      box-shadow: 0 12px 34px rgba(0,0,0,.4);
+    }
+    .banner-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s ease; cursor: pointer; }
+    .banner-slide.active { opacity: 1; z-index: 1; }
+    .banner-dots { position: absolute; bottom: 12px; left: 0; right: 0; z-index: 3; display: flex; justify-content: center; gap: 7px; }
+    .banner-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.4); transition: all .3s; }
+    .banner-dots span.on { background: #fff; width: 22px; border-radius: 6px; }
+
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; margin: 22px 0 16px; }
+    .section-head h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.6px; }
+    .section-head .sub { color: var(--muted); font-size: .85rem; margin-top: 3px; }
+
+    .chips { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 22px; }
+    .chip {
+      padding: 8px 16px; border-radius: 30px; background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; font-weight: 600; font-size: .84rem; transition: all .18s;
+      font-family: var(--font-body);
+    }
+    .chip:hover { color: var(--text); }
+    .chip.active { background: #fff; color: #0B0A0F; border-color: #fff; }
+
+    /* grid */
+    .radio-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 16px;
+    }
+    .radio-card {
+      background: var(--surface-2); border-radius: var(--radius); padding: 14px;
+      cursor: pointer; transition: background .2s, transform .15s; position: relative;
+      border: 1px solid transparent;
+    }
+    .radio-card:hover { background: var(--elev); }
+    .radio-card.active { border-color: var(--primary); background: rgba(139,92,246,.1); }
+    .card-art {
+      width: 100%; aspect-ratio: 1/1; border-radius: 10px; overflow: hidden;
+      background: linear-gradient(160deg,#1a1922,#0f0e15); position: relative; margin-bottom: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.35);
+    }
+    .card-art img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+    .card-country {
+      position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,.6);
+      backdrop-filter: blur(6px); color: #fff; font-size: .64rem; font-weight: 700;
+      padding: 3px 8px; border-radius: 20px; letter-spacing: .04em;
+    }
+    .card-fav {
+      position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; border-radius: 50%;
+      border: none; background: rgba(0,0,0,.5); backdrop-filter: blur(6px); color: #fff;
+      display: grid; place-items: center; cursor: pointer; opacity: 0; transform: scale(.8);
+      transition: opacity .18s, transform .18s, color .18s; font-size: .82rem; z-index: 2;
+    }
+    .radio-card:hover .card-fav { opacity: 1; transform: scale(1); }
+    .card-fav.on { opacity: 1; transform: scale(1); color: #ff5da2; }
+    .card-fav:hover { background: rgba(0,0,0,.75); }
+    .card-play {
+      position: absolute; bottom: 8px; right: 8px; width: 46px; height: 46px; border-radius: 50%;
+      background: var(--primary); color: #fff; display: grid; place-items: center; font-size: 1rem;
+      box-shadow: 0 8px 18px rgba(124,58,237,.5); opacity: 0; transform: translateY(8px);
+      transition: opacity .22s, transform .22s, background .18s; z-index: 2; border: none; cursor: pointer;
+    }
+    .radio-card:hover .card-play { opacity: 1; transform: translateY(0); }
+    .card-play:hover { background: var(--accent); }
+    .radio-card.active .card-play { opacity: 1; transform: translateY(0); }
+    .card-title { font-size: .92rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font); }
+    .card-meta { font-size: .78rem; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .equalizer { position: absolute; bottom: 8px; left: 8px; display: none; gap: 2px; align-items: flex-end; height: 16px; z-index: 2; }
+    .radio-card.playing .equalizer { display: flex; }
+    .equalizer span { width: 3px; background: var(--accent); border-radius: 2px; animation: eq .9s ease-in-out infinite; }
+    .equalizer span:nth-child(1){ animation-delay: 0s; height: 6px; }
+    .equalizer span:nth-child(2){ animation-delay: .2s; height: 14px; }
+    .equalizer span:nth-child(3){ animation-delay: .4s; height: 9px; }
+    .equalizer span:nth-child(4){ animation-delay: .1s; height: 12px; }
+    @keyframes eq { 0%,100%{ transform: scaleY(.4); } 50%{ transform: scaleY(1); } }
+
+    .empty-state { text-align: center; padding: 70px 20px; color: var(--muted); grid-column: 1/-1; }
+    .empty-state i { font-size: 2.6rem; margin-bottom: 14px; color: var(--elev); display: block; }
+
+    /* ---------- PLAYER BAR ---------- */
+    .player-bar {
+      position: fixed; bottom: 8px; left: 8px; right: 8px; height: 88px;
+      background: var(--player-bg); border: 1px solid var(--border);
+      border-radius: 18px; z-index: 500;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+      padding: 0 22px; box-shadow: 0 -4px 30px rgba(0,0,0,.4);
+      gap: 16px;
+    }
+    .track-info { display: flex; align-items: center; gap: 14px; min-width: 0; cursor: pointer; }
+    .track-info .art { width: 58px; height: 58px; border-radius: 10px; object-fit: contain; padding: 4px; flex-shrink: 0; background: linear-gradient(160deg,#1a1922,#0f0e15); box-shadow: 0 4px 12px rgba(0,0,0,.4); transform-origin: center; }
+    .track-info .art.beating { animation: barBeat 1.6s ease-in-out infinite; }
+    @keyframes barBeat { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.08); } }
+    .track-info .txt { min-width: 0; }
+    .track-info b { display: block; font-size: .95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--font); }
+    .track-info span { font-size: .78rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+    .track-info .fav-mini { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.05rem; padding: 6px; flex-shrink: 0; transition: color .18s, transform .1s; }
+    .track-info .fav-mini.on { color: #ff5da2; }
+    .track-info .fav-mini:active { transform: scale(.85); }
+
+    .controls { display: flex; align-items: center; gap: 20px; }
+    .btn-nav { background: none; border: none; color: var(--muted); font-size: 1.15rem; cursor: pointer; transition: color .18s, transform .1s; }
+    .btn-nav:hover { color: var(--text); }
+    .btn-nav:active { transform: scale(.9); }
+    .p-play {
+      width: 52px; height: 52px; border-radius: 50%; background: #fff; color: #0B0A0F;
+      display: grid; place-items: center; font-size: 1.15rem; cursor: pointer; border: none;
+      transition: transform .12s, box-shadow .18s;
+    }
+    .p-play:hover { transform: scale(1.06); box-shadow: 0 6px 20px rgba(255,255,255,.2); }
+    .p-play:active { transform: scale(.97); }
+
+    .player-right { display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+    .player-right .icon-btn { width: 38px; height: 38px; background: transparent; border-color: transparent; color: var(--muted); }
+    .player-right .icon-btn:hover { color: var(--text); background: rgba(255,255,255,.06); }
+    .vol-cont { display: flex; align-items: center; gap: 8px; }
+    .vol-cont i { color: var(--muted); font-size: .9rem; }
+    input[type=range].vol {
+      -webkit-appearance: none; appearance: none; width: 100px; height: 5px; border-radius: 10px;
+      background: linear-gradient(90deg, var(--accent) var(--vol,70%), #35333f var(--vol,70%));
+      cursor: pointer;
+    }
+    input[type=range].vol::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.4); }
+    input[type=range].vol::-moz-range-thumb { width: 13px; height: 13px; border: none; border-radius: 50%; background: #fff; }
+
+    .live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: .68rem; font-weight: 700; color: #ff5c7a; letter-spacing: .06em; }
+    .live-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #ff5c7a; animation: pulse 1.4s infinite; }
+    @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+
+    /* ---------- MOBILE NAV ---------- */
+    .mobile-nav { display: none; }
+
+    /* ---------- FULL PLAYER ---------- */
+    .full-player {
+      position: fixed; inset: 0; z-index: 900; display: flex; flex-direction: column;
+      background: var(--bg); transform: translateY(100%); transition: transform .4s cubic-bezier(.4,0,.2,1);
       overflow: hidden;
     }
     .full-player.open { transform: translateY(0); }
-    .fp-bg { position: absolute; inset: 0; z-index: 0; transition: background 0.6s ease; background: linear-gradient(180deg,#333 0%, #121212 70%); }
-    .fp-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; max-width: 640px; width: 100%; margin: 0 auto; }
+    .fp-bg { position: absolute; inset: 0; z-index: 0; transition: background .5s ease; }
+    .fp-bg-img { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(70px) saturate(1.5) brightness(.65); transform: scale(1.4); opacity: .45; z-index: 0; transition: background-image .4s; }
+    .fp-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,10,15,.25), rgba(11,10,15,.55) 55%, rgba(11,10,15,.94)); }
+    .fp-inner { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; padding: 22px 24px calc(30px + env(safe-area-inset-bottom)); max-width: 560px; width: 100%; margin: 0 auto; }
+    .fp-top { display: flex; align-items: center; justify-content: space-between; }
+    .fp-top .lbl { font-size: .72rem; text-transform: uppercase; letter-spacing: .16em; color: var(--muted); font-weight: 700; }
+    .fp-close { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255,255,255,.06); color: #fff; cursor: pointer; font-size: 1.1rem; }
+    .fp-art-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 26px 0; min-height: 0; perspective: 1100px; }
+    .fp-art { width: min(74vw, 330px); max-height: 40vh; aspect-ratio: 1/1; border-radius: 22px; object-fit: contain; padding: 10px; box-shadow: 0 30px 70px rgba(0,0,0,.55); background: rgba(255,255,255,.04); transform-origin: center center; will-change: transform; }
+    .fp-art.beating { animation: fpDance 2.4s ease-in-out infinite; }
+    @keyframes fpDance {
+      0%   { transform: translateY(0) rotateY(0deg) rotateZ(0deg) scale(1); }
+      15%  { transform: translateY(-10px) rotateY(14deg) rotateZ(1.5deg) scale(1.035); }
+      30%  { transform: translateY(0) rotateY(0deg) rotateZ(0deg) scale(1); }
+      45%  { transform: translateY(-6px) rotateY(-14deg) rotateZ(-1.5deg) scale(1.02); }
+      60%  { transform: translateY(0) rotateY(0deg) rotateZ(0deg) scale(1); }
+      75%  { transform: translateY(-4px) rotateY(6deg) scale(1.015); }
+      100% { transform: translateY(0) rotateY(0deg) scale(1); }
+    }
+    .fp-meta { text-align: left; }
+    .fp-meta h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -.6px; line-height: 1.1; margin-bottom: 8px; }
+    .fp-meta p { color: var(--muted); font-size: .95rem; font-weight: 500; }
+    .fp-genre { color: var(--accent); font-size: .85rem; margin-top: 6px; font-weight: 600; }
+    .fp-socials { display: flex; gap: 10px; margin: 18px 0; flex-wrap: wrap; }
+    .fp-socials a { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,.08); display: grid; place-items: center; color: #fff; font-size: 1rem; transition: background .18s, transform .1s; }
+    .fp-socials a:hover { background: var(--primary); transform: translateY(-2px); }
+    .fp-controls { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 8px; }
+    .fp-controls .btn-nav { font-size: 1.5rem; color: #fff; }
+    .fp-play { width: 68px; height: 68px; border-radius: 50%; background: #fff; color: #0B0A0F; border: none; font-size: 1.5rem; cursor: pointer; display: grid; place-items: center; transition: transform .12s; }
+    .fp-play:hover { transform: scale(1.05); }
+    .fp-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 26px; gap: 14px; }
+    .fp-actions .a-btn { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.06); border: 1px solid var(--border); color: #fff; padding: 10px 18px; border-radius: 30px; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: .85rem; transition: background .18s; }
+    .fp-actions .a-btn:hover { background: rgba(255,255,255,.12); }
+    .fp-actions .a-btn.on { color: #ff5da2; }
+    .fp-vol { flex: 1; display: flex; align-items: center; gap: 10px; max-width: 200px; }
 
-    .fp-top { display: flex; align-items: center; justify-content: space-between; padding: 18px 0 6px; }
-    .fp-top .fp-label { text-align: center; flex: 1; }
-    .fp-top .fp-label small { display: block; font-size: 0.62rem; letter-spacing: 1.5px; opacity: 0.7; text-transform: uppercase; }
-    .fp-top .fp-label b { font-size: 0.82rem; }
-    .fp-icon-btn { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; width: 40px; height: 40px; opacity: 0.9; }
-    .fp-icon-btn:hover { opacity: 1; }
+    /* ---------- MODAL / TOAST ---------- */
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); backdrop-filter: blur(6px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .overlay.show { display: flex; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 30px; width: 100%; max-width: 360px; text-align: center; }
+    .modal h3 { font-size: 1.3rem; margin-bottom: 6px; }
+    .modal p { color: var(--muted); font-size: .88rem; margin-bottom: 20px; }
+    .modal input { width: 100%; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; color: #fff; font-size: 1.3rem; text-align: center; letter-spacing: .5em; font-family: var(--font); }
+    .modal input:focus { outline: none; border-color: var(--primary); }
+    .modal .err { color: #ff6b6b; font-size: .8rem; min-height: 18px; margin-top: 8px; }
+    .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
+    .modal-btns button { flex: 1; padding: 13px; border-radius: 12px; border: none; cursor: pointer; font-family: var(--font-body); font-weight: 700; font-size: .9rem; }
+    .btn-cancel { background: var(--surface-2); color: var(--text); }
+    .btn-ok { background: var(--primary); color: #fff; }
 
-    .fp-art-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; }
-    .fp-art { width: min(70vw, 340px); aspect-ratio: 1/1; border-radius: 14px; object-fit: contain; box-shadow: 0 25px 60px rgba(0,0,0,0.55); background: transparent; transform-origin: center; }
+    .notif-toast {
+      position: fixed; left: 50%; transform: translateX(-50%) translateY(140%); bottom: 108px;
+      width: min(92vw, 440px); background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 14px 16px; z-index: 2000; display: flex; gap: 13px; align-items: flex-start;
+      box-shadow: 0 16px 40px rgba(0,0,0,.5); transition: transform .45s cubic-bezier(.4,0,.2,1);
+    }
+    .notif-toast.show { transform: translateX(-50%) translateY(0); }
+    .notif-toast .n-ico { width: 44px; height: 44px; border-radius: 11px; background: linear-gradient(145deg,var(--primary),var(--primary-strong)); display: grid; place-items: center; color: #fff; font-size: 1.2rem; flex-shrink: 0; object-fit: cover; }
+    .notif-toast .n-body { flex: 1; min-width: 0; }
+    .notif-toast .n-body b { font-size: .95rem; display: block; margin-bottom: 3px; }
+    .notif-toast .n-body p { font-size: .82rem; color: var(--muted); line-height: 1.4; }
+    .notif-toast .n-body a { color: var(--accent); font-size: .82rem; font-weight: 700; display: inline-block; margin-top: 6px; }
+    .notif-toast .n-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; }
 
-    .fp-meta { margin-top: 6px; }
-    .fp-meta h2 { font-size: 1.5rem; font-weight: 800; line-height: 1.15; }
-    .fp-meta p { font-size: 0.9rem; opacity: 0.75; margin-top: 4px; }
+    /* Llave discreta de acceso al panel */
+    .admin-key {
+      position: fixed; top: 10px; left: 10px; z-index: 1200;
+      width: 30px; height: 30px; border: none; cursor: pointer;
+      background: transparent; color: var(--muted);
+      opacity: 0.14; transition: opacity .25s, transform .25s;
+      display: flex; align-items: center; justify-content: center; font-size: .9rem; padding: 0;
+    }
+    .admin-key:hover { opacity: .9; transform: rotate(-15deg); }
 
-    .fp-live { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: rgba(255,255,255,0.12); padding: 5px 12px; border-radius: 30px; }
-    .fp-live .dot { width: 9px; height: 9px; border-radius: 50%; background: #ff4d4d; animation: pulse 1.3s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.35;transform:scale(.7);} }
+    /* Botón flotante de WhatsApp */
+    .wa-fab {
+      position: fixed; right: 18px; bottom: 118px; z-index: 600;
+      display: inline-flex; align-items: center; gap: 0; height: 54px; padding: 0;
+      border-radius: 30px; background: #25D366; color: #fff; text-decoration: none;
+      box-shadow: 0 6px 20px rgba(37,211,102,.5); overflow: hidden;
+      transition: padding .3s ease, box-shadow .2s ease, transform .12s;
+    }
+    .wa-fab i { font-size: 1.7rem; width: 54px; min-width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; }
+    .wa-fab-label { max-width: 0; opacity: 0; white-space: nowrap; font-weight: 700; font-size: .85rem; transition: max-width .35s ease, opacity .25s ease, padding .35s ease; padding: 0; }
+    .wa-fab:hover { padding-right: 18px; box-shadow: 0 10px 26px rgba(37,211,102,.65); }
+    .wa-fab:hover .wa-fab-label { max-width: 170px; opacity: 1; padding-right: 4px; }
+    .wa-fab:active { transform: scale(.95); }
 
-    .fp-controls { display: flex; align-items: center; justify-content: center; gap: 28px; margin-top: 22px; }
-    .fp-controls .fp-nav { background: none; border: none; color: #fff; font-size: 1.7rem; cursor: pointer; opacity: 0.9; }
-    .fp-controls .fp-nav:hover { opacity: 1; transform: scale(1.06); }
-    .fp-play { width: 70px; height: 70px; border-radius: 50%; border: none; background: #fff; color: #111; font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
-    .fp-play:hover { transform: scale(1.06); }
+    /* ---------- RESPONSIVE ---------- */
+    .fa-spin { animation: fa-spin 0.8s linear infinite; }
+    @keyframes fa-spin { 100% { transform: rotate(360deg); } }
+    .stream-toast {
+      position: fixed; left: 50%; transform: translateX(-50%) translateY(160%); bottom: 108px;
+      background: #2a1420; border: 1px solid #ff5c7a55; color: #ffb3c4; z-index: 850;
+      padding: 12px 18px; border-radius: 14px; font-size: .85rem; font-weight: 600;
+      display: flex; align-items: center; gap: 10px; box-shadow: 0 12px 30px rgba(0,0,0,.5);
+      transition: transform .4s cubic-bezier(.4,0,.2,1); max-width: 90vw;
+    }
+    .stream-toast.show { transform: translateX(-50%) translateY(0); }
 
-    .fp-vol { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
-    .fp-vol i { font-size: 0.85rem; opacity: 0.85; }
-    .fp-vol input { flex: 1; accent-color: #fff; cursor: pointer; height: 4px; }
+    @media (max-width: 900px) {
+      body { overflow-x: hidden; }
+      .app { grid-template-columns: 1fr; padding: 0 0 calc(132px + env(safe-area-inset-bottom)); gap: 0; height: auto; min-height: 100dvh; }
+      .sidebar { display: none !important; }
+      .main { border-radius: 0; border: none; min-height: 100dvh; background: var(--bg); }
+      .topbar { padding: 12px 14px; gap: 10px; }
+      .topbar .mobile-brand { display: flex; }
+      .search-box { max-width: none; }
+      .search-box input { padding: 11px 14px 11px 42px; font-size: .9rem; }
+      .content { padding: 4px 14px 20px; }
+      .banner-container { height: 140px; margin: 6px 0 18px; }
+      .section-head { margin: 14px 0 12px; }
+      .section-head h2 { font-size: 1.2rem; }
 
-    .fp-socials { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
-    .fp-socials a { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.14); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; text-decoration: none; transition: background 0.2s, transform 0.2s; }
-    .fp-socials a:hover { background: rgba(255,255,255,0.28); transform: translateY(-2px); }
-    .fp-socials.empty::after { content: 'Sin redes sociales configuradas'; font-size: 0.72rem; opacity: 0.4; }
+      /* Chips de país (scroll horizontal) */
+      #mobileChips { display: flex !important; flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding-bottom: 8px; margin-bottom: 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      #mobileChips::-webkit-scrollbar { display: none; }
+      .chip { flex: 0 0 auto; padding: 7px 14px; font-size: .8rem; }
 
-    /* Mobile */
-    @media (max-width: 600px) {
-      .radio-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px; }
-      .player-bar { grid-template-columns: 1.3fr 1fr; padding: 0 4%; }
-      .vol-cont { display: none; }
-      .banner-container { height: 85px; }
-      .track-info b { font-size: 0.8rem; }
-      .radio-card { height: 150px; }
-      .fp-meta h2 { font-size: 1.25rem; }
+      /* Grid: columnas fijas sin desbordes */
+      .radio-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+      .radio-card { padding: 8px; }
+      .card-title { font-size: .8rem; }
+      .card-meta { font-size: .7rem; }
+      .card-fav { opacity: 1; transform: scale(1); width: 28px; height: 28px; font-size: .72rem; }
+      .card-play { opacity: 1; transform: none; width: 36px; height: 36px; font-size: .82rem; }
+      .card-country { font-size: .58rem; padding: 2px 6px; }
+
+      /* Player mini encima del nav inferior */
+      .player-bar {
+        left: 0; right: 0; bottom: 58px; border-radius: 16px 16px 0 0;
+        grid-template-columns: 1fr auto; height: 64px; padding: 0 12px; gap: 10px;
+        border-left: none; border-right: none;
+      }
+      .player-bar .player-right { display: none; }
+      .track-info .art { width: 44px; height: 44px; }
+      .track-info b { font-size: .85rem; }
+      .track-info .fav-mini { display: none; }
+      .controls { gap: 12px; }
+      .controls .btn-nav.prev { display: none; }
+      .controls .btn-nav.next { font-size: 1rem; }
+      .p-play { width: 42px; height: 42px; font-size: .95rem; }
+
+      .mobile-nav {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        position: fixed; bottom: 0; left: 0; right: 0; z-index: 560; height: 58px;
+        background: rgba(12,11,17,.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid var(--border); padding-bottom: env(safe-area-inset-bottom);
+      }
+      .mnav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; background: none; border: none; color: var(--muted); cursor: pointer; font-family: var(--font-body); font-size: .66rem; font-weight: 600; }
+      .mnav-item i { font-size: 1.18rem; }
+      .mnav-item.active { color: var(--accent); }
+
+      .wa-fab { right: 14px; bottom: 132px; height: 48px; }
+      .wa-fab i { width: 48px; min-width: 48px; height: 48px; font-size: 1.5rem; }
+      .admin-key { top: 12px; left: auto; right: 12px; opacity: .18; }
+      .notif-toast { bottom: 132px; }
+      .stream-toast { bottom: 132px; }
+      .fp-meta h1 { font-size: 1.35rem; }
+      .fp-actions { flex-wrap: wrap; }
+      .fp-vol { order: 3; max-width: none; flex-basis: 100%; margin-top: 10px; }
+    }
+    @media (max-width: 380px) {
+      .radio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
 <body>
-
-  <button class="admin-key" id="adminKey" title="Acceso panel" data-testid="admin-key-btn"><i class="fas fa-key"></i></button>
-  <button class="pwa-install" id="pwaInstall" data-testid="pwa-install-btn"><i class="fas fa-download"></i> Instalar App</button>
-
-  <!-- Botón flotante WhatsApp: agrega tu radio -->
-  <a class="wa-fab" id="waFab" href="https://wa.me/34604875068?text=%C2%A1Hola!%20Quiero%20agregar%20mi%20radio%20a%20MultiRadios%20%F0%9F%93%BB" target="_blank" rel="noopener" title="Agrega tu radio por WhatsApp" data-testid="whatsapp-fab">
-    <i class="fab fa-whatsapp"></i>
-    <span class="wa-fab-label">Agrega tu radio</span>
-  </a>
-
-  <!-- Notificación in-app -->
-  <div class="notif-toast" id="notifToast" data-testid="notif-toast">
-    <div class="n-ico" id="notifIco"><i class="fas fa-bell"></i></div>
-    <div class="n-body">
-      <div class="n-tag">Notificación</div>
-      <div class="n-title" id="notifTitle"></div>
-      <div class="n-text" id="notifText"></div>
-      <a class="n-link" id="notifLink" target="_blank" rel="noopener" style="display:none;">Ver más</a>
-    </div>
-    <button class="n-close" id="notifClose" data-testid="notif-close" title="Cerrar"><i class="fas fa-xmark"></i></button>
-  </div>
-
-  <header>
-    <img id="logoImg" class="logo-img" alt="Logo">
-    <div class="logo" id="logoText">Multi<span id="logoAccent">RADIOS</span></div>
-  </header>
-
-  <section class="search-section">
-    <div class="search-container">
-      <i class="fas fa-search"></i>
-      <input type="text" id="searchInput" placeholder="Buscar emisora..." data-testid="search-input">
-    </div>
-  </section>
-
-  <div class="banner-container" id="bannerContainer"></div>
-
-  <main class="content-section">
-    <div class="radio-grid" id="radioGrid"></div>
-  </main>
-
-  <!-- Reproductor de barra (pie) -->
-  <div class="player-bar">
-    <div class="track-info" id="barTrackInfo" data-testid="bar-open-full">
-      <img src="icon-192.png" id="pImg" alt="Cover">
-      <div style="min-width:0; overflow:hidden;">
-        <b id="pTitle">Selecciona una emisora...</b>
-        <span id="pGenre">En directo</span>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mark"><i class="fas fa-radio"></i></div>
+        <div>
+          <div class="logo" id="logoText">Multi<span>RADIOS</span></div>
+          <img class="logo-img" id="logoImg" alt="logo">
+        </div>
       </div>
-    </div>
+      <nav class="nav">
+        <button class="nav-item active" data-view="home" data-testid="nav-home"><i class="fas fa-house"></i> Inicio</button>
+        <button class="nav-item" data-view="search" data-testid="nav-search"><i class="fas fa-magnifying-glass"></i> Buscar</button>
+        <button class="nav-item" data-view="favorites" data-testid="nav-favorites"><i class="fas fa-heart"></i> Favoritos</button>
+      </nav>
+      <div class="side-scroll">
+        <div class="side-label">Explora por país</div>
+        <div class="country-list" id="countryList"></div>
+      </div>
+      <div class="side-foot">
+        <button class="side-btn install" id="pwaInstall" data-testid="install-btn"><i class="fas fa-download"></i> Instalar app</button>
+      </div>
+    </aside>
 
+    <!-- MAIN -->
+    <section class="main">
+      <header class="topbar">
+        <div class="mobile-brand">
+          <div class="mark"><i class="fas fa-radio"></i></div>
+        </div>
+        <div class="search-box">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="Buscar emisora, ciudad o país…" data-testid="search-input">
+        </div>
+        <div class="topbar-spacer"></div>
+        <button class="icon-btn" id="topInstall" title="Instalar" style="display:none" data-testid="top-install-btn"><i class="fas fa-download"></i></button>
+      </header>
+
+      <div class="content" id="content">
+        <div class="banner-container" id="bannerContainer">
+          <div class="banner-dots" id="bannerDots"></div>
+        </div>
+
+        <div class="chips" id="mobileChips" style="display:none"></div>
+
+        <div class="section-head">
+          <div>
+            <h2 id="sectionTitle">Todas las emisoras</h2>
+            <div class="sub" id="sectionSub">Radio en vivo · sin cortes</div>
+          </div>
+        </div>
+
+        <div class="radio-grid" id="radioGrid"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PLAYER BAR -->
+  <div class="player-bar" id="playerBar">
+    <div class="track-info" id="barTrackInfo" data-testid="player-track-info">
+      <img class="art" id="pImg" src="icon-192.png" alt="cover">
+      <div class="txt">
+        <b id="pTitle">Selecciona una emisora</b>
+        <span id="pGenre"><span class="live-badge" style="display:none"><span class="dot"></span>EN VIVO</span></span>
+      </div>
+      <button class="fav-mini" id="barFav" data-testid="player-fav-btn"><i class="far fa-heart"></i></button>
+    </div>
     <div class="controls">
-      <button class="btn-nav" onclick="next(-1)" data-testid="prev-btn"><i class="fas fa-backward-step"></i></button>
-      <button class="p-play" id="pPlay" onclick="toggle()" data-testid="play-btn"><i class="fas fa-play"></i></button>
-      <button class="btn-nav" onclick="next(1)" data-testid="next-btn"><i class="fas fa-forward-step"></i></button>
+      <button class="btn-nav prev" onclick="next(-1)" data-testid="player-prev-btn"><i class="fas fa-backward-step"></i></button>
+      <button class="p-play" id="playBtn" onclick="toggle()" data-testid="player-play-btn"><i class="fas fa-play" id="playIcon"></i></button>
+      <button class="btn-nav next" onclick="next(1)" data-testid="player-next-btn"><i class="fas fa-forward-step"></i></button>
     </div>
-
-    <div class="vol-cont">
-      <i class="fas fa-volume-high"></i>
-      <input type="range" id="vol" min="0" max="1" step="0.05" value="0.8">
+    <div class="player-right">
+      <button class="icon-btn" id="barShare" title="Compartir" data-testid="player-share-btn"><i class="fas fa-share-nodes"></i></button>
+      <div class="vol-cont">
+        <i class="fas fa-volume-high"></i>
+        <input type="range" class="vol" id="vol" min="0" max="1" step="0.01" value="0.8" data-testid="volume-slider">
+      </div>
+      <button class="icon-btn" id="barExpand" title="Pantalla completa" data-testid="player-expand-btn"><i class="fas fa-up-right-and-down-left-from-center"></i></button>
     </div>
   </div>
 
-  <!-- Reproductor individual estilo Spotify -->
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav">
+    <button class="mnav-item active" data-view="home" data-testid="mnav-home"><i class="fas fa-house"></i> Inicio</button>
+    <button class="mnav-item" data-view="search" data-testid="mnav-search"><i class="fas fa-magnifying-glass"></i> Buscar</button>
+    <button class="mnav-item" data-view="favorites" data-testid="mnav-favorites"><i class="fas fa-heart"></i> Favoritos</button>
+  </nav>
+
+  <!-- FULL PLAYER -->
   <div class="full-player" id="fullPlayer" data-testid="full-player">
     <div class="fp-bg" id="fpBg"></div>
-    <div class="fp-content">
+    <div class="fp-bg-img" id="fpBgImg"></div>
+    <div class="fp-inner">
       <div class="fp-top">
-        <button class="fp-icon-btn" id="fpClose" title="Cerrar" data-testid="full-player-close"><i class="fas fa-chevron-down"></i></button>
-        <div class="fp-label">
-          <small>Reproduciendo emisora</small>
-          <b id="fpCountry">MultiRadios</b>
-        </div>
-        <button class="fp-icon-btn" id="fpShare" title="Compartir emisora" data-testid="full-player-share"><i class="fas fa-share-nodes"></i></button>
+        <span class="lbl">Reproduciendo en vivo</span>
+        <button class="fp-close" id="fpClose" data-testid="fp-close-btn"><i class="fas fa-chevron-down"></i></button>
       </div>
-
       <div class="fp-art-wrap">
-        <img class="fp-art" id="fpArt" alt="Portada">
+        <img class="fp-art" id="fpArt" src="icon-512.png" alt="cover">
       </div>
-
       <div class="fp-meta">
-        <h2 id="fpName" data-testid="fp-name">—</h2>
-        <p id="fpGenre">En directo</p>
-        <span class="fp-live"><span class="dot"></span> En vivo</span>
+        <h1 id="fpTitle">—</h1>
+        <p id="fpSub">—</p>
+        <div class="fp-genre" id="fpGenre"></div>
       </div>
-
-      <div class="fp-controls">
-        <button class="fp-nav" onclick="next(-1)" data-testid="fp-prev"><i class="fas fa-backward-step"></i></button>
-        <button class="fp-play" id="fpPlay" onclick="toggle()" data-testid="fp-play"><i class="fas fa-play"></i></button>
-        <button class="fp-nav" onclick="next(1)" data-testid="fp-next"><i class="fas fa-forward-step"></i></button>
-      </div>
-
-      <div class="fp-vol">
-        <i class="fas fa-volume-low"></i>
-        <input type="range" id="fpVol" min="0" max="1" step="0.05" value="0.8" data-testid="fp-volume">
-        <i class="fas fa-volume-high"></i>
-      </div>
-
       <div class="fp-socials" id="fpSocials"></div>
-    </div>
-  </div>
-
-  <!-- Modal de contraseña -->
-  <div class="pw-overlay" id="pwOverlay" data-testid="password-overlay">
-    <div class="pw-box">
-      <div class="pw-icon"><i class="fas fa-lock"></i></div>
-      <h3>Acceso restringido</h3>
-      <p>Introduce la contraseña del panel</p>
-      <input type="password" id="pwInput" maxlength="6" inputmode="text" autocomplete="off" placeholder="••••••" data-testid="password-input">
-      <div class="pw-error" id="pwError"></div>
-      <div class="pw-actions">
-        <button class="pw-cancel" id="pwCancel" data-testid="password-cancel">Cancelar</button>
-        <button class="pw-ok" id="pwOk" data-testid="password-submit">Entrar</button>
+      <div class="fp-controls">
+        <button class="btn-nav" onclick="next(-1)" data-testid="fp-prev-btn"><i class="fas fa-backward-step"></i></button>
+        <button class="fp-play" onclick="toggle()" data-testid="fp-play-btn"><i class="fas fa-play" id="fpPlayIcon"></i></button>
+        <button class="btn-nav" onclick="next(1)" data-testid="fp-next-btn"><i class="fas fa-forward-step"></i></button>
+      </div>
+      <div class="fp-actions">
+        <button class="a-btn" id="fpFav" data-testid="fp-fav-btn"><i class="far fa-heart"></i> Favorito</button>
+        <div class="fp-vol">
+          <i class="fas fa-volume-high" style="color:var(--muted)"></i>
+          <input type="range" class="vol" id="fpVol" min="0" max="1" step="0.01" value="0.8" data-testid="fp-volume-slider">
+        </div>
+        <button class="a-btn" id="fpShare" data-testid="fp-share-btn"><i class="fas fa-share-nodes"></i> Compartir</button>
       </div>
     </div>
   </div>
 
-  <!-- IMPORTANTE: sin crossorigin para poder reproducir streams sin cabeceras CORS -->
+  <!-- PASSWORD MODAL -->
+  <div class="overlay" id="pwOverlay">
+    <div class="modal">
+      <h3>Panel de administración</h3>
+      <p>Introduce la contraseña para gestionar las emisoras.</p>
+      <input type="password" id="pwInput" maxlength="12" placeholder="••••••" data-testid="admin-password-input">
+      <div class="err" id="pwError"></div>
+      <div class="modal-btns">
+        <button class="btn-cancel" id="pwCancel" data-testid="admin-cancel-btn">Cancelar</button>
+        <button class="btn-ok" id="pwOk" data-testid="admin-submit-btn">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div class="notif-toast" id="notifToast">
+    <div class="n-ico" id="notifIco"><i class="fas fa-bell"></i></div>
+    <div class="n-body">
+      <b id="notifTitle"></b>
+      <p id="notifText"></p>
+      <a id="notifLink" href="#" target="_blank" style="display:none">Ver más</a>
+    </div>
+    <button class="n-close" id="notifClose"><i class="fas fa-xmark"></i></button>
+  </div>
+
   <audio id="audio" preload="none"></audio>
+  <button class="admin-key" id="adminKey" title="Acceso panel" data-testid="admin-key-btn"><i class="fas fa-key"></i></button>
+  <a class="wa-fab" id="waFab" target="_blank" rel="noopener" title="Agrega tu radio por WhatsApp" data-testid="whatsapp-fab">
+    <i class="fab fa-whatsapp"></i>
+    <span class="wa-fab-label" id="waFabLabel">Agrega tu radio</span>
+  </a>
+  <div class="stream-toast" id="streamToast"><i class="fas fa-triangle-exclamation"></i><span id="streamToastMsg"></span></div>
 
   <script>
     const STORAGE_KEY = 'multiradios_data_v1';
     const ADMIN_PASS  = 'kevin6';
     const AUTH_KEY    = 'mr_admin_ok';
     const NOTIF_SEEN_KEY = 'mr_notif_seen';
+    const FAVS_KEY    = 'mr_favs';
 
-    /* PROXY CONFIG - Solución CORS. Deja vacío para reproducir en directo. */
+    /* PROXY CONFIG - Solución CORS opcional. Deja vacío para reproducir en directo. */
     const PROXY_BASE = '';
-
-    /* Endpoint de compartir (genera Open Graph por emisora para WhatsApp/Facebook). */
     const SHARE_ENDPOINT = '/api/share/';
-
     const PLACEHOLDER = 'icon-192.png';
 
     let data = { site: {}, theme: {}, banners: [], stations: [], notification: null };
-    let index = -1;
-    let userPaused = false;          // FIX 1: controla la pausa manual (no re-conectar)
+    let view = { list: [] };          // lista visible actual
+    let index = -1;                    // índice dentro de data.stations
+    let currentView = 'home';
+    let countryFilter = '';
+    let userPaused = false;
+    let connecting = false;
+    let connectTimer = null;
+    let notifDismissed = false;
     let carouselTimer = null;
+    let favs = loadFavs();
     const audio = document.getElementById('audio');
 
     const SOCIAL_ICONS = {
-      facebook:  'fab fa-facebook-f',
-      instagram: 'fab fa-instagram',
-      twitter:   'fab fa-x-twitter',
-      youtube:   'fab fa-youtube',
-      tiktok:    'fab fa-tiktok',
-      whatsapp:  'fab fa-whatsapp',
-      telegram:  'fab fa-telegram',
-      spotify:   'fab fa-spotify',
-      website:   'fas fa-globe'
+      facebook:'fab fa-facebook-f', instagram:'fab fa-instagram', twitter:'fab fa-x-twitter',
+      youtube:'fab fa-youtube', tiktok:'fab fa-tiktok', whatsapp:'fab fa-whatsapp',
+      telegram:'fab fa-telegram', spotify:'fab fa-spotify', website:'fas fa-globe'
     };
 
-    // Slug estable a partir del nombre de la emisora (para compartir / deep-link)
-    function slugify(str) {
-      return String(str || '')
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase().trim()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '') || 'radio';
+    function slugify(str){
+      return String(str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'radio';
+    }
+    function escapeHtml(str){
+      return String(str==null?'':str).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+    function loadFavs(){ try { return JSON.parse(localStorage.getItem(FAVS_KEY)||'[]'); } catch(_){ return []; } }
+    function saveFavs(){ try { localStorage.setItem(FAVS_KEY, JSON.stringify(favs)); } catch(_){} }
+    function isFav(name){ return favs.includes(slugify(name)); }
+    function toggleFav(name){
+      const s = slugify(name); const i = favs.indexOf(s);
+      if (i === -1) favs.push(s); else favs.splice(i,1);
+      saveFavs();
+      loadGrid(document.getElementById('searchInput').value);
+      syncFavButtons();
     }
 
-    // --- THEME / IDENTITY ----------------------------------------------
-    function applyTheme(t = {}) {
+    /* ---------- THEME / IDENTITY ---------- */
+    function applyTheme(t={}){
       const root = document.documentElement;
-      if (t.primary)    root.style.setProperty('--primary',    t.primary);
-      if (t.light)      root.style.setProperty('--light',      t.light);
-      if (t.textDark)   root.style.setProperty('--text-dark',  t.textDark);
-      if (t.border)     root.style.setProperty('--border',     t.border);
-      if (t.background) root.style.setProperty('--bg',         t.background);
-      if (t.playerBg)   root.style.setProperty('--player-bg',  t.playerBg);
-      if (t.playerText) root.style.setProperty('--player-text',t.playerText);
-
-      const metaTC = document.getElementById('metaThemeColor');
-      if (metaTC && t.primary) metaTC.setAttribute('content', t.primary);
-
-      if (t.font) {
-        const fam = t.font.replace(/ /g, '+');
+      if (t.primary) root.style.setProperty('--primary', t.primary);
+      if (t.accent) root.style.setProperty('--accent', t.accent);
+      if (t.primary){ const meta=document.getElementById('metaThemeColor'); if(meta) meta.setAttribute('content', t.background||'#0B0A0F'); }
+      if (t.accent) root.style.setProperty('--primary-strong', t.primary || '#7C3AED');
+      if (t.background) root.style.setProperty('--bg', t.background);
+      if (t.surface) root.style.setProperty('--surface', t.surface);
+      if (t.light) root.style.setProperty('--surface-2', t.light);
+      if (t.textDark) root.style.setProperty('--text', t.textDark);
+      if (t.textMuted) root.style.setProperty('--muted', t.textMuted);
+      if (t.border) root.style.setProperty('--border', t.border);
+      if (t.playerBg) root.style.setProperty('--player-bg', t.playerBg);
+      if (t.font){
+        const fam = t.font.replace(/ /g,'+');
         document.getElementById('fontLink').href =
-          `https://fonts.googleapis.com/css2?family=${fam}:wght@400;600;800&display=swap`;
+          `https://fonts.googleapis.com/css2?family=${fam}:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap`;
         root.style.setProperty('--font', `'${t.font}', sans-serif`);
       }
     }
-
-    function applySite(s = {}) {
-      if (s.title) document.title = s.title;
+    function applySite(s={}){
+      if (s.title) document.title = s.title + ' | Spotube Edition';
       if (s.favicon) document.getElementById('faviconLink').href = s.favicon;
-      const logoImg = document.getElementById('logoImg');
-      const logoText = document.getElementById('logoText');
-      if (s.logoImage) {
-        logoImg.src = s.logoImage;
-        logoImg.style.display = 'block';
-        logoText.style.display = 'none';
-      } else {
-        logoImg.style.display = 'none';
-        logoText.style.display = 'block';
-        logoText.innerHTML = `${s.logoText || 'Multi'}<span>${s.logoAccent || 'RADIOS'}</span>`;
-      }
+      const logoImg=document.getElementById('logoImg'), logoText=document.getElementById('logoText');
+      if (s.logoImage){ logoImg.src=s.logoImage; logoImg.style.display='block'; logoText.style.display='none'; }
+      else { logoImg.style.display='none'; logoText.style.display='block'; logoText.innerHTML=`${s.logoText||'Multi'}<span>${s.logoAccent||'RADIOS'}</span>`; }
+      // Botón flotante WhatsApp (configurable en el admin)
+      const wa=document.getElementById('waFab');
+      const num=String(s.whatsapp==null?'34604875068':s.whatsapp).replace(/[^0-9]/g,'');
+      const msg=s.whatsappText||'¡Hola! Quiero agregar mi radio a MultiRadios 📻';
+      if(num){ wa.href='https://wa.me/'+num+'?text='+encodeURIComponent(msg); wa.style.display='inline-flex'; document.getElementById('waFabLabel').innerText=s.whatsappLabel||'Agrega tu radio'; }
+      else { wa.style.display='none'; }
     }
 
-    // --- DATA LOADER ----------------------------------------------------
-    async function loadData() {
-      try {
-        const response = await fetch('radios.json?v=' + Date.now(), { cache: 'no-store' });
-        if (response.ok) return normalizeData(await response.json());
-      } catch (e) { console.warn('fetch radios.json fail, usando cache local', e); }
-      try {
-        const cached = localStorage.getItem(STORAGE_KEY);
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (parsed && (parsed.stations || parsed.banners)) return normalizeData(parsed);
-        }
-      } catch (e) { console.warn('localStorage parse fail', e); }
+    /* ---------- DATA ---------- */
+    async function loadData(){
+      try { const r=await fetch('radios.json?v='+Date.now(),{cache:'no-store'}); if(r.ok) return normalizeData(await r.json()); }
+      catch(e){ console.warn('fetch radios.json fail', e); }
+      try { const c=localStorage.getItem(STORAGE_KEY); if(c){ const p=JSON.parse(c); if(p&&(p.stations||p.banners)) return normalizeData(p); } }
+      catch(e){}
       return normalizeData({});
     }
-
-    function normalizeData(d) {
+    function normalizeData(d){
       const out = {
-        site:    d.site    || {},
-        theme:   d.theme   || {},
-        banners: [],
-        stations: [],
-        notification: d.notification && typeof d.notification === 'object' ? d.notification : null
+        site: d.site||{}, theme: d.theme||{}, banners: Array.isArray(d.banners)?d.banners:[],
+        stations: Array.isArray(d.stations)?d.stations:[], notification: d.notification||null
       };
-      if (Array.isArray(d.banners)) {
-        out.banners = d.banners.map(b => typeof b === 'string' ? { img: b, link: '' } : b);
-      }
-      if (Array.isArray(d.stations)) {
-        out.stations = d.stations.map(s => ({
-          name: s.name || '',
-          url: s.url || '',
-          img: s.img || PLACEHOLDER,
-          genre: s.genre || '',
-          country: s.country || '',
-          city: s.city || '',
-          proxy: !!s.proxy,
-          socials: s.socials && typeof s.socials === 'object' ? s.socials : {}
-        }));
-      }
+      out.stations = out.stations.filter(s=>s&&s.name&&s.url).map(s=>({
+        name:String(s.name).trim(), url:String(s.url).trim(), img:s.img||PLACEHOLDER,
+        genre:s.genre||'', country:(s.country||'').trim(), city:(s.city||'').trim(),
+        countryKey: canonicalCountry(s.country),
+        proxy:!!s.proxy, socials:s.socials||{}
+      }));
       return out;
     }
-
-    // --- BANNERS --------------------------------------------------------
-    function renderBanners() {
-      const container = document.getElementById('bannerContainer');
-      container.innerHTML = '';
-      if (carouselTimer) { clearInterval(carouselTimer); carouselTimer = null; }
-      if (!data.banners || data.banners.length === 0) { container.style.display = 'none'; return; }
-      container.style.display = 'block';
-      data.banners.forEach((b, i) => {
-        const img = document.createElement('img');
-        img.src = b.img;
-        img.className = 'banner-slide' + (i === 0 ? ' active' : '');
-        img.alt = 'Publicidad';
-        img.onerror = () => { img.style.display = 'none'; };
-        if (b.link) { img.onclick = () => window.open(b.link, '_blank', 'noopener'); }
-        container.appendChild(img);
-      });
-      if (data.banners.length > 1) {
-        let idx = 0;
-        const slides = container.getElementsByClassName('banner-slide');
-        carouselTimer = setInterval(() => {
-          slides[idx].classList.remove('active');
-          idx = (idx + 1) % slides.length;
-          slides[idx].classList.add('active');
-        }, 5000);
-      }
+    function canonicalCountry(c){
+      const k=String(c||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+      if(!k) return 'OTHER';
+      if(/^(py|par|paraguay)/.test(k)) return 'PY';
+      if(/^(ar|arg|argentina)/.test(k)) return 'AR';
+      if(/^(es|esp|espana|spain)/.test(k)) return 'ES';
+      if(/^(fr|fra|francia|france)/.test(k)) return 'FR';
+      if(/^(us|usa|eeuu|estados)/.test(k)) return 'US';
+      if(/^(uy|uru|uruguay)/.test(k)) return 'UY';
+      if(/^(br|bra|brasil|brazil)/.test(k)) return 'BR';
+      if(/^(mx|mex|mexico)/.test(k)) return 'MX';
+      if(/^(co|col|colombia)/.test(k)) return 'CO';
+      if(/^(cl|chi|chile)/.test(k)) return 'CL';
+      if(/^(pe|per|peru)/.test(k)) return 'PE';
+      return String(c).trim().toUpperCase().slice(0,3);
     }
 
-    // --- GRID -----------------------------------------------------------
-    function loadGrid(q = '') {
-      const grid = document.getElementById('radioGrid');
-      grid.innerHTML = '';
-      const list = data.stations || [];
-      const term = q.toLowerCase().trim();
-      let count = 0;
-      list.forEach((s, i) => {
-        const hay = `${s.name} ${s.genre} ${s.country} ${s.city}`.toLowerCase();
-        if (term && !hay.includes(term)) return;
-        count++;
-        const card = document.createElement('div');
-        card.className = 'radio-card' + (i === index ? ' active' : '');
-        card.dataset.testid = `radio-card-${i}`;
-        card.onclick = () => { play(i); openFullPlayer(); };
-        card.innerHTML = `
-          <div class="img-wrapper">
-            <img src="${s.img}" loading="lazy" alt="${escapeHtml(s.name)}" data-orig-url="${escapeHtml(s.img)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
-            ${s.country ? `<span class="country-badge">${escapeHtml(s.country)}</span>` : ''}
+    /* ---------- COUNTRY SIDEBAR ---------- */
+    function countryName(code){
+      const map={ PY:'Paraguay', AR:'Argentina', ES:'España', FR:'Francia', US:'EE.UU.', UY:'Uruguay', BR:'Brasil', MX:'México', CO:'Colombia', CL:'Chile', PE:'Perú', OTHER:'Otros' };
+      const k=String(code||'').trim().toUpperCase();
+      return map[k] || (code? String(code).trim() : 'Otros');
+    }
+    function renderCountries(){
+      const counts={};
+      data.stations.forEach(s=>{ const c=s.countryKey||'OTHER'; counts[c]=(counts[c]||0)+1; });
+      const list=document.getElementById('countryList');
+      let html=`<button class="country-btn ${countryFilter===''?'active':''}" data-c="" data-testid="country-all"><span>Todas</span><span class="cnt">${data.stations.length}</span></button>`;
+      Object.keys(counts).sort((a,b)=>counts[b]-counts[a]).forEach(c=>{
+        html+=`<button class="country-btn ${countryFilter===c?'active':''}" data-c="${escapeHtml(c)}" data-testid="country-${slugify(c)}"><span>${escapeHtml(countryName(c))}</span><span class="cnt">${counts[c]}</span></button>`;
+      });
+      list.innerHTML=html;
+      list.querySelectorAll('.country-btn').forEach(b=>b.onclick=()=>{ countryFilter=b.dataset.c; setView('home'); renderCountries(); loadGrid(document.getElementById('searchInput').value); });
+      const chips=document.getElementById('mobileChips');
+      chips.innerHTML = `<button class="chip ${countryFilter===''?'active':''}" data-c="">Todas</button>` +
+        Object.keys(counts).sort((a,b)=>counts[b]-counts[a]).map(c=>`<button class="chip ${countryFilter===c?'active':''}" data-c="${escapeHtml(c)}">${escapeHtml(countryName(c))}</button>`).join('');
+      chips.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ countryFilter=b.dataset.c; renderCountries(); loadGrid(document.getElementById('searchInput').value); });
+    }
+
+    /* ---------- BANNERS ---------- */
+    function renderBanners(){
+      const cont=document.getElementById('bannerContainer'), dots=document.getElementById('bannerDots');
+      cont.querySelectorAll('.banner-slide').forEach(el=>el.remove());
+      dots.innerHTML='';
+      const banners=(data.banners||[]).filter(b=>b&&b.img);
+      if(!banners.length || currentView!=='home'){ cont.style.display='none'; if(carouselTimer) clearInterval(carouselTimer); return; }
+      cont.style.display='block';
+      banners.forEach((b,i)=>{
+        const img=document.createElement('img'); img.className='banner-slide'+(i===0?' active':'');
+        img.src=b.img; img.loading='lazy';
+        if(b.link) img.onclick=()=>window.open(b.link,'_blank','noopener');
+        cont.insertBefore(img, dots);
+        const d=document.createElement('span'); if(i===0) d.className='on'; dots.appendChild(d);
+      });
+      const slides=cont.querySelectorAll('.banner-slide'); const dotEls=dots.querySelectorAll('span');
+      if(carouselTimer) clearInterval(carouselTimer);
+      if(slides.length>1){ let cur=0; carouselTimer=setInterval(()=>{
+        slides[cur].classList.remove('active'); dotEls[cur].classList.remove('on');
+        cur=(cur+1)%slides.length;
+        slides[cur].classList.add('active'); dotEls[cur].classList.add('on');
+      },4500); }
+    }
+
+    /* ---------- GRID ---------- */
+    function currentList(q=''){
+      let list = data.stations.map((s,i)=>({s,i}));
+      if(currentView==='favorites') list=list.filter(x=>isFav(x.s.name));
+      if(countryFilter) list=list.filter(x=>(x.s.countryKey||'OTHER')===countryFilter);
+      q=(q||'').trim().toLowerCase();
+      if(q) list=list.filter(x=>{ const s=x.s; return (s.name+' '+s.city+' '+s.country+' '+s.genre).toLowerCase().includes(q); });
+      return list;
+    }
+    function loadGrid(q=''){
+      const grid=document.getElementById('radioGrid');
+      const list=currentList(q);
+      view.list=list;
+      if(!list.length){
+        let msg = currentView==='favorites' ? 'Aún no tienes favoritos. Pulsa el corazón en una emisora.' : 'No se encontraron emisoras.';
+        grid.innerHTML=`<div class="empty-state"><i class="fas ${currentView==='favorites'?'fa-heart-crack':'fa-magnifying-glass'}"></i><p>${msg}</p></div>`;
+        return;
+      }
+      grid.innerHTML=list.map(({s,i})=>{
+        const meta=[s.city,countryName(s.countryKey)].filter(Boolean).join(' · ') || 'En vivo';
+        const active = i===index;
+        const playing = active && !audio.paused && !!audio.src && !userPaused;
+        const cIcon = (active && connecting) ? 'fa-spinner fa-spin' : (playing ? 'fa-pause' : 'fa-play');
+        return `<div class="radio-card ${active?'active':''} ${playing?'playing':''}" data-i="${i}" data-testid="radio-card-${i}">
+          <div class="card-art">
+            <img src="${escapeHtml(s.img)}" loading="lazy" alt="${escapeHtml(s.name)}" onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
+            ${s.countryKey&&s.countryKey!=='OTHER'?`<span class="card-country">${escapeHtml(s.countryKey)}</span>`:''}
+            <button class="card-fav ${isFav(s.name)?'on':''}" data-fav="${i}" data-testid="card-fav-${i}"><i class="${isFav(s.name)?'fas':'far'} fa-heart"></i></button>
+            <div class="equalizer"><span></span><span></span><span></span><span></span></div>
+            <button class="card-play" data-play="${i}" data-testid="card-play-${i}"><i class="fas ${cIcon}"></i></button>
           </div>
-          <h4>${escapeHtml(s.name)}</h4>
-          ${s.city ? `<div class="meta">${escapeHtml(s.city)}</div>` : ''}
-        `;
-        grid.appendChild(card);
-        // Elimina el fondo negro del PNG si aplica (async, no bloquea)
-        const cardImg = card.querySelector('.img-wrapper img');
-        applyTransparentBg(cardImg, s.img);
+          <div class="card-title">${escapeHtml(s.name)}</div>
+          <div class="card-meta">${escapeHtml(meta)}</div>
+        </div>`;
+      }).join('');
+      grid.querySelectorAll('.radio-card').forEach(card=>{
+        const i=+card.dataset.i;
+        card.onclick=(e)=>{ if(e.target.closest('[data-fav]')) return; if(e.target.closest('[data-play]')){ handlePlayClick(i); return; } handlePlayClick(i); openFullPlayer(); };
       });
-      if (count === 0) {
-        grid.innerHTML = `<div class="empty-state"><i class="fas fa-radio" style="font-size:2rem;opacity:.4;"></i><p style="margin-top:10px;">No hay emisoras${term ? ' que coincidan con "'+escapeHtml(term)+'"' : ''}.</p></div>`;
-      }
+      grid.querySelectorAll('[data-fav]').forEach(b=>b.onclick=(e)=>{ e.stopPropagation(); toggleFav(data.stations[+b.dataset.fav].name); });
+    }
+    function handlePlayClick(i){
+      if(i===index && !userPaused && !audio.paused && audio.src){ toggle(); }
+      else { play(i); }
     }
 
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
+    /* ---------- HLS / AUDIO ---------- */
+    let hlsInstance=null, hlsRetries=0;
+    function destroyHls(){ if(hlsInstance){ try{hlsInstance.destroy();}catch(_){} hlsInstance=null; } }
+    function isHlsUrl(u){ try{ const c=String(u).split('?')[0].toLowerCase(); return c.endsWith('.m3u8')||c.includes('.m3u8'); }catch(_){ return false; } }
+    function nativeHlsSupported(){ return audio.canPlayType('application/vnd.apple.mpegurl')!=='' || audio.canPlayType('application/x-mpegURL')!==''; }
 
-    // --- COLOR EXTRACTION (estilo Spotify) ------------------------------
-    // Usa una imagen aparte con CORS; si falla, cae al color primario (no afecta la portada visible).
-    function extractColor(imgUrl) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => {
-          try {
-            const c = document.createElement('canvas');
-            const w = c.width = 48, h = c.height = 48;
-            const ctx = c.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
-            const d = ctx.getImageData(0, 0, w, h).data;
-            let r = 0, g = 0, b = 0, n = 0, best = null, bestScore = -1;
-            for (let i = 0; i < d.length; i += 4) {
-              if (d[i+3] < 125) continue;
-              const R = d[i], G = d[i+1], B = d[i+2];
-              r += R; g += G; b += B; n++;
-              const mx = Math.max(R,G,B), mn = Math.min(R,G,B);
-              const sat = mx === 0 ? 0 : (mx - mn) / mx;
-              const score = sat * (mx / 255);
-              if (score > bestScore) { bestScore = score; best = {r:R,g:G,b:B}; }
-            }
-            if (!n) return resolve(null);
-            const avg = { r: Math.round(r/n), g: Math.round(g/n), b: Math.round(b/n) };
-            resolve(bestScore > 0.18 ? best : avg);
-          } catch (e) { resolve(null); }
-        };
-        img.onerror = () => resolve(null);
-        img.src = imgUrl;
-      });
-    }
-
-    function primaryColor() {
-      const p = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-      return p || '#6200ea';
-    }
-
-    async function applyFullPlayerColor(imgUrl) {
-      const bg = document.getElementById('fpBg');
-      const col = await extractColor(imgUrl);
-      if (col) {
-        const dk = (v) => Math.round(v * 0.82);
-        const c1 = `rgb(${dk(col.r)},${dk(col.g)},${dk(col.b)})`;
-        bg.style.background = `linear-gradient(180deg, ${c1} 0%, rgba(${col.r},${col.g},${col.b},0.35) 32%, #121212 78%)`;
-      } else {
-        const p = primaryColor();
-        bg.style.background = `linear-gradient(180deg, ${p} 0%, #121212 75%)`;
-      }
-    }
-
-    // --- FULL PLAYER ----------------------------------------------------
-    function renderSocials(socials = {}) {
-      const wrap = document.getElementById('fpSocials');
-      wrap.innerHTML = '';
-      const entries = Object.entries(socials).filter(([k, v]) => v && SOCIAL_ICONS[k]);
-      if (entries.length === 0) { wrap.classList.add('empty'); return; }
-      wrap.classList.remove('empty');
-      entries.forEach(([k, url]) => {
-        const a = document.createElement('a');
-        a.href = url; a.target = '_blank'; a.rel = 'noopener';
-        a.title = k; a.dataset.testid = `fp-social-${k}`;
-        a.innerHTML = `<i class="${SOCIAL_ICONS[k]}"></i>`;
-        wrap.appendChild(a);
-      });
-    }
-
-    function updateFullPlayer() {
-      const s = data.stations[index];
-      if (!s) return;
-      const art = document.getElementById('fpArt');
-      // FIX 5: portada SIEMPRE visible (sin crossorigin) + fallback si la URL falla
-      art.onerror = function () { this.onerror = null; this.src = PLACEHOLDER; };
-      art.dataset.origUrl = s.img || PLACEHOLDER;
-      art.src = s.img || PLACEHOLDER;
-      applyTransparentBg(art, s.img);
-      document.getElementById('fpName').innerText = s.name;
-      document.getElementById('fpGenre').innerText = [s.city, s.country, s.genre].filter(Boolean).join(' · ') || 'En directo';
-      document.getElementById('fpCountry').innerText = s.country || (data.site.footerText || 'MultiRadios');
-      renderSocials(s.socials);
-      applyFullPlayerColor(s.img);
-      syncPlayIcons();
-    }
-
-    function openFullPlayer() {
-      if (index === -1) return;
-      updateFullPlayer();
-      document.getElementById('fullPlayer').classList.add('open');
-    }
-    function closeFullPlayer() {
-      document.getElementById('fullPlayer').classList.remove('open');
-    }
-
-    // --- QUITAR FONDO NEGRO DE LOGOS PNG (transparencia automática) -----
-    // Procesa la imagen con canvas y convierte los pixeles casi-negros
-    // en transparentes. Cachea el resultado en memoria por URL.
-    const _bgClearCache = new Map(); // originalUrl -> dataUrl (o null si falla)
-    function stripBlackBackground(url) {
-      return new Promise((resolve) => {
-        if (!url) return resolve(null);
-        if (_bgClearCache.has(url)) return resolve(_bgClearCache.get(url));
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => {
-          try {
-            const w = img.naturalWidth, h = img.naturalHeight;
-            if (!w || !h) { _bgClearCache.set(url, null); return resolve(null); }
-            const c = document.createElement('canvas');
-            c.width = w; c.height = h;
-            const ctx = c.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
-            let imgData;
-            try { imgData = ctx.getImageData(0, 0, w, h); }
-            catch(_) { _bgClearCache.set(url, null); return resolve(null); }
-            const d = imgData.data;
-            // Muestra las 4 esquinas para decidir si el fondo es realmente negro
-            const cornerIdx = [0, (w-1)*4, (h-1)*w*4, ((h-1)*w + (w-1))*4];
-            let dark = 0;
-            for (const ci of cornerIdx) {
-              if (d[ci] < 25 && d[ci+1] < 25 && d[ci+2] < 25 && d[ci+3] > 200) dark++;
-            }
-            // Solo procesamos si al menos 3 de 4 esquinas son negras
-            if (dark < 3) { _bgClearCache.set(url, null); return resolve(null); }
-            const TH_FULL = 30;   // <= totalmente transparente
-            const TH_SOFT = 70;   // <= transparencia gradual
-            for (let i = 0; i < d.length; i += 4) {
-              const r = d[i], g = d[i+1], b = d[i+2];
-              const mx = Math.max(r, g, b);
-              if (mx <= TH_FULL) { d[i+3] = 0; }
-              else if (mx <= TH_SOFT) {
-                // interpolación suave para bordes anti-aliased
-                const t = (mx - TH_FULL) / (TH_SOFT - TH_FULL);
-                d[i+3] = Math.round(d[i+3] * t);
-              }
-            }
-            ctx.putImageData(imgData, 0, 0);
-            const dataUrl = c.toDataURL('image/png');
-            _bgClearCache.set(url, dataUrl);
-            resolve(dataUrl);
-          } catch (e) {
-            _bgClearCache.set(url, null);
-            resolve(null);
-          }
-        };
-        img.onerror = () => { _bgClearCache.set(url, null); resolve(null); };
-        img.src = url;
-      });
-    }
-
-    // Aplica la limpieza a un <img> del DOM (si funciona, sustituye su src)
-    function applyTransparentBg(imgEl, url) {
-      if (!imgEl || !url) return;
-      stripBlackBackground(url).then(dataUrl => {
-        // Si sigue apuntando a la misma URL original, aplicamos el data URL
-        if (dataUrl && imgEl.dataset.origUrl === url) {
-          imgEl.src = dataUrl;
-        }
-      });
-    }
-
-    // --- PLAYER ---------------------------------------------------------
-    function syncPlayIcons() {
-      const playing = !audio.paused && !!audio.src;
-      const html = playing ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
-      document.getElementById('pPlay').innerHTML = html;
-      document.getElementById('fpPlay').innerHTML = html;
-      // Latido en los logos SOLO cuando está reproduciendo realmente
-      const barImg = document.getElementById('pImg');
-      const fpArt  = document.getElementById('fpArt');
-      barImg.classList.toggle('beating', playing);
-      fpArt.classList.toggle('beating',  playing);
-    }
-
-    // --- HLS (M3U8) para Android/Chrome/Firefox --------------------------
-    let hlsInstance = null;
-    function destroyHls() {
-      if (hlsInstance) {
-        try { hlsInstance.destroy(); } catch(_) {}
-        hlsInstance = null;
-      }
-    }
-    function isHlsUrl(u) {
-      try {
-        const clean = String(u).split('?')[0].toLowerCase();
-        return clean.endsWith('.m3u8') || clean.includes('.m3u8');
-      } catch(_) { return false; }
-    }
-    function nativeHlsSupported() {
-      // iOS Safari + macOS Safari
-      return audio.canPlayType('application/vnd.apple.mpegurl') !== ''
-          || audio.canPlayType('application/x-mpegURL') !== '';
-    }
-
-    function buildStreamUrl(station) {
-      let src = station.url;
-      if (station.proxy && PROXY_BASE) {
-        src = PROXY_BASE.replace(/\/$/, '') + '/stream?url=' + encodeURIComponent(src);
-      }
-      // Cache-buster (excepto en HLS, que necesita URL estable para segmentos)
-      if (!isHlsUrl(src)) {
-        const sep = src.includes('?') ? '&' : '?';
-        src = src + sep + '_cb=' + Date.now();
-      }
+    function buildStreamUrl(station, forceProxy){
+      let src=station.url;
+      if((station.proxy||forceProxy) && PROXY_BASE) src=PROXY_BASE.replace(/\/$/,'')+'/stream?url='+encodeURIComponent(src);
+      if(!isHlsUrl(src)){ const sep=src.includes('?')?'&':'?'; src=src+sep+'_cb='+Date.now(); }
       return src;
     }
+    function stopStream(){ setConnecting(false); destroyHls(); try{audio.pause();}catch(_){} audio.removeAttribute('src'); audio.src=''; try{audio.load();}catch(_){} }
 
-    function stopStream() {
-      destroyHls();
-      try { audio.pause(); } catch(_){}
-      audio.removeAttribute('src');
-      audio.src = '';
-      try { audio.load(); } catch(_){}
+    function playViaHls(url, station){
+      hlsInstance=new Hls({
+        enableWorker:true, lowLatencyMode:false, backBufferLength:30, maxBufferLength:30,
+        maxMaxBufferLength:60, liveSyncDurationCount:3,
+        manifestLoadingTimeOut:20000, manifestLoadingMaxRetry:6, manifestLoadingRetryDelay:1000,
+        levelLoadingTimeOut:20000, levelLoadingMaxRetry:6,
+        fragLoadingTimeOut:30000, fragLoadingMaxRetry:8, fragLoadingRetryDelay:1000
+      });
+      hlsInstance.loadSource(url);
+      hlsInstance.attachMedia(audio);
+      hlsInstance.on(Hls.Events.MANIFEST_PARSED, ()=>{ hlsRetries=0; audio.play().catch(()=>{}); });
+      hlsInstance.on(Hls.Events.ERROR, (evt, err)=>{
+        if(!err||!err.fatal) return;
+        console.warn('HLS fatal', err.type, err.details);
+        if(err.type===Hls.ErrorTypes.NETWORK_ERROR){
+          if(hlsRetries<3){ hlsRetries++; setTimeout(()=>{ if(hlsInstance){ hlsInstance.startLoad(); } }, 1000); return; }
+          // último recurso: reproducir nativo o vía proxy
+          destroyHls();
+          if(nativeHlsSupported()){ audio.src=url; audio.load(); audio.play().catch(()=>{}); }
+          else if(PROXY_BASE && !station._proxied){ station._proxied=true; startStream(station, true); }
+          else { setConnecting(false); showStreamError('No se pudo conectar con la emisora (red).'); }
+          return;
+        }
+        if(err.type===Hls.ErrorTypes.MEDIA_ERROR){ try{ hlsInstance.recoverMediaError(); }catch(_){ destroyHls(); setConnecting(false); showStreamError('Formato de audio no soportado en este navegador.'); } return; }
+        destroyHls(); setConnecting(false); showStreamError('No se pudo reproducir esta emisora.');
+      });
     }
 
-    function startStream(s) {
-      userPaused = false;
-      destroyHls();
-      const url = buildStreamUrl(s);
-
-      // Caso HLS (.m3u8)
-      if (isHlsUrl(url)) {
-        if (nativeHlsSupported()) {
-          // iOS Safari reproduce HLS de forma nativa
-          audio.src = url;
-          audio.load();
-          audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
-          return;
-        }
-        if (window.Hls && window.Hls.isSupported()) {
-          hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: false, backBufferLength: 30 });
-          hlsInstance.loadSource(url);
-          hlsInstance.attachMedia(audio);
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-            audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
-          });
-          hlsInstance.on(Hls.Events.ERROR, (event, dataErr) => {
-            if (dataErr && dataErr.fatal) {
-              console.warn('HLS fatal error', dataErr);
-              switch (dataErr.type) {
-                case Hls.ErrorTypes.NETWORK_ERROR: hlsInstance.startLoad(); break;
-                case Hls.ErrorTypes.MEDIA_ERROR:   hlsInstance.recoverMediaError(); break;
-                default: destroyHls();
-              }
-            }
-          });
-          return;
-        }
-        // Fallback: navegador sin soporte HLS -> intentar de todas formas
-        audio.src = url;
-        audio.load();
-        audio.play().catch(e => console.log('HLS no soportado por este navegador.'));
-        return;
+    function startStream(s, forceProxy){
+      userPaused=false; destroyHls(); hlsRetries=0;
+      setConnecting(true);
+      audio.crossOrigin=null;
+      const url=buildStreamUrl(s, forceProxy);
+      if(isHlsUrl(url)){
+        if(nativeHlsSupported()){ audio.src=url; audio.load(); audio.play().catch(()=>{}); return; }
+        if(window.Hls && Hls.isSupported()){ playViaHls(url, s); return; }
+        audio.src=url; audio.load(); audio.play().catch(()=>{}); return;
       }
-
-      // Stream normal (MP3/AAC/OGG/ICY, etc.)
-      audio.src = url;
-      audio.load();
-      audio.play().catch(e => console.log('Reproducción bloqueada hasta interacción del usuario.'));
+      audio.src=url; audio.load(); audio.play().catch(()=>{});
     }
 
-    function play(i) {
-      index = i;
-      const s = data.stations[index];
-      if (!s) return;
-      stopStream();
-      startStream(s);
-
-      const barImg = document.getElementById('pImg');
-      barImg.onerror = function () { this.onerror = null; this.src = PLACEHOLDER; };
-      barImg.dataset.origUrl = s.img || PLACEHOLDER;
-      barImg.src = s.img || PLACEHOLDER;
-      applyTransparentBg(barImg, s.img);
-      document.getElementById('pTitle').innerText = s.name;
-      document.getElementById('pGenre').innerText = [s.city, s.country, s.genre].filter(Boolean).join(' · ') || 'En vivo';
+    /* ---------- PLAYBACK ---------- */
+    function play(i){
+      index=i; const s=data.stations[index]; if(!s) return;
+      delete s._proxied;
+      stopStream(); startStream(s);
+      const barImg=document.getElementById('pImg');
+      barImg.onerror=function(){ this.onerror=null; this.src=PLACEHOLDER; };
+      barImg.src=s.img||PLACEHOLDER;
+      document.getElementById('pTitle').innerText=s.name;
+      document.getElementById('pGenre').innerHTML=`<span class="live-badge"><span class="dot"></span>EN VIVO</span> ${escapeHtml([s.city, countryName(s.countryKey)].filter(Boolean).join(' · '))}`;
       loadGrid(document.getElementById('searchInput').value);
-      if (document.getElementById('fullPlayer').classList.contains('open')) updateFullPlayer();
-      syncPlayIcons();
-
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: s.name,
-          artist: data.site.footerText || 'MultiRadios.es',
-          artwork: [{ src: s.img, sizes: '512x512', type: 'image/png' }]
-        });
-        navigator.mediaSession.setActionHandler('play',  () => { if (userPaused || audio.paused) toggle(); });
-        navigator.mediaSession.setActionHandler('pause', () => { if (!audio.paused) toggle(); });
-        navigator.mediaSession.setActionHandler('previoustrack', () => next(-1));
-        navigator.mediaSession.setActionHandler('nexttrack',     () => next(1));
+      if(document.getElementById('fullPlayer').classList.contains('open')) updateFullPlayer();
+      syncPlayIcons(); syncFavButtons();
+      if('mediaSession' in navigator){
+        navigator.mediaSession.metadata=new MediaMetadata({ title:s.name, artist:data.site.footerText||'MultiRadios.es', artwork:[{src:s.img,sizes:'512x512',type:'image/png'}] });
+        navigator.mediaSession.setActionHandler('play', ()=>{ if(userPaused||audio.paused) toggle(); });
+        navigator.mediaSession.setActionHandler('pause', ()=>{ if(!audio.paused) toggle(); });
+        navigator.mediaSession.setActionHandler('previoustrack', ()=>next(-1));
+        navigator.mediaSession.setActionHandler('nexttrack', ()=>next(1));
       }
     }
-
-    function toggle() {
-      if (index === -1) {
-        if (data.stations && data.stations.length) { play(0); openFullPlayer(); }
-        return;
-      }
-      const s = data.stations[index];
-      if (userPaused || audio.paused || !audio.src) {
-        // Reanudar: reconstruye la URL fresca
-        startStream(s);
-      } else {
-        // PAUSA REAL: marca la pausa manual y corta la descarga (no reconecta)
-        userPaused = true;
-        stopStream();
-      }
+    function toggle(){
+      if(index===-1){ if(data.stations.length){ play(0); openFullPlayer(); } return; }
+      const s=data.stations[index];
+      if(userPaused||audio.paused||!audio.src){ startStream(s); }
+      else { userPaused=true; stopStream(); }
       syncPlayIcons();
     }
-
-    function next(dir) {
-      if (!data.stations || data.stations.length === 0) return;
-      stopStream();
-      index = (index + dir + data.stations.length) % data.stations.length;
-      play(index);
+    function next(dir){
+      const list=view.list.length?view.list:data.stations.map((s,i)=>({s,i}));
+      if(!list.length) return;
+      let pos=list.findIndex(x=>x.i===index);
+      pos=(pos+dir+list.length)%list.length;
+      play(list[pos].i);
+    }
+    function syncPlayIcons(){
+      const playIcon=document.getElementById('playIcon'), fpIcon=document.getElementById('fpPlayIcon');
+      const fpArt=document.getElementById('fpArt'), barArt=document.getElementById('pImg');
+      if(connecting){ playIcon.className='fas fa-spinner fa-spin'; fpIcon.className='fas fa-spinner fa-spin'; fpArt.classList.remove('beating'); barArt.classList.remove('beating'); loadGrid(document.getElementById('searchInput').value); return; }
+      const playing=!audio.paused && !!audio.src && !userPaused;
+      const cls=playing?'fa-pause':'fa-play';
+      playIcon.className='fas '+cls;
+      fpIcon.className='fas '+cls;
+      fpArt.classList.toggle('beating', playing);
+      barArt.classList.toggle('beating', playing);
+      loadGrid(document.getElementById('searchInput').value);
+    }
+    function setConnecting(on){
+      connecting=on;
+      if(connectTimer){ clearTimeout(connectTimer); connectTimer=null; }
+      if(on){ connectTimer=setTimeout(()=>{ if(connecting && audio.paused){ setConnecting(false); showStreamError('No se pudo conectar con la emisora. Intenta de nuevo.'); } }, 16000); }
+      syncPlayIcons();
+    }
+    function showStreamError(msg){
+      const t=document.getElementById('streamToast');
+      document.getElementById('streamToastMsg').innerText=msg;
+      t.classList.add('show');
+      clearTimeout(showStreamError._t);
+      showStreamError._t=setTimeout(()=>t.classList.remove('show'), 4500);
+    }
+    function syncFavButtons(){
+      const s=data.stations[index];
+      const barFav=document.getElementById('barFav'), fpFav=document.getElementById('fpFav');
+      if(s && isFav(s.name)){ barFav.classList.add('on'); barFav.innerHTML='<i class="fas fa-heart"></i>'; fpFav.classList.add('on'); fpFav.innerHTML='<i class="fas fa-heart"></i> Favorito'; }
+      else { barFav.classList.remove('on'); barFav.innerHTML='<i class="far fa-heart"></i>'; fpFav.classList.remove('on'); fpFav.innerHTML='<i class="far fa-heart"></i> Favorito'; }
     }
 
-    audio.addEventListener('play',  syncPlayIcons);
+    audio.addEventListener('play', syncPlayIcons);
     audio.addEventListener('pause', syncPlayIcons);
-    audio.addEventListener('error', (e) => {
-      // FIX 1: si el usuario pausó (o cortamos el src), NO reintentar reproducir.
-      if (userPaused || !audio.src) return;
-      const s = data.stations[index];
-      if (!s) return;
-      console.warn('Audio error, reintentando...', e);
-      setTimeout(() => {
-        if (userPaused) return;
-        startStream(s);
-      }, 800);
+    audio.addEventListener('playing', ()=>{ setConnecting(false); });
+    audio.addEventListener('canplay', ()=>{ setConnecting(false); });
+    audio.addEventListener('error', ()=>{
+      if(userPaused||!audio.src) return;
+      const s=data.stations[index]; if(!s) return;
+      if(hlsInstance) return; // hls.js gestiona sus propios errores
+      console.warn('Audio error, reintentando…');
+      setTimeout(()=>{ if(!userPaused) startStream(s); }, 900);
     });
-
     window.addEventListener('pagehide', stopStream);
 
-    // --- PASSWORD GATE --------------------------------------------------
-    const pwOverlay = document.getElementById('pwOverlay');
-    const pwInput = document.getElementById('pwInput');
-    const pwError = document.getElementById('pwError');
-
-    function openPwModal() {
-      if (sessionStorage.getItem(AUTH_KEY) === '1') { goAdmin(); return; }
-      pwOverlay.classList.add('show');
-      pwError.innerText = '';
-      pwInput.value = '';
-      setTimeout(() => pwInput.focus(), 100);
+    /* ---------- COLOR DEL LOGO ---------- */
+    function extractColor(imgUrl){
+      return new Promise((resolve)=>{
+        if(!imgUrl){ resolve(null); return; }
+        const img=new Image(); img.crossOrigin='anonymous';
+        img.onload=()=>{
+          try{
+            const c=document.createElement('canvas'); const w=c.width=48,h=c.height=48;
+            const ctx=c.getContext('2d'); ctx.drawImage(img,0,0,w,h);
+            const d=ctx.getImageData(0,0,w,h).data;
+            let r=0,g=0,b=0,n=0,best=null,bestScore=-1;
+            for(let i=0;i<d.length;i+=4){
+              if(d[i+3]<125) continue;
+              const R=d[i],G=d[i+1],B=d[i+2]; r+=R;g+=G;b+=B;n++;
+              const mx=Math.max(R,G,B),mn=Math.min(R,G,B);
+              const sat=mx===0?0:(mx-mn)/mx; const score=sat*(mx/255);
+              if(score>bestScore){ bestScore=score; best={r:R,g:G,b:B}; }
+            }
+            if(!n) return resolve(null);
+            const avg={r:Math.round(r/n),g:Math.round(g/n),b:Math.round(b/n)};
+            resolve(bestScore>0.18?best:avg);
+          }catch(e){ resolve(null); }
+        };
+        img.onerror=()=>resolve(null);
+        img.src=imgUrl;
+      });
     }
-    function closePwModal() { pwOverlay.classList.remove('show'); }
-    function goAdmin() { window.location.href = 'admin.html'; }
-
-    function submitPw() {
-      if (pwInput.value === ADMIN_PASS) {
-        sessionStorage.setItem(AUTH_KEY, '1');
-        closePwModal();
-        goAdmin();
-      } else {
-        pwError.innerText = 'Contraseña incorrecta';
-        pwInput.value = '';
-        pwInput.focus();
+    function primaryColor(){ return getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()||'#8B5CF6'; }
+    async function applyFullPlayerColor(imgUrl){
+      const bg=document.getElementById('fpBg');
+      const col=await extractColor(imgUrl);
+      if(col){
+        const dk=v=>Math.round(v*0.72);
+        const c1=`rgb(${dk(col.r)},${dk(col.g)},${dk(col.b)})`;
+        bg.style.background=`radial-gradient(120% 90% at 50% 0%, ${c1} 0%, rgba(${col.r},${col.g},${col.b},0.30) 34%, #0B0A0F 82%)`;
+      }else{
+        const p=primaryColor();
+        bg.style.background=`radial-gradient(120% 90% at 50% 0%, ${p} 0%, #0B0A0F 78%)`;
       }
     }
 
+    /* ---------- FULL PLAYER ---------- */
+    function renderSocials(socials={}){
+      const box=document.getElementById('fpSocials');
+      const entries=Object.entries(socials).filter(([k,v])=>v && SOCIAL_ICONS[k]);
+      box.innerHTML=entries.map(([k,v])=>{
+        let href=v; if(k==='whatsapp' && !/^https?:/.test(v)) href='https://wa.me/'+String(v).replace(/[^0-9]/g,'');
+        return `<a href="${escapeHtml(href)}" target="_blank" rel="noopener" title="${k}" data-testid="social-${k}"><i class="${SOCIAL_ICONS[k]}"></i></a>`;
+      }).join('');
+      box.style.display=entries.length?'flex':'none';
+    }
+    function updateFullPlayer(){
+      const s=data.stations[index]; if(!s) return;
+      const art=document.getElementById('fpArt');
+      art.onerror=function(){ this.onerror=null; this.src=PLACEHOLDER; };
+      art.src=s.img||PLACEHOLDER;
+      document.getElementById('fpBgImg').style.backgroundImage=`url('${(s.img||PLACEHOLDER).replace(/'/g,"")}')`;
+      applyFullPlayerColor(s.img);
+      document.getElementById('fpTitle').innerText=s.name;
+      document.getElementById('fpSub').innerText=[s.city, countryName(s.countryKey)].filter(Boolean).join(' · ')||'En vivo';
+      document.getElementById('fpGenre').innerText=s.genre||'';
+      renderSocials(s.socials);
+      syncFavButtons(); syncPlayIcons();
+    }
+    function openFullPlayer(){ if(index===-1) return; updateFullPlayer(); document.getElementById('fullPlayer').classList.add('open'); }
+    function closeFullPlayer(){ document.getElementById('fullPlayer').classList.remove('open'); }
+
+    /* ---------- SHARE ---------- */
+    function shareStation(){
+      const s=data.stations[index]; if(!s) return;
+      const slug=slugify(s.name);
+      const url=location.origin+SHARE_ENDPOINT+slug;
+      const lugar=[s.city,s.country].filter(Boolean).join(', ');
+      const text=`📻 Te invito a escuchar "${s.name}"${lugar?' desde '+lugar:''} en vivo por MultiRadios. ¡Dale play!`;
+      if(navigator.share){ navigator.share({title:s.name,text,url}).catch(()=>{}); }
+      else { window.open('https://wa.me/?text='+encodeURIComponent(text+' '+url),'_blank','noopener'); }
+    }
+
+    /* ---------- VIEWS / NAV ---------- */
+    function setView(v){
+      currentView=v;
+      document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active', b.dataset.view===v));
+      const title=document.getElementById('sectionTitle'), sub=document.getElementById('sectionSub');
+      if(v==='favorites'){ title.innerText='Tus favoritos'; sub.innerText='Tus emisoras guardadas'; }
+      else if(v==='search'){ title.innerText='Buscar'; sub.innerText='Encuentra tu emisora'; setTimeout(()=>document.getElementById('searchInput').focus(),100); }
+      else { title.innerText=countryFilter?countryName(countryFilter):'Todas las emisoras'; sub.innerText='Radio en vivo · sin cortes'; }
+      renderBanners();
+      loadGrid(document.getElementById('searchInput').value);
+      document.getElementById('content').scrollTop=0;
+    }
+
+    /* ---------- ADMIN GATE ---------- */
+    const pwOverlay=document.getElementById('pwOverlay'), pwInput=document.getElementById('pwInput'), pwError=document.getElementById('pwError');
+    function openPwModal(){ if(sessionStorage.getItem(AUTH_KEY)==='1'){ goAdmin(); return; } pwOverlay.classList.add('show'); pwError.innerText=''; pwInput.value=''; setTimeout(()=>pwInput.focus(),100); }
+    function closePwModal(){ pwOverlay.classList.remove('show'); }
+    function goAdmin(){ window.location.href='admin.html'; }
+    function submitPw(){ if(pwInput.value===ADMIN_PASS){ sessionStorage.setItem(AUTH_KEY,'1'); closePwModal(); goAdmin(); } else { pwError.innerText='Contraseña incorrecta'; pwInput.value=''; pwInput.focus(); } }
+
+    /* ---------- NOTIFICATIONS ---------- */
+    function showNotification(n){
+      if(notifDismissed) return;
+      if(!n||!n.active||!n.title) return;
+      const id=String(n.id||n.title); let seen=[];
+      try{ seen=JSON.parse(localStorage.getItem(NOTIF_SEEN_KEY)||'[]'); }catch(_){}
+      if(seen.includes(id)) return;
+      const toast=document.getElementById('notifToast');
+      document.getElementById('notifTitle').innerText=n.title;
+      document.getElementById('notifText').innerText=n.body||'';
+      if(n.icon){ const ico=document.getElementById('notifIco'); const im=document.createElement('img'); im.className='n-ico'; im.src=n.icon; im.onerror=()=>{ im.replaceWith(makeBellIco()); }; ico.replaceWith(im); im.id='notifIco'; }
+      const link=document.getElementById('notifLink');
+      if(n.link){ link.href=n.link; link.style.display='inline-block'; } else link.style.display='none';
+      toast.style.display='flex';
+      let hideTimer=setTimeout(()=>toast.classList.add('show'),700);
+      function dismiss(e){
+        if(e){ e.preventDefault(); e.stopPropagation(); }
+        notifDismissed=true;
+        clearTimeout(hideTimer); clearTimeout(autoTimer);
+        toast.classList.remove('show');
+        try{ if(!seen.includes(id)){ seen.push(id); localStorage.setItem(NOTIF_SEEN_KEY, JSON.stringify(seen.slice(-50))); } }catch(_){}
+        setTimeout(()=>{ toast.style.display='none'; }, 480);
+      }
+      const closeBtn=document.getElementById('notifClose');
+      closeBtn.onclick=dismiss;
+      const autoTimer=setTimeout(dismiss, 9000);
+    }
+    function makeBellIco(){ const d=document.createElement('div'); d.className='n-ico'; d.id='notifIco'; d.innerHTML='<i class="fas fa-bell"></i>'; return d; }
+
+    /* ---------- DEEP LINK ---------- */
+    function openSharedStation(){
+      const params=new URLSearchParams(location.search);
+      const slug=params.get('station')||(location.hash.startsWith('#station=')?location.hash.slice(9):'');
+      if(!slug) return false;
+      const i=data.stations.findIndex(s=>slugify(s.name)===slug);
+      if(i===-1) return false;
+      play(i); openFullPlayer(); return true;
+    }
+
+    /* ---------- EVENTS ---------- */
+    document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+    document.getElementById('searchInput').oninput=(e)=>loadGrid(e.target.value);
     document.getElementById('adminKey').addEventListener('click', openPwModal);
     document.getElementById('pwOk').addEventListener('click', submitPw);
     document.getElementById('pwCancel').addEventListener('click', closePwModal);
-    pwInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitPw(); });
-    pwOverlay.addEventListener('click', (e) => { if (e.target === pwOverlay) closePwModal(); });
-
-    // Full player events
+    pwInput.addEventListener('keydown', e=>{ if(e.key==='Enter') submitPw(); });
+    pwOverlay.addEventListener('click', e=>{ if(e.target===pwOverlay) closePwModal(); });
     document.getElementById('fpClose').addEventListener('click', closeFullPlayer);
     document.getElementById('fpShare').addEventListener('click', shareStation);
+    document.getElementById('barShare').addEventListener('click', shareStation);
+    document.getElementById('barExpand').addEventListener('click', openFullPlayer);
+    document.getElementById('barTrackInfo').addEventListener('click', (e)=>{ if(e.target.closest('#barFav')) return; if(index!==-1) openFullPlayer(); });
+    document.getElementById('barFav').addEventListener('click',(e)=>{ e.stopPropagation(); const s=data.stations[index]; if(s) toggleFav(s.name); });
+    document.getElementById('fpFav').addEventListener('click',()=>{ const s=data.stations[index]; if(s) toggleFav(s.name); });
+    const volEl=document.getElementById('vol'), fpVolEl=document.getElementById('fpVol');
+    function setVol(v){ audio.volume=v; volEl.value=v; fpVolEl.value=v; volEl.style.setProperty('--vol',(v*100)+'%'); fpVolEl.style.setProperty('--vol',(v*100)+'%'); }
+    volEl.oninput=e=>setVol(parseFloat(e.target.value));
+    fpVolEl.oninput=e=>setVol(parseFloat(e.target.value));
 
-    // FIX 2 y 3: comparte un enlace que abre la emisora exacta y muestra su
-    // portada + descripción en WhatsApp/Facebook (Open Graph vía /api/share).
-    function shareStation() {
-      const s = data.stations[index];
-      if (!s) return;
-      const slug = slugify(s.name);
-      const url = location.origin + SHARE_ENDPOINT + slug;
-      const lugar = [s.city, s.country].filter(Boolean).join(', ');
-      const text = `📻 Te invito a escuchar "${s.name}"${lugar ? ' desde ' + lugar : ''} en vivo por MultiRadios. ¡Dale play!`;
-      if (navigator.share) {
-        navigator.share({ title: s.name, text, url }).catch(() => {});
-      } else {
-        window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'noopener');
-      }
-    }
+    window.addEventListener('storage', e=>{ if(e.key===STORAGE_KEY) init(); });
 
-    document.getElementById('barTrackInfo').addEventListener('click', () => { if (index !== -1) openFullPlayer(); });
-    document.getElementById('fpVol').addEventListener('input', (e) => {
-      audio.volume = e.target.value;
-      document.getElementById('vol').value = e.target.value;
-    });
+    /* ---------- PWA INSTALL ---------- */
+    let deferredPrompt=null;
+    const installBtn=document.getElementById('pwaInstall'), topInstall=document.getElementById('topInstall');
+    window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; installBtn.classList.add('show'); topInstall.style.display='grid'; });
+    async function doInstall(){ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; installBtn.classList.remove('show'); topInstall.style.display='none'; try{ if('Notification' in window && Notification.permission==='default') Notification.requestPermission(); }catch(_){} }
+    installBtn.addEventListener('click', doInstall);
+    topInstall.addEventListener('click', doInstall);
+    window.addEventListener('appinstalled', ()=>{ installBtn.classList.remove('show'); topInstall.style.display='none'; });
 
-    // --- NOTIFICACIONES (FIX 4) ----------------------------------------
-    function showNotification(n) {
-      if (!n || !n.active || !n.title) return;
-      const id = String(n.id || n.title);
-      let seen = [];
-      try { seen = JSON.parse(localStorage.getItem(NOTIF_SEEN_KEY) || '[]'); } catch (_) {}
-      if (seen.includes(id)) return;
+    if('serviceWorker' in navigator){ window.addEventListener('load', ()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
 
-      const toast = document.getElementById('notifToast');
-      document.getElementById('notifTitle').innerText = n.title;
-      document.getElementById('notifText').innerText = n.body || '';
-      const ico = document.getElementById('notifIco');
-      if (n.icon) {
-        ico.innerHTML = '';
-        const im = document.createElement('img'); im.className = 'n-ico'; im.src = n.icon;
-        im.onerror = () => { ico.innerHTML = '<i class="fas fa-bell"></i>'; };
-        ico.replaceWith(im); im.id = 'notifIco';
-      }
-      const link = document.getElementById('notifLink');
-      if (n.link) { link.href = n.link; link.style.display = 'inline-block'; }
-      else { link.style.display = 'none'; }
-
-      setTimeout(() => toast.classList.add('show'), 600);
-
-      // Notificación nativa del sistema (si el usuario ya dio permiso)
-      try {
-        if ('Notification' in window && Notification.permission === 'granted') {
-          if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-            navigator.serviceWorker.ready.then(reg => {
-              reg.showNotification(n.title, { body: n.body || '', icon: n.icon || 'icon-192.png', badge: 'icon-192.png', data: { url: n.link || location.href } });
-            }).catch(() => {});
-          } else {
-            new Notification(n.title, { body: n.body || '', icon: n.icon || 'icon-192.png' });
-          }
-        }
-      } catch (_) {}
-
-      function dismiss() {
-        toast.classList.remove('show');
-        try { seen.push(id); localStorage.setItem(NOTIF_SEEN_KEY, JSON.stringify(seen.slice(-50))); } catch (_) {}
-      }
-      document.getElementById('notifClose').onclick = dismiss;
-    }
-
-    // --- DEEP LINK a emisora compartida (FIX 2) ------------------------
-    function openSharedStation() {
-      const params = new URLSearchParams(location.search);
-      const slug = params.get('station') || (location.hash.startsWith('#station=') ? location.hash.slice(9) : '');
-      if (!slug) return false;
-      const i = (data.stations || []).findIndex(s => slugify(s.name) === slug);
-      if (i === -1) return false;
-      play(i);
-      openFullPlayer();
-      return true;
-    }
-
-    // --- INIT -----------------------------------------------------------
-    async function init() {
-      try {
-        data = normalizeData(await loadData());
-        applyTheme(data.theme);
-        applySite(data.site);
-        renderBanners();
-        loadGrid();
+    /* ---------- INIT ---------- */
+    async function init(){
+      try{
+        data=normalizeData(await loadData());
+        applyTheme(data.theme); applySite(data.site);
+        renderCountries(); renderBanners(); loadGrid();
+        setVol(0.8);
         openSharedStation();
         showNotification(data.notification);
-      } catch (e) {
-        console.error('Error cargando datos:', e);
-        document.getElementById('radioGrid').innerHTML =
-          '<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Error al cargar la configuración.</p></div>';
+      }catch(e){
+        console.error('Error init', e);
+        document.getElementById('radioGrid').innerHTML='<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Error al cargar la configuración.</p></div>';
       }
     }
-
-    document.getElementById('searchInput').oninput = (e) => loadGrid(e.target.value);
-    document.getElementById('vol').oninput = (e) => {
-      audio.volume = e.target.value;
-      document.getElementById('fpVol').value = e.target.value;
-    };
-
-    window.addEventListener('storage', (e) => { if (e.key === STORAGE_KEY) init(); });
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW reg failed', err));
-      });
-    }
-
-    let deferredPrompt = null;
-    const installBtn = document.getElementById('pwaInstall');
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.classList.add('show');
-    });
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      installBtn.classList.remove('show');
-      // Pide permiso de notificaciones tras instalar (para futuras notificaciones nativas)
-      try { if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission(); } catch (_) {}
-    });
-    window.addEventListener('appinstalled', () => {
-      installBtn.classList.remove('show');
-      try { if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission(); } catch (_) {}
-    });
-
     init();
   </script>
 </body>
