@@ -37,6 +37,20 @@
   ],
   "stations": [
     {
+      "name": "MEGA STAR",
+      "url": " https://stream.radiosenpy.net/8186/;",
+      "img": "https://www.radiosenpy.com/apk/imagenes/megastar.jpg",
+      "genre": "",
+      "country": "PY",
+      "city": "Villa del Rosario",
+      "socials": {
+        "website": "https://www.radiosenparaguay.com/megastar",
+        "facebook": "https://www.facebook.com/isarivas.official333",
+        "instagram": "https://instagram.com/",
+        "whatsapp": "https://wa.me/595983070766"
+      }
+    },
+    {
       "name": "SPLENDOR  DISCO ",
       "url": "https://miestacion.turadioonline.com.ar:8342/stream",
       "img": "https://i.postimg.cc/bNNwX8jQ/LOGO-SPLENDOR-DISCO.png",
