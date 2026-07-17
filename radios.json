@@ -37,6 +37,22 @@
   ],
   "stations": [
     {
+      "name": "Emisoras Paraguay 106.1 FM",
+      "url": "https://www.desde-paraguay.com/movemisoras2/movemisoras2.stream/l_9049_39080106_3908.aac?sessionid=58043&exp=1784305203&k=3bd2f0f28e111d3968faa1c7b27f289dadd0e73b2b794677af69f13e8c4b5348",
+      "img": "https://cdn.instant.audio/images/logos/emisoras-com-py/106-1.png",
+      "genre": "",
+      "country": "PY",
+      "city": "Asunción, paraguay",
+      "socials": {
+        "website": "http://www.emisorasparaguay.com.py/",
+        "facebook": "https://www.facebook.com/pages/Emisoras-Paraguay-1061/227694400691177",
+        "twitter": "https://www.twitter.com/Paraguay106/",
+        "instagram": "https://www.instagram.com/la106fm/",
+        "tiktok": "https://www.tiktok.com/@la106fm",
+        "whatsapp": "https://wa.me/595 21 211861"
+      }
+    },
+    {
       "name": "Radio San Roque 92.1 FM",
       "url": "https://stream.radiosenpy.net/8038/;",
       "img": "https://www.radiosenpy.com/apk/imagenes/sanroque.jpg",
@@ -73,7 +89,7 @@
     },
     {
       "name": "FERNANDO DE LA MORA",
-      "url": "https://www.desde-paraguay.com/movfernando/movfernando.stream/playlist.m3u8",
+      "url": "https://copacoradios.desdeparaguay.net/movfernando/movfernando.stream/media_w2134929547_1478.aac?k=1571478b858bed94d88832ee73375e76ecd5d78ef4ecff281fb48bd6499d6139&exp=1784305084",
       "img": "https://i.ibb.co/C5KSwVY5/fernando-de-la-mora.webp",
       "genre": "",
       "country": "Py",
@@ -139,7 +155,7 @@
     },
     {
       "name": "Estacion 40",
-      "url": "https://m.desdeparaguay.com/estacion40",
+      "url": "https://www.desde-paraguay.com/transestacion40/transestacion40/playlist.m3u8?k=7593f41acbae42328b034883f9180f41773b154c335f1972b24388ee60be0d13&exp=1784305024",
       "img": "https://static2.mytuner.mobi/media/tvos_radios/521/estacion-40-911-fm.0e333110.jpg",
       "genre": "",
       "country": "PY",
@@ -167,15 +183,6 @@
       "genre": "",
       "country": "Paraguay ",
       "city": "Cresencio Gonzales",
-      "socials": {}
-    },
-    {
-      "name": "RADIO POPULAR FM",
-      "url": "https://zn1radios.desdeparaguay.net/transpopular/transpopular/playlist.m3u8?k=8c2bc0d024c7a179f8329ce655b8412fac26885edafdb2c3c375603244d3d298&exp=1782982222 ",
-      "img": "https://i.ibb.co/JRXLc0wt/logo-popular.png",
-      "genre": "",
-      "country": "Paraguay ",
-      "city": "Asunción ",
       "socials": {}
     },
     {
