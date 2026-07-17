@@ -38,8 +38,8 @@
   "stations": [
     {
       "name": "Emisoras Paraguay 106.1 FM",
-      "url": " https://www.desdepylabs.com/Stream/StreamUrl/emisoras/shoutcast/endpoint",
-      "img": "https://cdn.instant.audio/images/logos/emisoras-com-py/106-1.png",
+      "url": " https://rds3.desdeparaguay.net/movemisoras/movemisoras.stream/media_w2118178924_1119.aac",
+      "img": "https://static2.mytuner.mobi/media/tvos_radios/520/emisoras-paraguay-1061-fm.1f85770b.png",
       "genre": "",
       "country": "PY",
       "city": "Asunción, paraguay",
