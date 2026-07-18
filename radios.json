@@ -38,7 +38,7 @@
   "stations": [
     {
       "name": "Emisoras Paraguay 106.1 FM",
-      "url": "https://www.desde-paraguay.com/movemisoras/movemisoras.stream/playlist.m3u8",
+      "url": "\\/\\/www.desde-paraguay.com\\/movemisoras\\/movemisoras.stream\\/playlist.m3u8",
       "img": "https://static2.mytuner.mobi/media/tvos_radios/520/emisoras-paraguay-1061-fm.1f85770b.png",
       "genre": "",
       "country": "PY",
