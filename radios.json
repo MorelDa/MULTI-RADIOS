@@ -13,17 +13,17 @@
   },
   "theme": {
     "font": "Poppins",
-    "preset": "Blanco Minimalista",
-    "primary": "#111827",
-    "accent": "#6B7280",
-    "light": "#F1F5F9",
-    "surface": "#F8FAFC",
-    "textDark": "#0F172A",
-    "textMuted": "#64748B",
-    "border": "#E2E8F0",
-    "background": "#FFFFFF",
-    "playerBg": "#F1F5F9",
-    "playerText": "#0F172A"
+    "preset": "Medianoche Azul",
+    "primary": "#6366F1",
+    "accent": "#818CF8",
+    "light": "#161832",
+    "surface": "#101225",
+    "textDark": "#EDEEFA",
+    "textMuted": "#8B90BE",
+    "border": "#242844",
+    "background": "#070813",
+    "playerBg": "#0A0B1A",
+    "playerText": "#ffffff"
   },
   "banners": [
     {
