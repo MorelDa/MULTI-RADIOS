@@ -12,18 +12,18 @@
     "whatsappText": "¡Hola! Quiero agregar mi radio a MultiRadios 📻"
   },
   "theme": {
-    "font": "Bebas Neue",
-    "preset": "Cian Turquesa",
-    "primary": "#22D3EE",
-    "accent": "#06B6D4",
-    "light": "#1A1F2E",
-    "surface": "#131722",
-    "textDark": "#F1F5F9",
-    "textMuted": "#8B93A7",
-    "border": "#232838",
-    "background": "#0B0E14",
-    "playerBg": "#0C0F16",
-    "playerText": "#ffffff"
+    "font": "Poppins",
+    "preset": "Blanco Minimalista",
+    "primary": "#111827",
+    "accent": "#6B7280",
+    "light": "#F1F5F9",
+    "surface": "#F8FAFC",
+    "textDark": "#0F172A",
+    "textMuted": "#64748B",
+    "border": "#E2E8F0",
+    "background": "#FFFFFF",
+    "playerBg": "#F1F5F9",
+    "playerText": "#0F172A"
   },
   "banners": [
     {
@@ -37,8 +37,22 @@
   ],
   "stations": [
     {
+      "name": "103.7 IMPERIAL FM",
+      "url": "https://miestacion.turadioonline.com.ar:8114/stream",
+      "img": "https://i.ibb.co/2T4WFJ5/LOGO.png",
+      "genre": "",
+      "country": "PY",
+      "city": "YRYBUCUA-3 DE FEBRERO",
+      "socials": {
+        "facebook": "https://www.facebook.com/share/18g1tEUQLQ/",
+        "instagram": "https://www.instagram.com/radioimperialfm1?igsh=MTdzdjB3MGZtYmR1NQ==",
+        "whatsapp": "https://wa.me/595975368283",
+        "website": "https://imperial-fm.vercel.app/"
+      }
+    },
+    {
       "name": "Emisoras Paraguay 106.1 FM",
-      "url": "https://rds3.desdeparaguay.net/movemisoras/movemisoras.stream/playlist.m3u8",
+      "url": "\\/\\/www.desde-paraguay.com\\/movemisoras\\/movemisoras.stream\\/playlist.m3u8",
       "img": "https://static2.mytuner.mobi/media/tvos_radios/520/emisoras-paraguay-1061-fm.1f85770b.png",
       "genre": "",
       "country": "PY",
@@ -89,7 +103,7 @@
     },
     {
       "name": "FERNANDO DE LA MORA",
-      "url": "https://copacoradios.desdeparaguay.net/movfernando/movfernando.stream/playlist.m3u8?k=1571478b858bed94d88832ee73375e76ecd5d78ef4ecff281fb48bd6499d6139&exp=1784305084",
+      "url": "https://copacoradios.desdeparaguay.net/movfernando/movfernando.stream/media_w2134929547_1478.aac?k=1571478b858bed94d88832ee73375e76ecd5d78ef4ecff281fb48bd6499d6139&exp=1784305084",
       "img": "https://i.ibb.co/C5KSwVY5/fernando-de-la-mora.webp",
       "genre": "",
       "country": "Py",
