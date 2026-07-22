@@ -92,22 +92,19 @@
 
     .content{flex:1;overflow-y:auto;overflow-x:hidden;min-width:0;padding:6px 26px 30px;}
 
-    /* HERO destacada */
-    .hero{position:relative;border-radius:22px;overflow:hidden;margin:8px 0 26px;min-height:270px;display:flex;align-items:center;background:var(--surface-2);border:1px solid var(--border);}
-    .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.35;filter:blur(2px);transform:scale(1.08);}
-    .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--surface-2) 8%,rgba(26,31,46,.72) 46%,rgba(26,31,46,.15) 100%);}
-    .hero-inner{position:relative;z-index:2;padding:32px 34px;max-width:62%;}
-    .hero .tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-weight:800;margin-bottom:10px;}
-    .hero h1{font-size:2.6rem;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:12px;}
-    .hero p{color:var(--muted);font-size:.95rem;line-height:1.5;max-width:520px;margin-bottom:20px;}
-    .hero-btns{display:flex;align-items:center;gap:12px;}
-    .btn-listen{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:#04121a;border:none;padding:13px 28px;border-radius:30px;font-family:var(--font-body);font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 8px 22px rgba(34,211,238,.4);transition:transform .12s;}
-    .btn-listen:hover{transform:translateY(-2px);}
-    .btn-listen:active{transform:scale(.97);}
-    .btn-bookmark{width:48px;height:48px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text);cursor:pointer;font-size:1.05rem;transition:all .18s;}
-    .btn-bookmark.on{color:var(--accent);border-color:var(--accent);}
-    .btn-bookmark:hover{background:rgba(255,255,255,.1);}
-    .hero-art{position:absolute;right:5%;top:50%;transform:translateY(-50%);width:190px;height:190px;border-radius:20px;object-fit:cover;box-shadow:0 20px 50px rgba(0,0,0,.5);z-index:2;border:2px solid rgba(255,255,255,.08);}
+    /* CARRUSEL PUBLICIDAD */
+    .ad-carousel{position:relative;margin:8px 0 26px;border-radius:22px;overflow:hidden;background:var(--surface-2);border:1px solid var(--border);}
+    .ad-track{display:flex;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+    .ad-slide{flex:0 0 100%;position:relative;aspect-ratio:16/6;min-height:180px;max-height:340px;background:var(--surface-2);}
+    .ad-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+    .ad-slide a{display:block;width:100%;height:100%;}
+    .ad-dots{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:7px;z-index:3;}
+    .ad-dots button{width:8px;height:8px;padding:0;border-radius:50%;border:none;background:rgba(255,255,255,.4);cursor:pointer;transition:background .2s,width .2s;}
+    .ad-dots button.on{background:var(--accent);width:22px;border-radius:20px;}
+    .ad-nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);color:#fff;border:1px solid rgba(255,255,255,.12);cursor:pointer;z-index:3;display:grid;place-items:center;font-size:.9rem;opacity:0;transition:opacity .25s;}
+    .ad-carousel:hover .ad-nav{opacity:1;}
+    .ad-nav.prev{left:12px;} .ad-nav.next{right:12px;}
+    .ad-empty{display:flex;align-items:center;justify-content:center;padding:40px 20px;color:var(--muted);gap:10px;}
 
     .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin:24px 0 16px;}
     .section-head h2{font-size:1.4rem;font-weight:800;letter-spacing:-.5px;}
@@ -255,11 +252,9 @@
       .search-box{max-width:none;flex-basis:100%;order:5;}
       .search-box input{padding:11px 42px 11px 42px;font-size:.9rem;}
       .content{padding:4px 14px 20px;overflow:visible;height:auto;}
-      .hero{min-height:auto;margin:6px 0 20px;}
-      .hero-inner{max-width:100%;padding:22px 18px;}
-      .hero h1{font-size:1.6rem;}
-      .hero p{font-size:.85rem;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;}
-      .hero-art{display:none;}
+      .ad-carousel{margin:6px 0 20px;}
+      .ad-slide{aspect-ratio:16/7;min-height:130px;}
+      .ad-nav{opacity:1;width:32px;height:32px;font-size:.75rem;}
       .section-head h2{font-size:1.2rem;}
       #mobileChips{display:flex!important;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding-bottom:8px;margin-bottom:14px;scrollbar-width:none;}
       #mobileChips::-webkit-scrollbar{display:none;}
@@ -344,18 +339,11 @@
       </header>
 
       <div class="content" id="content">
-        <div class="hero" id="hero" style="display:none">
-          <div class="hero-bg" id="heroBg"></div>
-          <div class="hero-inner">
-            <div class="tag" id="heroTag">Emisora destacada</div>
-            <h1 id="heroTitle">—</h1>
-            <p id="heroDesc">—</p>
-            <div class="hero-btns">
-              <button class="btn-listen" id="heroListen" data-testid="hero-listen-btn"><i class="fas fa-play"></i> Escuchar</button>
-              <button class="btn-bookmark" id="heroFav" data-testid="hero-fav-btn"><i class="far fa-bookmark"></i></button>
-            </div>
-          </div>
-          <img class="hero-art" id="heroArt" alt="destacada">
+        <div class="ad-carousel" id="adCarousel" style="display:none" data-testid="ad-carousel">
+          <div class="ad-track" id="adTrack"></div>
+          <button class="ad-nav prev" id="adPrev" data-testid="ad-prev"><i class="fas fa-chevron-left"></i></button>
+          <button class="ad-nav next" id="adNext" data-testid="ad-next"><i class="fas fa-chevron-right"></i></button>
+          <div class="ad-dots" id="adDots"></div>
         </div>
 
         <div class="chips" id="mobileChips" style="display:none"></div>
@@ -444,7 +432,7 @@
     function slugify(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||'radio';}
     function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
     function isFav(n){return favs.includes(slugify(n));}
-    function toggleFav(n){const s=slugify(n),i=favs.indexOf(s);if(i===-1)favs.push(s);else favs.splice(i,1);save(FAVS_KEY,favs);loadGrid(document.getElementById('searchInput').value);syncFav();renderHero();}
+    function toggleFav(n){const s=slugify(n),i=favs.indexOf(s);if(i===-1)favs.push(s);else favs.splice(i,1);save(FAVS_KEY,favs);loadGrid(document.getElementById('searchInput').value);syncFav();}
     function addHistory(n){const s=slugify(n);history=history.filter(x=>x!==s);history.unshift(s);history=history.slice(0,20);save(HIST_KEY,history);}
 
     /* THEME */
@@ -483,7 +471,9 @@
       return norm({});
     }
     function norm(d){
-      const o={site:d.site||{},theme:d.theme||{},banners:Array.isArray(d.banners)?d.banners:[],stations:Array.isArray(d.stations)?d.stations:[]};
+      const o={site:d.site||{},theme:d.theme||{},banners:[],stations:Array.isArray(d.stations)?d.stations:[]};
+      const bs=Array.isArray(d.banners)?d.banners:[];
+      o.banners=bs.map(b=>{if(typeof b==='string')return {img:b,link:''};if(b&&typeof b==='object')return {img:String(b.img||'').trim(),link:String(b.link||'').trim()};return null;}).filter(b=>b&&b.img);
       o.stations=o.stations.filter(s=>s&&s.name&&s.url).map(s=>({name:String(s.name).trim(),url:String(s.url).trim(),img:s.img||PLACEHOLDER,genre:s.genre||'',country:(s.country||'').trim(),city:(s.city||'').trim(),countryKey:canon(s.country),desc:s.desc||s.description||'',proxy:!!s.proxy,socials:s.socials||{}}));
       return o;
     }
@@ -503,22 +493,40 @@
       chips.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{countryFilter=b.dataset.c;renderCountries();loadGrid(document.getElementById('searchInput').value);});
     }
 
-    /* HERO */
-    function renderHero(){
-      const hero=document.getElementById('hero');
-      if(currentView!=='home'||!data.stations.length){hero.style.display='none';return;}
-      const s=index!==-1?data.stations[index]:data.stations[0];
-      if(!s){hero.style.display='none';return;}
-      hero.dataset.i=data.stations.indexOf(s);
-      hero.style.display='flex';
-      document.getElementById('heroTag').innerText=index!==-1?'Reproduciendo ahora':'Emisora destacada';
-      document.getElementById('heroTitle').innerText=s.name;
-      const meta=[s.city,cName(s.countryKey)].filter(Boolean).join(', ');
-      document.getElementById('heroDesc').innerText=s.desc||`${s.genre?s.genre+' · ':''}Escucha ${s.name} en vivo${meta?' desde '+meta:''}. Radio online sin cortes, la mejor calidad directo a tus oídos.`;
-      const art=document.getElementById('heroArt');art.onerror=function(){this.onerror=null;this.src=PLACEHOLDER;};art.src=s.img||PLACEHOLDER;
-      document.getElementById('heroBg').style.backgroundImage=`url('${(s.img||PLACEHOLDER).replace(/'/g,'')}')`;
-      const hf=document.getElementById('heroFav');
-      if(isFav(s.name)){hf.classList.add('on');hf.innerHTML='<i class="fas fa-bookmark"></i>';}else{hf.classList.remove('on');hf.innerHTML='<i class="far fa-bookmark"></i>';}
+    /* CARRUSEL PUBLICIDAD */
+    let adIndex=0, adTimer=null;
+    function renderAdCarousel(){
+      const box=document.getElementById('adCarousel');
+      const track=document.getElementById('adTrack');
+      const dots=document.getElementById('adDots');
+      const banners=(data.banners||[]).filter(b=>b&&b.img);
+      if(currentView!=='home'||!banners.length){box.style.display='none';if(adTimer)clearInterval(adTimer);return;}
+      box.style.display='block';
+      track.innerHTML=banners.map((b,i)=>{
+        const img=`<img src="${esc(b.img)}" loading="${i===0?'eager':'lazy'}" alt="publicidad" onerror="this.style.opacity=.15">`;
+        const inner=b.link?`<a href="${esc(b.link)}" target="_blank" rel="noopener sponsored" data-testid="ad-link-${i}">${img}</a>`:img;
+        return `<div class="ad-slide">${inner}</div>`;
+      }).join('');
+      dots.innerHTML=banners.map((_,i)=>`<button data-i="${i}" class="${i===0?'on':''}" aria-label="banner ${i+1}" data-testid="ad-dot-${i}"></button>`).join('');
+      dots.querySelectorAll('button').forEach(b=>b.onclick=()=>goAd(+b.dataset.i));
+      adIndex=0; updateAd();
+      document.getElementById('adPrev').onclick=()=>goAd(adIndex-1);
+      document.getElementById('adNext').onclick=()=>goAd(adIndex+1);
+      if(adTimer)clearInterval(adTimer);
+      if(banners.length>1) adTimer=setInterval(()=>goAd(adIndex+1),6000);
+    }
+    function goAd(i){
+      const banners=(data.banners||[]).filter(b=>b&&b.img);
+      if(!banners.length)return;
+      adIndex=(i%banners.length+banners.length)%banners.length;
+      updateAd();
+    }
+    function updateAd(){
+      const t=document.getElementById('adTrack');
+      const dots=document.getElementById('adDots');
+      if(!t)return;
+      t.style.transform=`translateX(-${adIndex*100}%)`;
+      dots.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on',i===adIndex));
     }
 
     /* GRID */
@@ -563,7 +571,24 @@
     function destroyHls(){if(hls){try{hls.destroy();}catch(_){}hls=null;}}
     function isHls(u){try{const c=String(u).split('?')[0].toLowerCase();return c.endsWith('.m3u8')||c.includes('.m3u8');}catch(_){return false;}}
     function nativeHls(){return audio.canPlayType('application/vnd.apple.mpegurl')!==''||audio.canPlayType('application/x-mpegURL')!=='';}
-    function buildUrl(s,fp){let src=s.url;if((s.proxy||fp)&&PROXY_BASE)src=PROXY_BASE.replace(/\/$/,'')+'/stream?url='+encodeURIComponent(src);if(!isHls(src)){const sep=src.includes('?')?'&':'?';src=src+sep+'_cb='+Date.now();}return src;}
+    /* Normaliza URLs: convierte segmentos HLS (.aac/.ts individuales tipo media_wXXX_XXX.aac)
+       en su playlist.m3u8 correspondiente, preservando query string (tokens k= y exp=). */
+    function normalizeStreamUrl(u){
+      try{
+        let src=String(u||'').trim();
+        // URL protocol-relative -> https
+        if(src.startsWith('//')) src='https:'+src;
+        // Detecta segmento HLS típico: /algo.stream/media_wXXX_XXX.aac (o .ts) con o sin query
+        const segRe=/(\/[^\/?#]+\.stream\/)(media_[^\/?#]+\.(?:aac|ts|m4s))(\?[^#]*)?/i;
+        const m=src.match(segRe);
+        if(m){
+          const q=m[3]||'';
+          src=src.replace(segRe, m[1]+'playlist.m3u8'+q);
+        }
+        return src;
+      }catch(_){return u;}
+    }
+    function buildUrl(s,fp){let src=normalizeStreamUrl(s.url);if((s.proxy||fp)&&PROXY_BASE)src=PROXY_BASE.replace(/\/$/,'')+'/stream?url='+encodeURIComponent(src);if(!isHls(src)){const sep=src.includes('?')?'&':'?';src=src+sep+'_cb='+Date.now();}return src;}
     function stopStream(){setConnecting(false);destroyHls();try{audio.pause();}catch(_){}audio.removeAttribute('src');audio.src='';try{audio.load();}catch(_){}}
     function playHls(url,s){
       hls=new Hls({enableWorker:true,lowLatencyMode:false,backBufferLength:30,maxBufferLength:30,manifestLoadingTimeOut:20000,manifestLoadingMaxRetry:6,manifestLoadingRetryDelay:1000,levelLoadingTimeOut:20000,levelLoadingMaxRetry:6,fragLoadingTimeOut:30000,fragLoadingMaxRetry:8,fragLoadingRetryDelay:1000});
@@ -584,7 +609,7 @@
       const bi=document.getElementById('pImg');bi.onerror=function(){this.onerror=null;this.src=PLACEHOLDER;};bi.src=s.img||PLACEHOLDER;
       document.getElementById('pTitle').innerText=s.name;
       document.getElementById('pGenre').innerHTML=`<span class="live-badge"><span class="dot"></span>EN VIVO</span> ${esc([s.city,cName(s.countryKey)].filter(Boolean).join(' · '))}`;
-      loadGrid(document.getElementById('searchInput').value);renderHero();
+      loadGrid(document.getElementById('searchInput').value);
       if(document.getElementById('fullPlayer').classList.contains('open'))updateFull();
       syncIcons();syncFav();
       if('mediaSession'in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:s.name,artist:data.site.footerText||'MultiRadios.es',artwork:[{src:s.img,sizes:'512x512',type:'image/png'}]});navigator.mediaSession.setActionHandler('play',()=>{if(userPaused||audio.paused)toggle();});navigator.mediaSession.setActionHandler('pause',()=>{if(!audio.paused)toggle();});navigator.mediaSession.setActionHandler('previoustrack',()=>next(-1));navigator.mediaSession.setActionHandler('nexttrack',()=>next(1));}
@@ -645,7 +670,7 @@
       else if(v==='search'){t.innerText='Buscar';sub.innerText='Encuentra tu emisora';setTimeout(()=>document.getElementById('searchInput').focus(),100);}
       else if(v==='stations'){t.innerText=countryFilter?cName(countryFilter):'Todas las emisoras';sub.innerText='Radio en vivo · sin cortes';}
       else{t.innerText='Todas las emisoras';sub.innerText='Radio en vivo · sin cortes';}
-      renderHero();loadGrid(document.getElementById('searchInput').value);document.getElementById('content').scrollTop=0;
+      renderAdCarousel();loadGrid(document.getElementById('searchInput').value);document.getElementById('content').scrollTop=0;
     }
 
     /* SIDEBAR (mobile) */
@@ -668,8 +693,6 @@
     document.getElementById('barTrackInfo').addEventListener('click',e=>{if(e.target.closest('#barFav'))return;if(index!==-1)openFull();});
     document.getElementById('barFav').addEventListener('click',e=>{e.stopPropagation();const s=data.stations[index];if(s)toggleFav(s.name);});
     document.getElementById('fpFav').addEventListener('click',()=>{const s=data.stations[index];if(s)toggleFav(s.name);});
-    document.getElementById('heroListen').addEventListener('click',()=>{const i=+document.getElementById('hero').dataset.i;if(!isNaN(i)){handlePlay(i);}});
-    document.getElementById('heroFav').addEventListener('click',()=>{const i=+document.getElementById('hero').dataset.i;if(!isNaN(i)&&data.stations[i])toggleFav(data.stations[i].name);});
     const volEl=document.getElementById('vol'),fpVolEl=document.getElementById('fpVol');
     function setVol(v){audio.volume=v;volEl.value=v;fpVolEl.value=v;volEl.style.setProperty('--vol',(v*100)+'%');fpVolEl.style.setProperty('--vol',(v*100)+'%');}
     volEl.oninput=e=>setVol(parseFloat(e.target.value));fpVolEl.oninput=e=>setVol(parseFloat(e.target.value));
@@ -693,7 +716,7 @@
       try{
         data=norm(await loadData());
         applyTheme(data.theme);applySite(data.site);
-        buildWave();renderCountries();loadGrid();renderHero();setVol(0.8);openShared();
+        buildWave();renderCountries();loadGrid();renderAdCarousel();setVol(0.8);openShared();
       }catch(e){console.error(e);document.getElementById('radioGrid').innerHTML='<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Error al cargar la configuración.</p></div>';}
     }
     init();

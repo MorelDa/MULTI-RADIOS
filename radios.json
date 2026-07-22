@@ -38,7 +38,7 @@
   "stations": [
     {
       "name": "Emisoras Paraguay 106.1 FM",
-      "url": "\\/\\/www.desde-paraguay.com\\/movemisoras\\/movemisoras.stream\\/playlist.m3u8",
+      "url": "https://rds3.desdeparaguay.net/movemisoras/movemisoras.stream/playlist.m3u8",
       "img": "https://static2.mytuner.mobi/media/tvos_radios/520/emisoras-paraguay-1061-fm.1f85770b.png",
       "genre": "",
       "country": "PY",
@@ -89,7 +89,7 @@
     },
     {
       "name": "FERNANDO DE LA MORA",
-      "url": "https://copacoradios.desdeparaguay.net/movfernando/movfernando.stream/media_w2134929547_1478.aac?k=1571478b858bed94d88832ee73375e76ecd5d78ef4ecff281fb48bd6499d6139&exp=1784305084",
+      "url": "https://copacoradios.desdeparaguay.net/movfernando/movfernando.stream/playlist.m3u8?k=1571478b858bed94d88832ee73375e76ecd5d78ef4ecff281fb48bd6499d6139&exp=1784305084",
       "img": "https://i.ibb.co/C5KSwVY5/fernando-de-la-mora.webp",
       "genre": "",
       "country": "Py",

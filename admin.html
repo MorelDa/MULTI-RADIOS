@@ -55,9 +55,9 @@
     .color-row{display:flex;align-items:center;gap:10px;}
     .color-row input[type=color]{width:44px;height:38px;border:1px solid var(--line);border-radius:8px;background:none;cursor:pointer;padding:2px;}
 
-    .presets{display:flex;gap:8px;flex-wrap:wrap;}
-    .preset{width:38px;height:38px;border-radius:10px;cursor:pointer;border:2px solid transparent;position:relative;}
-    .preset:hover{transform:scale(1.08);} .preset.sel{border-color:#fff;}
+    .presets{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;}
+    .preset{aspect-ratio:1/1;border-radius:12px;cursor:pointer;border:2px solid transparent;position:relative;transition:transform .15s,border-color .2s;display:flex;align-items:flex-end;padding:6px;color:#fff;font-size:.65rem;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6);}
+    .preset:hover{transform:scale(1.05);} .preset.sel{border-color:#fff;box-shadow:0 0 0 3px var(--a);}
 
     .fonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
     .font-opt{padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);cursor:pointer;font-size:.9rem;text-align:center;}
@@ -227,7 +227,18 @@
       'Spotube Violeta':{primary:'#8B5CF6',accent:'#A78BFA',light:'#1C1B26',surface:'#16151E',textDark:'#F4F3FA',textMuted:'#A9A6B8',border:'#2A2833',background:'#0B0A0F',playerBg:'#100F16',playerText:'#ffffff'},
       'Spotube Verde':{primary:'#1DB954',accent:'#4ADE80',light:'#1A231C',surface:'#141B16',textDark:'#F1F7F2',textMuted:'#9DB0A2',border:'#26332A',background:'#0A0F0B',playerBg:'#0D140F',playerText:'#ffffff'},
       'Coral':{primary:'#FF6B6B',accent:'#FF9E80',light:'#241A1A',surface:'#191313',textDark:'#F8F1F1',textMuted:'#B3A2A2',border:'#332828',background:'#0F0A0A',playerBg:'#150F0F',playerText:'#ffffff'},
-      'Oro Premium':{primary:'#E0B84C',accent:'#F5D77E',light:'#211E14',surface:'#181610',textDark:'#F7F3E8',textMuted:'#B5AD97',border:'#33301F',background:'#0F0D07',playerBg:'#15130C',playerText:'#ffffff'}
+      'Oro Premium':{primary:'#E0B84C',accent:'#F5D77E',light:'#211E14',surface:'#181610',textDark:'#F7F3E8',textMuted:'#B5AD97',border:'#33301F',background:'#0F0D07',playerBg:'#15130C',playerText:'#ffffff'},
+      'Océano Profundo':{primary:'#3B82F6',accent:'#60A5FA',light:'#152234',surface:'#0F1A2A',textDark:'#E8F0FB',textMuted:'#8FA4C2',border:'#1E304A',background:'#050B18',playerBg:'#08111F',playerText:'#ffffff'},
+      'Neón Cyber':{primary:'#00FFB2',accent:'#FF00E5',light:'#141426',surface:'#0F0F1E',textDark:'#F0F0FF',textMuted:'#8888B0',border:'#2A2A44',background:'#07070F',playerBg:'#0B0B18',playerText:'#ffffff'},
+      'Atardecer':{primary:'#F97316',accent:'#FBBF24',light:'#241812',surface:'#1A120D',textDark:'#FFF3E8',textMuted:'#BDA595',border:'#3A2618',background:'#100905',playerBg:'#160D07',playerText:'#ffffff'},
+      'Bosque Profundo':{primary:'#10B981',accent:'#34D399',light:'#122019',surface:'#0D1913',textDark:'#EAF7F0',textMuted:'#8CAA9A',border:'#1E2E24',background:'#060D09',playerBg:'#0A140E',playerText:'#ffffff'},
+      'Rosa Neón':{primary:'#EC4899',accent:'#F472B6',light:'#231423',surface:'#1A0F1A',textDark:'#FCE7F3',textMuted:'#B78BAC',border:'#3A1F35',background:'#0F050D',playerBg:'#160816',playerText:'#ffffff'},
+      'Retro Wave':{primary:'#FF2E97',accent:'#8A2BE2',light:'#1A0D26',surface:'#130A1E',textDark:'#F5E9FF',textMuted:'#A88EC5',border:'#2E1A47',background:'#08040F',playerBg:'#0C0716',playerText:'#ffffff'},
+      'Medianoche Azul':{primary:'#6366F1',accent:'#818CF8',light:'#161832',surface:'#101225',textDark:'#EDEEFA',textMuted:'#8B90BE',border:'#242844',background:'#070813',playerBg:'#0A0B1A',playerText:'#ffffff'},
+      'Rojo Fuego':{primary:'#EF4444',accent:'#F87171',light:'#231414',surface:'#1A0E0E',textDark:'#FFE8E8',textMuted:'#C09595',border:'#3A1F1F',background:'#0F0505',playerBg:'#160808',playerText:'#ffffff'},
+      'Blanco Minimalista':{primary:'#111827',accent:'#6B7280',light:'#F1F5F9',surface:'#F8FAFC',textDark:'#0F172A',textMuted:'#64748B',border:'#E2E8F0',background:'#FFFFFF',playerBg:'#F1F5F9',playerText:'#0F172A'},
+      'Menta Fresca':{primary:'#14B8A6',accent:'#2DD4BF',light:'#0F1E1D',surface:'#0A1615',textDark:'#E6F5F4',textMuted:'#7EA7A3',border:'#1A2D2B',background:'#040C0B',playerBg:'#07130F',playerText:'#ffffff'},
+      'Lava Volcánica':{primary:'#DC2626',accent:'#F59E0B',light:'#1F1310',surface:'#180C0A',textDark:'#FFE8DC',textMuted:'#B89285',border:'#361D17',background:'#0B0503',playerBg:'#100805',playerText:'#ffffff'}
     };
 
     const FONTS = ['Plus Jakarta Sans','Poppins','Montserrat','Inter','Roboto','Nunito','Oswald','Raleway','Bebas Neue','Lato','Quicksand','Rubik','Work Sans','Sora','Manrope','Josefin Sans','DM Sans','Space Grotesk','Archivo','Outfit'];
@@ -289,7 +300,8 @@
       const box=document.getElementById('presets'); box.innerHTML='';
       Object.entries(PRESETS).forEach(([name,p])=>{
         const d=document.createElement('div'); d.className='preset'; d.title=name;
-        d.style.background=`linear-gradient(135deg, ${p.primary} 50%, ${p.playerBg} 50%)`;
+        d.style.background=`linear-gradient(135deg, ${p.primary} 0%, ${p.primary} 45%, ${p.accent} 55%, ${p.playerBg} 100%)`;
+        d.innerHTML=`<span>${name}</span>`;
         d.onclick=()=>{ Object.assign(data.theme,p); data.theme.preset=name; renderColors(); markPreset(name); };
         d.dataset.name=name; box.appendChild(d);
       });

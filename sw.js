@@ -1,7 +1,7 @@
 // MultiRadios Service Worker - PWA (Spotube Edition) v3
 // Estrategia: NETWORK-FIRST para el HTML y radios.json (para que las
 // actualizaciones se vean al instante). Cache-first solo para assets estáticos.
-const CACHE_NAME = 'multiradios-v3.0.0';
+const CACHE_NAME = 'multiradios-v3.1.0';
 const STATIC_ASSETS = [
   './manifest.json',
   './icon-192.png',
