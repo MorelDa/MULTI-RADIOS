@@ -37,6 +37,21 @@
   ],
   "stations": [
     {
+      "name": "Radio Monumental 1080 AM",
+      "url": "https://mdstrm.com/audio/62d81ca6a459e4082203c95b/icecast.audio",
+      "img": "https://i.ibb.co/wZB1WPMP/MONUMENTAL.webp",
+      "genre": "",
+      "country": "PY",
+      "city": "esq. o’higgins, asunción, paraguay",
+      "socials": {
+        "facebook": "https://www.facebook.com/AM1080",
+        "instagram": "https://www.instagram.com/monumentalam1080/",
+        "twitter": "https://twitter.com/am_1080",
+        "youtube": "https://www.youtube.com/@am_1080",
+        "whatsapp": "https://wa.me/595971108010"
+      }
+    },
+    {
       "name": "VENUS RADIO",
       "url": " https://tigocloud.desdeparaguay.net/movvenus/movvenus.stream/media_w1817956484_5266.aac",
       "img": "https://i.ibb.co/chVZfwZ5/venus-1.webp",
