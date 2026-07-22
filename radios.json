@@ -37,6 +37,21 @@
   ],
   "stations": [
     {
+      "name": "VENUS RADIO",
+      "url": " https://tigocloud.desdeparaguay.net/movvenus/movvenus.stream/media_w1817956484_5266.aac",
+      "img": "https://www.venus.com.py/player/playlist/img/venus.png",
+      "genre": "",
+      "country": "PY",
+      "city": "ASUNCIÓN",
+      "socials": {
+        "facebook": "https://www.facebook.com/radiovenustv",
+        "instagram": "https://www.instagram.com/venusmediadigital/",
+        "twitter": "https://twitter.com/venusmedia",
+        "youtube": "https://www.youtube.com/venusmedia",
+        "website": "https://www.venus.com.py/"
+      }
+    },
+    {
       "name": "103.7 IMPERIAL FM",
       "url": "https://miestacion.turadioonline.com.ar:8114/stream",
       "img": "https://i.ibb.co/7tvD5DPh/LOGO.webp",
