@@ -37,6 +37,18 @@
   ],
   "stations": [
     {
+      "name": "Radio Vy'a Renda",
+      "url": " https://full.radiosdelparaguay.com:8042/stream",
+      "img": "https://i.ibb.co/6x0637c/475802953-1460913658162142-57699-1.webp",
+      "genre": "",
+      "country": "PY",
+      "city": "YRYBUCUA-VYARENDA",
+      "socials": {
+        "facebook": "https://www.facebook.com/share/19wiFFRGxw/?mibextid=wwXIfr",
+        "youtube": "https://youtube.com/@radiovyarendacomunicaciones?si=5U8Tc6GPamhNxbT6"
+      }
+    },
+    {
       "name": "Radio Monumental 1080 AM",
       "url": "https://mdstrm.com/audio/62d81ca6a459e4082203c95b/icecast.audio",
       "img": "https://i.ibb.co/wZB1WPMP/MONUMENTAL.webp",
@@ -199,7 +211,7 @@
     },
     {
       "name": "Estacion 40",
-      "url": "https://www.desde-paraguay.com/transestacion40/transestacion40/playlist.m3u8?k=7593f41acbae42328b034883f9180f41773b154c335f1972b24388ee60be0d13&exp=1784305024",
+      "url": "Request URL https://mdstrm.com/audio/62d81cfbbfbcee0837ba1b60/icecast.audio",
       "img": "https://static2.mytuner.mobi/media/tvos_radios/521/estacion-40-911-fm.0e333110.jpg",
       "genre": "",
       "country": "PY",
