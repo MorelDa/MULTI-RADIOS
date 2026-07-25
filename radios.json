@@ -37,6 +37,15 @@
   ],
   "stations": [
     {
+      "name": "Radio Tapiracuai 88.7 FM",
+      "url": " https://stream.radiosenpy.net:7021/;",
+      "img": "https://i.ibb.co/spW0znwf/LOGO-4.webp",
+      "genre": "",
+      "country": "PY",
+      "city": "",
+      "socials": {}
+    },
+    {
       "name": "Rock & Pop 95.5 FM",
       "url": "https://sc.host-live.com:10943/stream",
       "img": "https://i.ibb.co/tpf1T20c/LOGO-3.webp",
