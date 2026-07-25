@@ -37,6 +37,24 @@
   ],
   "stations": [
     {
+      "name": "Rock & Pop 95.5 FM",
+      "url": "https://sc.host-live.com:10943/stream",
+      "img": "https://i.ibb.co/tpf1T20c/LOGO-3.webp",
+      "genre": "Alternativa / Indie Pop / Top 40 Rock",
+      "country": "PY",
+      "city": "ASUNCIÓN",
+      "socials": {}
+    },
+    {
+      "name": "Tropicalia 93.9FM",
+      "url": "https://tigocloud.desdeparaguay.net/movtropicalia/movtropicalia.stream/media_w1267958065_380.aac",
+      "img": "https://i.ibb.co/PVQDBNk/LOGO-2.webp",
+      "genre": "",
+      "country": "PY",
+      "city": "Asunción",
+      "socials": {}
+    },
+    {
       "name": "Radio Vy'a Renda",
       "url": " https://full.radiosdelparaguay.com:8042/stream",
       "img": "https://i.ibb.co/6x0637c/475802953-1460913658162142-57699-1.webp",
