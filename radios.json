@@ -37,6 +37,15 @@
   ],
   "stations": [
     {
+      "name": "LA  POPU MADRID",
+      "url": "https://edge03.radiohdvivo.com/lapopumadrid",
+      "img": "https://i.ibb.co/svyfBPfq/Proyecto-nuevo.webp",
+      "genre": "",
+      "country": "ES",
+      "city": "Madrid",
+      "socials": {}
+    },
+    {
       "name": "Radio Tapiracuai 88.7 FM",
       "url": " https://stream.radiosenpy.net:7021/;",
       "img": "https://i.ibb.co/spW0znwf/LOGO-4.webp",
