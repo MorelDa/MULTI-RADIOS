@@ -21,20 +21,12 @@ module.exports = async (req, res) => {
     const proto = (req.headers['x-forwarded-proto'] || 'https').split(',')[0];
     const origin = `${proto}://${host}`;
 
-    // 1. Obtener el slug
-    let slug = '';
-    if (req.query && req.query.slug) {
-      slug = String(req.query.slug);
-    } else {
-      const parts = (req.url || '').split('?')[0].split('/').filter(Boolean);
-      slug = decodeURIComponent(parts[parts.length - 1] || '');
-    }
-    slug = slugify(slug);
+    // Al llamarse [slug].js, Vercel lee la variable directamente de req.query.slug
+    let slug = slugify(req.query.slug || '');
 
-    // 2. Cargar radios.json desde el sistema de archivos local (rápido y confiable)
+    // Lectura rápida de radios.json desde el disco local
     let data = { site: {}, stations: [] };
     try {
-      // Intenta leerlo directamente desde la raíz o desde /public
       const jsonPath = path.join(process.cwd(), 'radios.json');
       const publicJsonPath = path.join(process.cwd(), 'public', 'radios.json');
       
@@ -48,7 +40,6 @@ module.exports = async (req, res) => {
       if (rawJson) {
         data = JSON.parse(rawJson);
       } else {
-        // Fallback vía HTTP si no está local
         const r = await fetch(`${origin}/radios.json?v=${Date.now()}`);
         if (r.ok) data = await r.json();
       }
@@ -66,9 +57,8 @@ module.exports = async (req, res) => {
     if (s) {
       const lugar = [s.city, s.country].filter(Boolean).join(', ');
       title = `${s.name} · En vivo | ${siteName}`;
-      description = `📻 Te invito a escuchar "${s.name}"${lugar ? ' desde ' + lugar : ''} en directo por ${siteName}. ¡Dale play!`;
+      description = ` Te invito a escuchar "${s.name}"${lugar ? ' desde ' + lugar : ''} en directo por ${siteName}. ¡Dale play!`;
       
-      // Limpiar URL de la imagen si viene mal formateada
       let cleanImg = s.img ? s.img.trim() : '';
       if (cleanImg.startsWith('\\/\\/')) cleanImg = 'https:' + cleanImg.replace(/\\/g, '');
       image = cleanImg || `${origin}/icon-512.png`;
