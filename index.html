@@ -23,12 +23,18 @@
   <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+  <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
+  <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
   <style>
     :root{
       --accent:#22D3EE; --accent-strong:#06B6D4; --accent-soft:rgba(34,211,238,.14);
       --bg:#0B0E14; --sidebar:#090C12; --surface:#131722; --surface-2:#1A1F2E; --elev:#242A3A;
       --text:#F1F5F9; --muted:#8B93A7; --border:rgba(255,255,255,.06); --player-bg:#0C0F16;
       --font:'Poppins',sans-serif; --font-body:'Manrope',sans-serif; --radius:16px;
+      /* Variables dinámicas del reproductor inmersivo (se sobrescriben por radio) */
+      --radio-accent:#FF2956; --radio-accent-strong:#ff7597; --radio-glow:rgba(255,41,86,.55);
+      --wave-c1:#ff7597; --wave-c2:#FF2956;
+      --bg-gradient:linear-gradient(180deg, rgba(255,41,86,.45) 0%, rgba(15,15,17,.65) 60%, rgba(15,15,17,.95) 100%);
     }
     *{margin:0;padding:0;box-sizing:border-box;}
     html,body{height:100%;}
@@ -170,55 +176,90 @@
     .live-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.4s infinite;}
     @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 
-    /* FULL PLAYER */
-    .full-player{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;background:var(--bg);transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);overflow:hidden;}
+    /* ==========================================================
+       FULL PLAYER INMERSIVO ("Radio Party" style)
+       ========================================================== */
+    .full-player{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;background:#0d0d0f;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);overflow:hidden;}
     .full-player.open{transform:translateY(0);}
-    .fp-bg{position:absolute;inset:0;z-index:0;transition:background .5s ease;}
-    .fp-bg-img{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(70px) saturate(1.5) brightness(.6);transform:scale(1.4);opacity:.4;z-index:0;transition:background-image .4s;}
-    .fp-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,14,20,.28),rgba(11,14,20,.6) 55%,rgba(11,14,20,.96));}
-    .fp-inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;padding:22px 24px calc(28px + env(safe-area-inset-bottom));max-width:560px;width:100%;margin:0 auto;}
-    .fp-top{display:flex;align-items:center;justify-content:space-between;}
-    .fp-top .lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;}
-    .fp-close{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;font-size:1.1rem;}
-    .fp-art-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px 0;min-height:0;perspective:1100px;}
-    .fp-art{width:min(72vw,320px);max-height:38vh;aspect-ratio:1/1;border-radius:22px;object-fit:cover;box-shadow:0 30px 70px rgba(0,0,0,.55);background:rgba(255,255,255,.04);transform-origin:center center;will-change:transform;}
-    .fp-art.beating{animation:fpDance 2.4s ease-in-out infinite;}
-    @keyframes fpDance{0%{transform:translateY(0) rotateY(0) scale(1);}15%{transform:translateY(-10px) rotateY(13deg) scale(1.03);}30%{transform:translateY(0) rotateY(0) scale(1);}45%{transform:translateY(-6px) rotateY(-13deg) scale(1.02);}60%{transform:translateY(0) rotateY(0) scale(1);}75%{transform:translateY(-4px) rotateY(6deg) scale(1.015);}100%{transform:translateY(0) rotateY(0) scale(1);}}
-    /* WAVE música */
-    .wave{display:flex;align-items:center;justify-content:center;gap:3px;height:46px;margin:6px 0 14px;}
-    .wave span{width:4px;min-height:4px;border-radius:4px;background:linear-gradient(180deg,var(--wave-c1,var(--accent)),var(--wave-c2,var(--accent-strong)));opacity:.9;height:20%;transition:height .1s;}
-    .wave.playing span{animation:waveA 1s ease-in-out infinite;}
-    @keyframes waveA{0%,100%{height:15%;}50%{height:100%;}}
-    .fp-meta{text-align:center;}
-    .fp-meta h1{font-size:1.7rem;font-weight:800;letter-spacing:-.5px;line-height:1.1;margin-bottom:6px;}
-    .fp-meta p{color:var(--muted);font-size:.95rem;font-weight:500;}
-    .fp-genre{color:var(--accent);font-size:.85rem;margin-top:6px;font-weight:600;}
-    .fp-socials{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap;justify-content:center;}
-    .fp-socials a{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;color:#fff;font-size:1rem;transition:background .18s,transform .1s;}
-    .fp-socials a:hover{background:var(--accent);color:#04121a;transform:translateY(-2px);}
-    .fp-controls{display:flex;align-items:center;justify-content:center;gap:30px;margin-top:4px;}
-    .fp-controls .btn-nav{font-size:1.5rem;color:#fff;}
-    .fp-play{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-strong));color:#04121a;border:none;font-size:1.5rem;cursor:pointer;display:grid;place-items:center;transition:transform .12s;box-shadow:0 10px 28px rgba(34,211,238,.5);}
-    .fp-play:hover{transform:scale(1.05);}
-    .fp-actions{display:flex;align-items:center;justify-content:space-between;margin-top:22px;gap:14px;}
-    .fp-actions .a-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;padding:10px 18px;border-radius:30px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:.85rem;transition:background .18s;}
-    .fp-actions .a-btn:hover{background:rgba(255,255,255,.12);}
-    .fp-actions .a-btn.on{color:var(--accent);}
-    .fp-vol{flex:1;display:flex;align-items:center;gap:10px;max-width:200px;}
+
+    /* Video ambiental (opcional) */
+    .fp-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:.9;}
+    /* Logo difuminado del fondo (por radio) */
+    .fp-bg-img{position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(80px) saturate(1.6) brightness(.55);transform:scale(1.5);opacity:.55;z-index:2;transition:background-image .5s;}
+    /* Capa de color dinámico + oscurecido */
+    .fp-color-overlay{position:absolute;inset:0;z-index:3;background:var(--bg-gradient);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .5s;}
+
+    /* Ondas full-width abajo (con color de la radio) */
+    .fp-wave-container{position:absolute;bottom:0;left:0;right:0;height:32%;display:flex;align-items:flex-end;justify-content:space-between;gap:2px;z-index:4;pointer-events:none;padding:0;}
+    .fp-wave-container .wave-bar{flex:1;height:10%;border-radius:3px 3px 0 0;background:linear-gradient(to top,var(--radio-accent),var(--radio-accent-strong));transition:height .05s ease;opacity:.9;}
+
+    /* Capa UI */
+    .fp-ui{position:relative;z-index:5;width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 16px) 20px calc(env(safe-area-inset-bottom) + 20px) 20px;max-width:640px;margin:0 auto;}
+
+    /* Cabecera */
+    .fp-header{display:flex;justify-content:space-between;align-items:center;width:100%;}
+    .fp-top-logo{width:50px;height:50px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:50%;display:flex;justify-content:center;align-items:center;border:1.5px solid rgba(255,255,255,.35);overflow:hidden;box-shadow:0 6px 22px var(--radio-glow);}
+    .fp-top-logo img{width:82%;height:82%;object-fit:contain;}
+    .fp-close-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:1.05rem;display:grid;place-items:center;transition:transform .1s,background .18s;}
+    .fp-close-btn:hover{background:rgba(255,255,255,.22);}
+    .fp-close-btn:active{transform:scale(.92);}
+
+    /* Zona central: vinilo + portada */
+    .fp-center{display:flex;justify-content:center;align-items:center;flex:1;position:relative;width:100%;}
+    .fp-album-wrap{position:relative;width:200px;height:200px;aspect-ratio:1/1;}
+    .fp-vinyl{position:absolute;top:0;left:0;width:100%;height:100%;aspect-ratio:1/1;border-radius:50%;background-color:#0a0a0a;background-size:cover;background-position:center;box-shadow:0 12px 32px rgba(0,0,0,.65),0 0 24px var(--radio-glow);transition:transform .8s cubic-bezier(.175,.885,.32,1.275);border:2px solid #000;display:flex;justify-content:center;align-items:center;will-change:transform;}
+    .fp-vinyl::before{content:'';position:absolute;inset:8%;border-radius:50%;border:1px dashed rgba(255,255,255,.06);}
+    .fp-vinyl-label{width:32%;height:32%;border-radius:50%;background:#fff;border:2px solid var(--radio-accent);display:flex;justify-content:center;align-items:center;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.4);}
+    .fp-vinyl-label img{width:78%;height:78%;object-fit:contain;}
+    .fp-cover{position:absolute;top:0;left:0;width:100%;height:100%;aspect-ratio:1/1;border-radius:18px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.65),0 0 20px var(--radio-glow);border:1px solid rgba(255,255,255,.18);z-index:2;background:#1e1e22;}
+    .fp-cover img{width:100%;height:100%;object-fit:cover;}
+
+    /* Al reproducir: el vinilo se desplaza a la derecha y gira */
+    .full-player.playing .fp-vinyl{transform:translateX(80px);animation:fpSpin 3s linear infinite;}
+    @keyframes fpSpin{from{transform:translateX(80px) rotate(0deg);}to{transform:translateX(80px) rotate(360deg);}}
+
+    /* Zona inferior: info + controles */
+    .fp-bottom{width:100%;max-width:520px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px;position:relative;z-index:2;}
+    .fp-info-bar{width:100%;height:68px;background:rgba(15,15,17,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:36px;display:flex;align-items:center;padding:0 16px 0 10px;border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 28px rgba(0,0,0,.55),0 0 22px var(--radio-glow);}
+    .fp-station-avatar{width:48px;height:48px;background:#fff;border-radius:50%;margin-right:12px;overflow:hidden;flex-shrink:0;border:2px solid var(--radio-accent);}
+    .fp-station-avatar img{width:100%;height:100%;object-fit:cover;}
+    .fp-info-text{flex:1;overflow:hidden;min-width:0;}
+    .fp-info-text .fp-title-main{font-weight:800;font-size:14px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--font);letter-spacing:-.2px;}
+    .fp-info-text .fp-sub-line{color:rgba(255,255,255,.75);font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px;margin-top:2px;}
+    .fp-info-text .fp-live{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:800;color:var(--radio-accent);letter-spacing:.08em;text-transform:uppercase;}
+    .fp-info-text .fp-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--radio-accent);animation:pulse 1.4s infinite;}
+    .fp-listeners{background:#fff;color:#000;font-size:10px;font-weight:800;padding:5px 10px;border-radius:14px;display:flex;align-items:center;gap:5px;flex-shrink:0;}
+
+    /* Fila de controles */
+    .fp-controls-row{display:flex;width:100%;justify-content:space-around;align-items:center;gap:8px;}
+    .fp-btn-play{width:70px;height:70px;background:#fff;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:26px;color:var(--radio-accent);border:none;box-shadow:0 8px 24px rgba(0,0,0,.45),0 0 30px var(--radio-glow);cursor:pointer;transition:transform .18s;}
+    .fp-btn-play:hover{transform:scale(1.06);}
+    .fp-btn-play:active{transform:scale(.92);}
+    .fp-btn-nav{width:48px;height:48px;background:rgba(15,15,17,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:50%;color:#fff;display:flex;justify-content:center;align-items:center;font-size:16px;border:1px solid rgba(255,255,255,.16);cursor:pointer;transition:background .18s,transform .12s;}
+    .fp-btn-nav:hover{background:rgba(255,255,255,.14);}
+    .fp-btn-nav:active{transform:scale(.9);}
+    .fp-btn-sec{width:50px;height:50px;background:rgba(15,15,17,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:50%;color:#fff;display:flex;justify-content:center;align-items:center;font-size:18px;border:1px solid rgba(255,255,255,.16);cursor:pointer;transition:background .18s,transform .12s,color .18s;text-decoration:none;}
+    .fp-btn-sec:hover{background:var(--radio-accent);color:#fff;box-shadow:0 0 18px var(--radio-glow);}
+    .fp-btn-sec.on{color:var(--radio-accent);border-color:var(--radio-accent);}
+    .fp-btn-sec:active{transform:scale(.9);}
+
+    /* Fila de acciones (fav/vol/compartir) */
+    .fp-actions-row{display:flex;width:100%;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;}
+    .fp-vol-mini{display:flex;align-items:center;gap:10px;background:rgba(15,15,17,.75);backdrop-filter:blur(10px);border-radius:24px;padding:8px 14px;border:1px solid rgba(255,255,255,.14);flex:1;min-width:150px;max-width:220px;}
+    .fp-vol-mini i{color:rgba(255,255,255,.75);font-size:.85rem;}
+    .fp-vol-mini input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:10px;background:linear-gradient(90deg,var(--radio-accent) var(--vol,80%),rgba(255,255,255,.15) var(--vol,80%));cursor:pointer;}
+    .fp-vol-mini input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+    .fp-vol-mini input[type=range]::-moz-range-thumb{width:12px;height:12px;border:none;border-radius:50%;background:#fff;}
+
+    /* Socials extra (row separada, sólo se muestra si la radio tiene socials) */
+    .fp-socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;width:100%;}
+    .fp-socials a{width:42px;height:42px;border-radius:50%;background:rgba(15,15,17,.75);backdrop-filter:blur(10px);display:grid;place-items:center;color:#fff;font-size:.95rem;border:1px solid rgba(255,255,255,.14);transition:background .18s,transform .1s,color .18s;}
+    .fp-socials a:hover{background:var(--radio-accent);color:#fff;transform:translateY(-2px);box-shadow:0 0 20px var(--radio-glow);}
 
     /* MODAL */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
     .overlay.show{display:flex;}
     .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:30px;width:100%;max-width:360px;text-align:center;}
-    .modal h3{font-size:1.3rem;margin-bottom:6px;}
-    .modal p{color:var(--muted);font-size:.88rem;margin-bottom:20px;}
-    .modal input{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:14px;color:#fff;font-size:1.3rem;text-align:center;letter-spacing:.5em;font-family:var(--font);}
-    .modal input:focus{outline:none;border-color:var(--accent);}
-    .modal .err{color:#ff6b6b;font-size:.8rem;min-height:18px;margin-top:8px;}
-    .modal-btns{display:flex;gap:10px;margin-top:16px;}
-    .modal-btns button{flex:1;padding:13px;border-radius:12px;border:none;cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:.9rem;}
-    .btn-cancel{background:var(--surface-2);color:var(--text);}
-    .btn-ok{background:var(--accent);color:#04121a;}
 
     .stream-toast{position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:104px;background:#2a1420;border:1px solid #ff5c7a55;color:#ffb3c4;z-index:850;padding:12px 18px;border-radius:14px;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(0,0,0,.5);opacity:0;visibility:hidden;pointer-events:none;transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .3s,visibility .3s;max-width:90vw;}
     .stream-toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible;pointer-events:auto;}
@@ -238,6 +279,19 @@
     /* RESPONSIVE */
     .fa-spin{animation:fa-spin .8s linear infinite;}
     @keyframes fa-spin{100%{transform:rotate(360deg);}}
+
+    @media(min-width:768px){
+      .fp-album-wrap{width:300px;height:300px;}
+      .full-player.playing .fp-vinyl{transform:translateX(120px);}
+      @keyframes fpSpin{from{transform:translateX(120px) rotate(0deg);}to{transform:translateX(120px) rotate(360deg);}}
+      .fp-info-bar{height:76px;}
+      .fp-station-avatar{width:54px;height:54px;}
+      .fp-info-text .fp-title-main{font-size:16px;}
+      .fp-info-text .fp-sub-line{font-size:12px;}
+      .fp-btn-play{width:80px;height:80px;font-size:30px;}
+      .fp-btn-nav{width:54px;height:54px;font-size:18px;}
+      .fp-btn-sec{width:56px;height:56px;font-size:20px;}
+    }
 
     @media(max-width:900px){
       html,body{height:auto;overflow-x:hidden;overflow-y:auto;}
@@ -279,17 +333,10 @@
       .wa-fab i{width:48px;min-width:48px;height:48px;font-size:1.5rem;}
       .admin-key{top:auto;bottom:88px;left:14px;opacity:.16;}
       .stream-toast{bottom:88px;}
-      .fp-inner{padding:12px 18px calc(16px + env(safe-area-inset-bottom));overflow-y:auto;}
-      .fp-art-wrap{flex:1 1 auto;padding:10px 0;min-height:0;}
-      .fp-art{width:auto;height:auto;max-width:min(70vw,300px);max-height:100%;aspect-ratio:1/1;}
-      .wave{height:30px;margin:4px 0 6px;flex:0 0 auto;}
-      .fp-socials{margin:8px 0;flex:0 0 auto;}
-      .fp-meta{flex:0 0 auto;}
-      .fp-meta h1{font-size:1.3rem;}
-      .fp-controls{gap:24px;margin-top:2px;flex:0 0 auto;}
-      .fp-play{width:60px;height:60px;}
-      .fp-actions{flex-wrap:wrap;margin-top:12px;flex:0 0 auto;}
-      .fp-vol{order:3;max-width:none;flex-basis:100%;margin-top:10px;}
+      .fp-ui{padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 16px) 16px;}
+      .fp-album-wrap{width:180px;height:180px;}
+      .full-player.playing .fp-vinyl{transform:translateX(72px);}
+      @keyframes fpSpin{from{transform:translateX(72px) rotate(0deg);}to{transform:translateX(72px) rotate(360deg);}}
     }
     @media(max-width:380px){.radio-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
   </style>
@@ -380,31 +427,74 @@
     </div>
   </div>
 
+  <!-- FULL PLAYER INMERSIVO -->
   <div class="full-player" id="fullPlayer" data-testid="full-player">
-    <div class="fp-bg" id="fpBg"></div>
+    <!-- Video ambiental de fondo -->
+    <video class="fp-video" id="fpVideo" autoplay loop muted playsinline>
+      <source src="https://github.com/MorelDa/nuevo-pwa-para-wilmer/raw/refs/heads/main/WhatsApp%20Video%202026-08-03%20at%2009.30.41.mp4" type="video/mp4">
+    </video>
+    <!-- Logo difuminado (por radio) -->
     <div class="fp-bg-img" id="fpBgImg"></div>
-    <div class="fp-inner">
-      <div class="fp-top">
-        <span class="lbl">Reproduciendo en vivo</span>
-        <button class="fp-close" id="fpClose" data-testid="fp-close-btn"><i class="fas fa-chevron-down"></i></button>
+    <!-- Overlay de color dinámico -->
+    <div class="fp-color-overlay" id="fpColorOverlay"></div>
+    <!-- Barras de ondas full-width con color de la radio -->
+    <div class="fp-wave-container" id="fpWaveContainer"></div>
+
+    <!-- Capa UI -->
+    <div class="fp-ui">
+      <!-- Cabecera -->
+      <div class="fp-header">
+        <div class="fp-top-logo"><img id="fpTopLogo" src="icon-192.png" alt="logo"></div>
+        <button class="fp-close-btn" id="fpClose" data-testid="fp-close-btn"><i class="fas fa-chevron-down"></i></button>
       </div>
-      <div class="fp-art-wrap"><img class="fp-art" id="fpArt" src="icon-512.png" alt="cover"></div>
-      <div class="wave" id="wave"></div>
-      <div class="fp-meta">
-        <h1 id="fpTitle">—</h1>
-        <p id="fpSub">—</p>
-        <div class="fp-genre" id="fpGenre"></div>
+
+      <!-- Vinilo + portada -->
+      <div class="fp-center">
+        <div class="fp-album-wrap">
+          <div class="fp-vinyl" id="fpVinyl">
+            <div class="fp-vinyl-label"><img id="fpVinylLabel" src="icon-192.png" alt="label"></div>
+          </div>
+          <div class="fp-cover">
+            <img id="fpArt" src="icon-512.png" alt="portada">
+          </div>
+        </div>
       </div>
-      <div class="fp-socials" id="fpSocials"></div>
-      <div class="fp-controls">
-        <button class="btn-nav" onclick="next(-1)" data-testid="fp-prev-btn"><i class="fas fa-backward-step"></i></button>
-        <button class="fp-play" onclick="toggle()" data-testid="fp-play-btn"><i class="fas fa-play" id="fpPlayIcon"></i></button>
-        <button class="btn-nav" onclick="next(1)" data-testid="fp-next-btn"><i class="fas fa-forward-step"></i></button>
-      </div>
-      <div class="fp-actions">
-        <button class="a-btn" id="fpFav" data-testid="fp-fav-btn"><i class="far fa-heart"></i> Favorito</button>
-        <div class="fp-vol"><i class="fas fa-volume-high" style="color:var(--muted)"></i><input type="range" class="vol" id="fpVol" min="0" max="1" step="0.01" value="0.8" data-testid="fp-volume-slider"></div>
-        <button class="a-btn" id="fpShare" data-testid="fp-share-btn"><i class="fas fa-share-nodes"></i> Compartir</button>
+
+      <!-- Zona inferior -->
+      <div class="fp-bottom">
+        <!-- Info bar -->
+        <div class="fp-info-bar">
+          <div class="fp-station-avatar"><img id="fpAvatar" src="icon-192.png" alt="avatar"></div>
+          <div class="fp-info-text">
+            <div class="fp-title-main" id="fpTitle">Selecciona una emisora</div>
+            <div class="fp-sub-line">
+              <span class="fp-live">EN VIVO</span>
+              <span id="fpSub">—</span>
+            </div>
+          </div>
+          <div class="fp-listeners"><i class="fa-solid fa-user"></i> <span id="fpListeners">200</span></div>
+        </div>
+
+        <!-- Controles principales -->
+        <div class="fp-controls-row">
+          <button class="fp-btn-nav" onclick="next(-1)" data-testid="fp-prev-btn"><i class="fas fa-backward-step"></i></button>
+          <button class="fp-btn-play" onclick="toggle()" data-testid="fp-play-btn"><i class="fas fa-play" id="fpPlayIcon"></i></button>
+          <button class="fp-btn-nav" onclick="next(1)" data-testid="fp-next-btn"><i class="fas fa-forward-step"></i></button>
+          <button class="fp-btn-sec" id="fpFav" data-testid="fp-fav-btn" title="Favorito"><i class="far fa-heart"></i></button>
+          <button class="fp-btn-sec" id="fpShare" data-testid="fp-share-btn" title="Compartir"><i class="fas fa-share-nodes"></i></button>
+        </div>
+
+        <!-- Redes sociales dinámicas -->
+        <div class="fp-socials" id="fpSocials" style="display:none;"></div>
+
+        <!-- Volumen -->
+        <div class="fp-actions-row">
+          <div class="fp-vol-mini">
+            <i class="fas fa-volume-low"></i>
+            <input type="range" id="fpVol" min="0" max="1" step="0.01" value="0.8" data-testid="fp-volume-slider">
+            <i class="fas fa-volume-high"></i>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -414,6 +504,9 @@
     <i class="fab fa-whatsapp"></i><span class="wa-fab-label" id="waFabLabel">Agrega tu radio</span>
   </a>
   <div class="stream-toast" id="streamToast"><i class="fas fa-triangle-exclamation"></i><span id="streamToastMsg"></span></div>
+
+  <!-- Empty root para que React no rompa el layout -->
+  <div id="root" style="display:none;"></div>
 
   <script>
     const STORAGE_KEY='multiradios_data_v1';
@@ -571,14 +664,10 @@
     function destroyHls(){if(hls){try{hls.destroy();}catch(_){}hls=null;}}
     function isHls(u){try{const c=String(u).split('?')[0].toLowerCase();return c.endsWith('.m3u8')||c.includes('.m3u8');}catch(_){return false;}}
     function nativeHls(){return audio.canPlayType('application/vnd.apple.mpegurl')!==''||audio.canPlayType('application/x-mpegURL')!=='';}
-    /* Normaliza URLs: convierte segmentos HLS (.aac/.ts individuales tipo media_wXXX_XXX.aac)
-       en su playlist.m3u8 correspondiente, preservando query string (tokens k= y exp=). */
     function normalizeStreamUrl(u){
       try{
         let src=String(u||'').trim();
-        // URL protocol-relative -> https
         if(src.startsWith('//')) src='https:'+src;
-        // Detecta segmento HLS típico: /algo.stream/media_wXXX_XXX.aac (o .ts) con o sin query
         const segRe=/(\/[^\/?#]+\.stream\/)(media_[^\/?#]+\.(?:aac|ts|m4s))(\?[^#]*)?/i;
         const m=src.match(segRe);
         if(m){
@@ -619,13 +708,24 @@
     function setConnecting(on){connecting=on;if(connectTimer){clearTimeout(connectTimer);connectTimer=null;}if(on){connectTimer=setTimeout(()=>{if(connecting&&audio.paused){setConnecting(false);showErr('No se pudo conectar con la emisora. Intenta de nuevo.');}},16000);}syncIcons();}
     function showErr(m){const t=document.getElementById('streamToast');document.getElementById('streamToastMsg').innerText=m;t.classList.add('show');clearTimeout(showErr._t);showErr._t=setTimeout(()=>t.classList.remove('show'),4500);}
     function syncIcons(){
-      const pi=document.getElementById('playIcon'),fi=document.getElementById('fpPlayIcon'),fa=document.getElementById('fpArt'),ba=document.getElementById('pImg'),wv=document.getElementById('wave');
-      if(connecting){pi.className='fas fa-spinner fa-spin';fi.className='fas fa-spinner fa-spin';fa.classList.remove('beating');wv.classList.remove('playing');loadGrid(document.getElementById('searchInput').value);return;}
+      const pi=document.getElementById('playIcon'),fi=document.getElementById('fpPlayIcon'),fp=document.getElementById('fullPlayer');
+      if(connecting){pi.className='fas fa-spinner fa-spin';fi.className='fas fa-spinner fa-spin';fp.classList.remove('playing');loadGrid(document.getElementById('searchInput').value);return;}
       const playing=!audio.paused&&!!audio.src&&!userPaused;const cls=playing?'fa-pause':'fa-play';
-      pi.className='fas '+cls;fi.className='fas '+cls;fa.classList.toggle('beating',playing);wv.classList.toggle('playing',playing);
+      pi.className='fas '+cls;fi.className='fas '+cls;
+      fp.classList.toggle('playing',playing);
       loadGrid(document.getElementById('searchInput').value);
     }
-    function syncFav(){const s=data.stations[index],bf=document.getElementById('barFav'),ff=document.getElementById('fpFav');if(s&&isFav(s.name)){bf.classList.add('on');bf.innerHTML='<i class="fas fa-heart"></i>';ff.classList.add('on');ff.innerHTML='<i class="fas fa-heart"></i> Favorito';}else{bf.classList.remove('on');bf.innerHTML='<i class="far fa-heart"></i>';ff.classList.remove('on');ff.innerHTML='<i class="far fa-heart"></i> Favorito';}}
+    function syncFav(){
+      const s=data.stations[index],bf=document.getElementById('barFav'),ff=document.getElementById('fpFav');
+      const on=s&&isFav(s.name);
+      if(on){
+        bf.classList.add('on');bf.innerHTML='<i class="fas fa-heart"></i>';
+        ff.classList.add('on');ff.innerHTML='<i class="fas fa-heart"></i>';
+      }else{
+        bf.classList.remove('on');bf.innerHTML='<i class="far fa-heart"></i>';
+        ff.classList.remove('on');ff.innerHTML='<i class="far fa-heart"></i>';
+      }
+    }
 
     audio.addEventListener('playing',()=>setConnecting(false));
     audio.addEventListener('canplay',()=>setConnecting(false));
@@ -634,30 +734,102 @@
     audio.addEventListener('error',()=>{if(userPaused||!audio.src)return;const s=data.stations[index];if(!s||hls)return;setTimeout(()=>{if(!userPaused)startStream(s);},900);});
     window.addEventListener('pagehide',stopStream);
 
-    /* WAVE bars */
-    function buildWave(){const w=document.getElementById('wave');let h='';for(let i=0;i<36;i++){h+=`<span style="animation-delay:${(Math.random()*1).toFixed(2)}s;animation-duration:${(0.7+Math.random()*0.7).toFixed(2)}s"></span>`;}w.innerHTML=h;}
+    /* WAVE bars del reproductor inmersivo (full-width) */
+    const BARS_COUNT=44;
+    function buildWave(){
+      const c=document.getElementById('fpWaveContainer');
+      let h='';for(let i=0;i<BARS_COUNT;i++){h+='<div class="wave-bar"></div>';}
+      c.innerHTML=h;
+    }
+    function animateWave(){
+      const bars=document.querySelectorAll('#fpWaveContainer .wave-bar');
+      const playing=!audio.paused&&!!audio.src&&!userPaused;
+      const t=Date.now();
+      bars.forEach((b,i)=>{
+        if(playing){
+          const wave1=Math.sin(i*0.35 + t*0.006)*35;
+          const wave2=Math.sin(i*0.75 + t*0.011)*22;
+          const wave3=Math.cos(i*0.5 + t*0.008)*18;
+          let h=45 + wave1 + wave2 + wave3 + Math.random()*8;
+          if(h>100)h=100;if(h<8)h=8;
+          b.style.height=h+'%';
+        }else{
+          b.style.height='8%';
+        }
+      });
+      requestAnimationFrame(animateWave);
+    }
 
     /* FULL PLAYER */
-    function renderSocials(soc={}){const box=document.getElementById('fpSocials');const en=Object.entries(soc).filter(([k,v])=>v&&SOCIAL_ICONS[k]);box.innerHTML=en.map(([k,v])=>{let href=v;if(k==='whatsapp'&&!/^https?:/.test(v))href='https://wa.me/'+String(v).replace(/[^0-9]/g,'');return `<a href="${esc(href)}" target="_blank" rel="noopener" title="${k}" data-testid="social-${k}"><i class="${SOCIAL_ICONS[k]}"></i></a>`;}).join('');box.style.display=en.length?'flex':'none';}
+    function renderSocials(soc={}){
+      const box=document.getElementById('fpSocials');
+      const en=Object.entries(soc).filter(([k,v])=>v&&SOCIAL_ICONS[k]);
+      box.innerHTML=en.map(([k,v])=>{
+        let href=v;if(k==='whatsapp'&&!/^https?:/.test(v))href='https://wa.me/'+String(v).replace(/[^0-9]/g,'');
+        return `<a href="${esc(href)}" target="_blank" rel="noopener" title="${k}" data-testid="social-${k}"><i class="${SOCIAL_ICONS[k]}"></i></a>`;
+      }).join('');
+      box.style.display=en.length?'flex':'none';
+    }
     function extractColor(url){return new Promise(res=>{if(!url){res(null);return;}const img=new Image();img.crossOrigin='anonymous';img.onload=()=>{try{const c=document.createElement('canvas'),w=c.width=48,h=c.height=48,ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);const d=ctx.getImageData(0,0,w,h).data;let r=0,g=0,b=0,n=0,best=null,bs=-1;for(let i=0;i<d.length;i+=4){if(d[i+3]<125)continue;const R=d[i],G=d[i+1],B=d[i+2];r+=R;g+=G;b+=B;n++;const mx=Math.max(R,G,B),mn=Math.min(R,G,B),sat=mx===0?0:(mx-mn)/mx,sc=sat*(mx/255);if(sc>bs){bs=sc;best={r:R,g:G,b:B};}}if(!n)return res(null);res(bs>0.18?best:{r:Math.round(r/n),g:Math.round(g/n),b:Math.round(b/n)});}catch(e){res(null);}};img.onerror=()=>res(null);img.src=url;});}
+
+    /* Realce de saturación para logos con poco color */
+    function boostSaturation(col){
+      const {r,g,b}=col;
+      const mx=Math.max(r,g,b),mn=Math.min(r,g,b);
+      const sat=mx===0?0:(mx-mn)/mx;
+      if(sat>0.35)return col;
+      // Empuja hacia el color dominante
+      const mid=(r+g+b)/3;
+      const boost=v=>Math.max(0,Math.min(255,Math.round(mid + (v-mid)*2.2)));
+      return {r:boost(r),g:boost(g),b:boost(b)};
+    }
     async function applyFpColor(url){
-      const bg=document.getElementById('fpBg'),wv=document.getElementById('wave');
-      const col=await extractColor(url);
+      const overlay=document.getElementById('fpColorOverlay');
+      const root=document.documentElement;
+      let col=await extractColor(url);
       if(col){
-        const dk=v=>Math.round(v*0.7);
-        bg.style.background=`radial-gradient(120% 90% at 50% 0%, rgb(${dk(col.r)},${dk(col.g)},${dk(col.b)}) 0%, rgba(${col.r},${col.g},${col.b},0.28) 34%, var(--bg) 82%)`;
-        const br=v=>Math.min(255,Math.round(v+(255-v)*0.35));
-        wv.style.setProperty('--wave-c1',`rgb(${br(col.r)},${br(col.g)},${br(col.b)})`);
-        wv.style.setProperty('--wave-c2',`rgb(${col.r},${col.g},${col.b})`);
+        col=boostSaturation(col);
+        const {r,g,b}=col;
+        // Colores principales (accent y accent-strong)
+        const lighten=(v,f)=>Math.min(255,Math.round(v+(255-v)*f));
+        const accent=`rgb(${r},${g},${b})`;
+        const accentStrong=`rgb(${lighten(r,.35)},${lighten(g,.35)},${lighten(b,.35)})`;
+        const glow=`rgba(${r},${g},${b},.55)`;
+        // Inyecta variables dinámicas por radio
+        root.style.setProperty('--radio-accent',accent);
+        root.style.setProperty('--radio-accent-strong',accentStrong);
+        root.style.setProperty('--radio-glow',glow);
+        // Overlay de fondo con color: rosa → hacia oscuro
+        overlay.style.background=`linear-gradient(180deg, rgba(${r},${g},${b},.55) 0%, rgba(15,15,17,.7) 55%, rgba(15,15,17,.95) 100%)`;
       }else{
-        const a=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#22D3EE';
-        const a2=getComputedStyle(document.documentElement).getPropertyValue('--accent-strong').trim()||'#06B6D4';
-        bg.style.background=`radial-gradient(120% 90% at 50% 0%, ${a2} 0%, var(--bg) 78%)`;
-        wv.style.setProperty('--wave-c1',a);wv.style.setProperty('--wave-c2',a2);
+        // Fallback al acento global (rojo/rosa por defecto)
+        root.style.setProperty('--radio-accent','#FF2956');
+        root.style.setProperty('--radio-accent-strong','#ff7597');
+        root.style.setProperty('--radio-glow','rgba(255,41,86,.55)');
+        overlay.style.background=`linear-gradient(180deg, rgba(255,41,86,.45) 0%, rgba(15,15,17,.65) 60%, rgba(15,15,17,.95) 100%)`;
       }
     }
-    function updateFull(){const s=data.stations[index];if(!s)return;const art=document.getElementById('fpArt');art.onerror=function(){this.onerror=null;this.src=PLACEHOLDER;};art.src=s.img||PLACEHOLDER;document.getElementById('fpBgImg').style.backgroundImage=`url('${(s.img||PLACEHOLDER).replace(/'/g,'')}')`;applyFpColor(s.img);document.getElementById('fpTitle').innerText=s.name;document.getElementById('fpSub').innerText=[s.city,cName(s.countryKey)].filter(Boolean).join(' · ')||'En vivo';document.getElementById('fpGenre').innerText=s.genre||'';renderSocials(s.socials);syncFav();syncIcons();}
-    function openFull(){if(index===-1)return;updateFull();document.getElementById('fullPlayer').classList.add('open');}
+    function updateFull(){
+      const s=data.stations[index];if(!s)return;
+      const art=document.getElementById('fpArt'),vinylLabel=document.getElementById('fpVinylLabel'),vinyl=document.getElementById('fpVinyl'),avatar=document.getElementById('fpAvatar'),topLogo=document.getElementById('fpTopLogo');
+      const src=s.img||PLACEHOLDER;
+      art.onerror=function(){this.onerror=null;this.src=PLACEHOLDER;};
+      art.src=src;
+      vinylLabel.src=src;
+      vinyl.style.backgroundImage=`radial-gradient(circle at 50% 50%, #222 0%, #050505 60%, #000 100%)`;
+      avatar.src=src;
+      topLogo.src=src;
+      document.getElementById('fpBgImg').style.backgroundImage=`url('${src.replace(/'/g,'')}')`;
+      applyFpColor(src);
+      document.getElementById('fpTitle').innerText=s.name;
+      document.getElementById('fpSub').innerText=[s.city,cName(s.countryKey)].filter(Boolean).join(' · ')||'En vivo';
+      // Listeners simulados en función del nombre (estable)
+      const seed=(s.name||'x').split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+      const listeners=120 + (seed%680);
+      document.getElementById('fpListeners').innerText=listeners;
+      renderSocials(s.socials);syncFav();syncIcons();
+    }
+    function openFull(){if(index===-1)return;updateFull();document.getElementById('fullPlayer').classList.add('open');const v=document.getElementById('fpVideo');if(v){try{v.play().catch(()=>{});}catch(_){}}}
     function closeFull(){document.getElementById('fullPlayer').classList.remove('open');}
 
     /* SHARE */
@@ -716,7 +888,7 @@
       try{
         data=norm(await loadData());
         applyTheme(data.theme);applySite(data.site);
-        buildWave();renderCountries();loadGrid();renderAdCarousel();setVol(0.8);openShared();
+        buildWave();animateWave();renderCountries();loadGrid();renderAdCarousel();setVol(0.8);openShared();
       }catch(e){console.error(e);document.getElementById('radioGrid').innerHTML='<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Error al cargar la configuración.</p></div>';}
     }
     init();
