@@ -1,5 +1,16 @@
-const fs = require('fs');
-const path = require('path');
+/**
+ * MULTI-RADIOS · Endpoint de compartir con Open Graph dinámico
+ * -------------------------------------------------------------
+ * Ruta: /api/share/<slug>   (Vercel Serverless Function, Node.js)
+ *
+ * Por qué existe: WhatsApp, Facebook, Telegram, etc. NO ejecutan
+ * JavaScript cuando generan la vista previa de un enlace. Por eso una
+ * web estática no puede mostrar la portada + descripción de cada radio.
+ * Esta función devuelve HTML con las etiquetas Open Graph correctas de la
+ * emisora compartida y luego redirige al usuario real a la emisora exacta.
+ *
+ * El botón "compartir" del reproductor genera: /api/share/<slug-del-nombre>
+ */
 
 function slugify(str) {
   return String(str || '')
@@ -21,50 +32,37 @@ module.exports = async (req, res) => {
     const proto = (req.headers['x-forwarded-proto'] || 'https').split(',')[0];
     const origin = `${proto}://${host}`;
 
-    // Al llamarse [slug].js, Vercel lee la variable directamente de req.query.slug
-    let slug = slugify(req.query.slug || '');
+    // slug desde la ruta /api/share/<slug> o desde ?slug=
+    let slug = '';
+    if (req.query && req.query.slug) slug = String(req.query.slug);
+    if (!slug) {
+      const parts = (req.url || '').split('?')[0].split('/').filter(Boolean);
+      slug = decodeURIComponent(parts[parts.length - 1] || '');
+    }
+    slug = slugify(slug);
 
-    // Lectura rápida de radios.json desde el disco local
+    // Cargar radios.json publicado
     let data = { site: {}, stations: [] };
     try {
-      const jsonPath = path.join(process.cwd(), 'radios.json');
-      const publicJsonPath = path.join(process.cwd(), 'public', 'radios.json');
-      
-      let rawJson = '';
-      if (fs.existsSync(jsonPath)) {
-        rawJson = fs.readFileSync(jsonPath, 'utf8');
-      } else if (fs.existsSync(publicJsonPath)) {
-        rawJson = fs.readFileSync(publicJsonPath, 'utf8');
-      }
-
-      if (rawJson) {
-        data = JSON.parse(rawJson);
-      } else {
-        const r = await fetch(`${origin}/radios.json?v=${Date.now()}`);
-        if (r.ok) data = await r.json();
-      }
-    } catch (e) {
-      console.error('Error cargando radios.json:', e);
-    }
+      const r = await fetch(`${origin}/radios.json?v=${Date.now()}`);
+      if (r.ok) data = await r.json();
+    } catch (_) {}
 
     const stations = Array.isArray(data.stations) ? data.stations : [];
     const s = stations.find((x) => slugify(x.name) === slug) || null;
 
-    const siteName = (data.site && (data.site.footerText || data.site.title)) || 'MultiRadios.es';
+    const siteName = (data.site && data.site.footerText) || 'MultiRadios.es';
     const deepLink = `${origin}/index.html?station=${encodeURIComponent(slug)}`;
 
     let title, description, image;
     if (s) {
       const lugar = [s.city, s.country].filter(Boolean).join(', ');
       title = `${s.name} · En vivo | ${siteName}`;
-      description = ` Te invito a escuchar "${s.name}"${lugar ? ' desde ' + lugar : ''} en directo por ${siteName}. ¡Dale play!`;
-      
-      let cleanImg = s.img ? s.img.trim() : '';
-      if (cleanImg.startsWith('\\/\\/')) cleanImg = 'https:' + cleanImg.replace(/\\/g, '');
-      image = cleanImg || `${origin}/icon-512.png`;
+      description = `📻 Te invito a escuchar "${s.name}"${lugar ? ' desde ' + lugar : ''} en directo por ${siteName}. ¡Dale play y disfruta la mejor radio online!`;
+      image = s.img || `${origin}/icon-512.png`;
     } else {
       title = `${siteName} | Escucha radios en vivo`;
-      description = `Te invito a escuchar las mejores radios online en directo.`;
+      description = `Te invito a escuchar las mejores radios online en directo. ¡Reproductor premium gratis!`;
       image = `${origin}/icon-512.png`;
     }
 
@@ -87,11 +85,7 @@ module.exports = async (req, res) => {
 <meta name="twitter:image" content="${esc(image)}">
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="refresh" content="0; url=${esc(deepLink)}">
-<style>
-  body{font-family:system-ui,sans-serif;background:#0B0A0F;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;flex-direction:column;gap:14px}
-  img{width:120px;height:120px;border-radius:16px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,0.5)}
-  a{color:#A78BFA;text-decoration:none;font-weight:bold}
-</style>
+<style>body{font-family:'Segoe UI',system-ui,sans-serif;background:#0B0A0F;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;flex-direction:column;gap:14px}img{width:120px;height:120px;border-radius:16px;object-fit:cover}a{color:#A78BFA}</style>
 </head>
 <body>
 <img src="${esc(image)}" alt="${esc(s ? s.name : siteName)}" onerror="this.style.display='none'">
