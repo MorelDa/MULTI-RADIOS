@@ -37,6 +37,15 @@
   ],
   "stations": [
     {
+      "name": "RADIO ULTRA",
+      "url": "https://transmisionok.com/player/player_1779922002_2e8dedd8/",
+      "img": "https://i.ibb.co/RTBFf4fJ/LOGO-ULTRA.webp",
+      "genre": "",
+      "country": "PY",
+      "city": "ASUNCIÓN",
+      "socials": {}
+    },
+    {
       "name": "LA  POPU MADRID",
       "url": "https://edge03.radiohdvivo.com/lapopumadrid",
       "img": "https://i.ibb.co/svyfBPfq/Proyecto-nuevo.webp",
@@ -247,8 +256,8 @@
     },
     {
       "name": "Estacion 40",
-      "url": "https://mdstrm.com/audio/62d81cfbbfbcee0837ba1b60/icecast.audio",
-      "img": "https://i.ibb.co/Y7sVmJBj/estacion-40.webp",
+      "url": "Request URL https://mdstrm.com/audio/62d81cfbbfbcee0837ba1b60/icecast.audio",
+      "img": "https://static2.mytuner.mobi/media/tvos_radios/521/estacion-40-911-fm.0e333110.jpg",
       "genre": "",
       "country": "PY",
       "city": "ASUNCIÓN",
