@@ -20,9 +20,11 @@
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preload" as="image" href="logo-wed.png">
+  <link id="fontLink" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js" defer></script>
   <style>
     :root{
       --accent:#22D3EE; --accent-strong:#06B6D4; --accent-soft:rgba(34,211,238,.14);
@@ -48,9 +50,10 @@
     .sidebar{background:var(--sidebar);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);transition:transform .3s cubic-bezier(.4,0,.2,1);}
     .brand{display:flex;align-items:center;gap:12px;padding:22px 20px 14px;}
     .brand .mark{width:42px;height:42px;border-radius:13px;flex-shrink:0;background:linear-gradient(145deg,var(--accent),var(--accent-strong));display:grid;place-items:center;color:#04121a;font-size:1.2rem;box-shadow:0 6px 18px rgba(34,211,238,.4);}
+    .brand.has-logo .mark{display:none;}
     .brand .logo{font-family:var(--font);font-weight:800;font-size:1.2rem;letter-spacing:-.5px;line-height:1;text-transform:uppercase;}
     .brand .logo span{color:var(--accent);}
-    .brand .logo-img{height:34px;max-width:150px;object-fit:contain;display:none;}
+    .brand .logo-img{height:44px;max-width:170px;object-fit:contain;display:none;}
     .side-close{display:none;margin-left:auto;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;}
 
     .side-scroll{flex:1;overflow-y:auto;padding:6px 12px 12px;}
@@ -78,7 +81,7 @@
     .mobile-brand{display:none;align-items:center;gap:9px;}
     .mobile-brand .logo{font-family:var(--font);font-weight:800;font-size:1.05rem;text-transform:uppercase;}
     .mobile-brand .logo span{color:var(--accent);}
-    .mobile-brand .logo-img{height:26px;max-width:120px;object-fit:contain;display:none;}
+    .mobile-brand .logo-img{height:32px;max-width:130px;object-fit:contain;display:none;}
     .search-box{flex:1;max-width:440px;position:relative;}
     .search-box input{width:100%;background:var(--surface-2);border:1px solid var(--border);padding:13px 44px 13px 46px;border-radius:30px;color:var(--text);font-family:var(--font-body);font-size:.95rem;transition:border-color .2s,background .2s;}
     .search-box input::placeholder{color:var(--muted);}
@@ -179,9 +182,9 @@
     .fp-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,14,20,.3),rgba(11,14,20,.62) 55%,rgba(11,14,20,.97));}
 
     /* Ecualizador ambiental, borde a borde, detrás de todo, coloreado con el color real del logo */
-    .fp-eq-ambient{position:absolute;left:0;right:0;bottom:0;height:34%;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:2px;pointer-events:none;opacity:.5;
+    .fp-eq-ambient{position:absolute;left:0;right:0;bottom:0;height:34%;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:3px;pointer-events:none;opacity:.5;
       -webkit-mask-image:linear-gradient(180deg,transparent,#000 60%);mask-image:linear-gradient(180deg,transparent,#000 60%);}
-    .fp-eq-ambient span{flex:1;height:6%;border-radius:3px 3px 0 0;background:linear-gradient(to top,var(--wave-c2,var(--st-color-strong)),var(--wave-c1,var(--st-color)));transition:height .2s ease;}
+    .fp-eq-ambient span{flex:1;height:6%;max-width:10px;border-radius:3px 3px 0 0;background:linear-gradient(to top,var(--wave-c2,var(--st-color-strong)),var(--wave-c1,var(--st-color)));transition:height .2s ease;}
     .fp-eq-ambient.playing span{animation:eqAmbient ease-in-out infinite;}
     @keyframes eqAmbient{0%,100%{height:6%;}50%{height:var(--h,65%);}}
 
@@ -207,8 +210,8 @@
     @keyframes fpSpin{from{transform:translateX(62%) rotate(0deg);}to{transform:translateX(62%) rotate(360deg);}}
 
     /* WAVE música (barra fina bajo la portada) */
-    .wave{display:flex;align-items:center;justify-content:center;gap:3px;height:40px;margin:8px 0 12px;}
-    .wave span{width:4px;min-height:4px;border-radius:4px;background:linear-gradient(180deg,var(--wave-c1,var(--st-color)),var(--wave-c2,var(--st-color-strong)));opacity:.9;height:20%;transition:height .1s;}
+    .wave{display:flex;align-items:center;justify-content:center;gap:4px;height:40px;margin:8px 0 12px;}
+    .wave span{width:4px;min-height:4px;border-radius:4px;background:linear-gradient(180deg,var(--wave-c1,var(--st-color)),var(--wave-c2,var(--st-color-strong)));opacity:.9;height:20%;transition:height .15s ease;}
     .wave.playing span{animation:waveA 1s ease-in-out infinite;}
     @keyframes waveA{0%,100%{height:15%;}50%{height:100%;}}
     .fp-meta{text-align:center;}
@@ -258,6 +261,15 @@
     .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);z-index:449;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;}
     .scrim.show{opacity:1;visibility:visible;}
 
+    /* INTRO */
+    .intro-splash{position:fixed;inset:0;z-index:3000;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .5s ease,visibility .5s ease;cursor:pointer;}
+    .intro-splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+    .intro-logo-wrap{width:min(30vw,150px);animation:introFloat 2.4s ease-in-out infinite;}
+    .intro-logo{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 34px rgba(0,0,0,.45));animation:introPop .55s cubic-bezier(.34,1.56,.64,1);}
+    @keyframes introFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+    @keyframes introPop{0%{opacity:0;transform:scale(.6);}100%{opacity:1;transform:scale(1);}}
+    @media(max-width:480px){.intro-logo-wrap{width:38vw;max-width:130px;}}
+
     /* RESPONSIVE */
     .fa-spin{animation:fa-spin .8s linear infinite;}
     @keyframes fa-spin{100%{transform:rotate(360deg);}}
@@ -305,7 +317,10 @@
       .fp-inner{padding:12px 18px calc(16px + env(safe-area-inset-bottom));overflow-y:auto;}
       .fp-art-wrap{flex:1 1 auto;padding:10px 0;min-height:0;}
       .fp-vinyl-wrap{width:min(58vw,220px);}
-      .wave{height:30px;margin:4px 0 6px;flex:0 0 auto;}
+      .wave{height:26px;margin:4px 0 6px;flex:0 0 auto;gap:3px;}
+      .wave span{width:3px;}
+      .fp-eq-ambient{height:24%;opacity:.35;gap:2px;}
+      .fp-eq-ambient span{max-width:7px;}
       .fp-socials{margin:8px 0;flex:0 0 auto;}
       .fp-meta{flex:0 0 auto;}
       .fp-meta h1{font-size:1.3rem;}
@@ -318,6 +333,11 @@
   </style>
 </head>
 <body>
+  <div class="intro-splash" id="introSplash" data-testid="intro-splash">
+    <div class="intro-logo-wrap">
+      <img id="introLogo" class="intro-logo" src="icon-512.png" alt="logo">
+    </div>
+  </div>
   <div class="scrim" id="scrim"></div>
   <div class="app">
     <aside class="sidebar" id="sidebar">
@@ -486,8 +506,10 @@
       if(s.title)document.title=s.title;
       if(s.favicon)document.getElementById('faviconLink').href=s.favicon;
       const li=document.getElementById('logoImg'),lt=document.getElementById('logoText'),lim=document.getElementById('logoImgMobile'),ltm=document.getElementById('logoTextMobile');
-      if(s.logoImage){li.src=s.logoImage;li.style.display='block';lt.style.display='none';lim.src=s.logoImage;lim.style.display='block';ltm.style.display='none';}
-      else{const h=`${s.logoText||'Multi'}<span>${s.logoAccent||'RADIOS'}</span>`;li.style.display='none';lt.style.display='block';lt.innerHTML=h;lim.style.display='none';ltm.style.display='block';ltm.innerHTML=h;}
+      const brandEl=document.querySelector('.brand'),mBrandEl=document.querySelector('.mobile-brand');
+      if(s.logoImage){li.src=s.logoImage;li.style.display='block';lt.style.display='none';lim.src=s.logoImage;lim.style.display='block';ltm.style.display='none';brandEl.classList.add('has-logo');mBrandEl.classList.add('has-logo');}
+      else{const h=`${s.logoText||'Multi'}<span>${s.logoAccent||'RADIOS'}</span>`;li.style.display='none';lt.style.display='block';lt.innerHTML=h;lim.style.display='none';ltm.style.display='block';ltm.innerHTML=h;brandEl.classList.remove('has-logo');mBrandEl.classList.remove('has-logo');}
+      window.__siteLogo=s.logoImage||'';
       const wa=document.getElementById('waFab');
       const num=String(s.whatsapp==null?'34604875068':s.whatsapp).replace(/[^0-9]/g,'');
       const msg=s.whatsappText||'¡Hola! Quiero agregar mi radio a MultiRadios 📻';
@@ -666,8 +688,10 @@
     window.addEventListener('pagehide',stopStream);
 
     /* WAVE bars */
-    function buildWave(){const w=document.getElementById('wave');let h='';for(let i=0;i<36;i++){h+=`<span style="animation-delay:${(Math.random()*1).toFixed(2)}s;animation-duration:${(0.7+Math.random()*0.7).toFixed(2)}s"></span>`;}w.innerHTML=h;}
-    function buildEqAmbient(){const w=document.getElementById('fpEqAmbient');let h='';for(let i=0;i<48;i++){h+=`<span style="--h:${(40+Math.random()*55).toFixed(0)}%;animation-delay:${(Math.random()*1).toFixed(2)}s;animation-duration:${(0.8+Math.random()*0.9).toFixed(2)}s"></span>`;}w.innerHTML=h;}
+    function buildWave(){const w=document.getElementById('wave');const n=window.innerWidth<=480?18:(window.innerWidth<=900?26:36);let h='';for(let i=0;i<n;i++){h+=`<span style="animation-delay:${(Math.random()*1).toFixed(2)}s;animation-duration:${(0.9+Math.random()*0.6).toFixed(2)}s"></span>`;}w.innerHTML=h;}
+    function buildEqAmbient(){const w=document.getElementById('fpEqAmbient');const n=window.innerWidth<=480?22:(window.innerWidth<=900?32:48);let h='';for(let i=0;i<n;i++){h+=`<span style="--h:${(35+Math.random()*45).toFixed(0)}%;animation-delay:${(Math.random()*1).toFixed(2)}s;animation-duration:${(1.0+Math.random()*0.8).toFixed(2)}s"></span>`;}w.innerHTML=h;}
+    let waveBuiltAt=window.innerWidth;
+    window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-waveBuiltAt)>120){waveBuiltAt=window.innerWidth;buildWave();buildEqAmbient();}});
 
     /* FULL PLAYER */
     function renderSocials(soc={}){const box=document.getElementById('fpSocials');const en=Object.entries(soc).filter(([k,v])=>v&&SOCIAL_ICONS[k]);box.innerHTML=en.map(([k,v])=>{let href=v;if(k==='whatsapp'&&!/^https?:/.test(v))href='https://wa.me/'+String(v).replace(/[^0-9]/g,'');return `<a href="${esc(href)}" target="_blank" rel="noopener" title="${k}" data-testid="social-${k}"><i class="${SOCIAL_ICONS[k]}"></i></a>`;}).join('');box.style.display=en.length?'flex':'none';}
@@ -744,13 +768,21 @@
       window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').then(reg=>{try{reg.update();}catch(_){}reg.addEventListener('updatefound',()=>{const nw=reg.installing;if(nw)nw.addEventListener('statechange',()=>{if(nw.state==='installed'&&navigator.serviceWorker.controller){try{nw.postMessage('SKIP_WAITING');}catch(_){}}});});}).catch(()=>{});});
     }
 
+    /* INTRO */
+    function hideIntro(){const el=document.getElementById('introSplash');if(!el||el.classList.contains('hide'))return;el.classList.add('hide');setTimeout(()=>el.remove(),550);}
+    document.getElementById('introSplash').addEventListener('click',hideIntro);
+    setTimeout(hideIntro,4000); // salvaguarda por si algo tarda demasiado
+
     /* INIT */
     async function init(){
+      const t0=Date.now();
       try{
         data=norm(await loadData());
         applyTheme(data.theme);applySite(data.site);
+        document.getElementById('introLogo').src=data.site.logoImage||'icon-512.png';
         buildWave();buildEqAmbient();renderCountries();loadGrid();renderAdCarousel();setVol(0.8);openShared();
       }catch(e){console.error(e);document.getElementById('radioGrid').innerHTML='<div class="empty-state"><i class="fas fa-triangle-exclamation"></i><p>Error al cargar la configuración.</p></div>';}
+      finally{setTimeout(hideIntro,Math.max(0,900-(Date.now()-t0)));}
     }
     init();
   </script>
