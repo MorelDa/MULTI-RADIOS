@@ -13,17 +13,17 @@
   },
   "theme": {
     "font": "Poppins",
-    "preset": "Medianoche Azul",
-    "primary": "#6366F1",
-    "accent": "#818CF8",
-    "light": "#161832",
-    "surface": "#101225",
-    "textDark": "#EDEEFA",
-    "textMuted": "#8B90BE",
-    "border": "#242844",
-    "background": "#070813",
-    "playerBg": "#0A0B1A",
-    "playerText": "#ffffff"
+    "preset": "Aurora Blanco",
+    "primary": "#7C3AED",
+    "accent": "#C026D3",
+    "light": "#F5F4FB",
+    "surface": "#FFFFFF",
+    "textDark": "#15141F",
+    "textMuted": "#8B8AA0",
+    "border": "rgba(23,20,50,.07)",
+    "background": "#EEEDF6",
+    "playerBg": "#FFFFFF",
+    "playerText": "#15141F"
   },
   "banners": [
     {
