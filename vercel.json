@@ -1,6 +1,0 @@
-{
-  "cleanUrls": false,
-  "rewrites": [
-    { "source": "/r/:slug", "destination": "/api/share/:slug" }
-  ]
-}
